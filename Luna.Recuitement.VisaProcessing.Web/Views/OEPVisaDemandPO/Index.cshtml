@@ -1,0 +1,120 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.Models.OepvisaDemandPo>
+
+@{
+    ViewData["Title"] = "Purchase Order List";
+}
+
+<h1>Purchase Orders</h1>
+
+@*@if (User.Identity.IsAuthenticated)
+{
+    if (User.IsInRole("HR-PurchaseOrder-New"))
+    {
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
+</p>
+    }
+}*@
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
+</p>
+<table class="table applyDataTable">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>VIsa Type</th>
+            <th>Country</th>
+            <th>Mode</th>
+            <th>Counslate</th>
+            <th>Sponsor</th>
+            <th>Sponsor Group</th>
+            @*<th>Visa Number</th>*@
+            <th>Visa Date</th>
+            <th>Quantity</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                <td>@Html.DisplayFor(modelItem => item.VisaType)</td>
+                <td>@Html.DisplayFor(modelItem => item.Country)</td>
+                <td>@Html.DisplayFor(modelItem => item.Mode)</td>
+                <td>@Html.DisplayFor(modelItem => item.Counslate.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Sponser.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.SponserGroup)</td>
+                @*<td>@Html.DisplayFor(modelItem => item.BatchNumber)</td>*@
+                <td>@item.VisaNumberDate.Value.ToString("dd/MM/yyyy")</td>
+                <td>
+                    @if (item.OepvisaDemandPodetail != null && item.OepvisaDemandPodetail.Count() > 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.OepvisaDemandPodetail.ToList().Sum(t => t.Quantity).Value)
+                    }
+                    else
+                    {
+                        @("0")
+                    }
+                </td>
+                <td>&nbsp;</td>
+                <td>
+
+                    @*@if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("HR-PurchaseOrder-Edit"))
+                        {
+                    <a asp-controller="OEPVisaDemandPO" asp-action="Edit" asp-route-id="@item.Id" class="bi bi-align-bottom"><i class="fas fa-edit" title="Edit"></i></a>
+                        }
+                    }
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("HR-PurchaseOrder-Delete"))
+                        {
+                <a asp-controller="OEPVisaDemandPO" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt" title="Delete"></i></a>
+                        }
+                    }*@
+                    <a asp-controller="OEPVisaDemandPO" asp-action="Edit" asp-route-id="@item.Id" class="bi bi-align-bottom"><i class="fas fa-edit" title="Edit"></i></a>
+                    |<a asp-controller="OEPVisaDemandPO" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt" title="Delete"></i></a>
+                    |<a asp-controller="Job" asp-action="Index" asp-route-id="@item.Id"><i class="fas fa-briefcase" title="Show Jobs"></i></a>
+                    |<a asp-controller="Permission" asp-action="Index" asp-route-OepvisaDemandId="@item.Id"><i class="fas fa-question-circle" title="Show Permissions"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="modal fade" id="JobModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Job</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <label for="jobType">Job Type:</label>
+                            <select type="text" class="form-control DDFilter" id="jobType"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="jobType">Job Type:</label>
+                            <select type="text" class="form-control DDFilter" id="jobType"></select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Send message</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

@@ -1,0 +1,85 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.EntitySetup
+
+@{
+    ViewData["Title"] = "Edit Job Type";
+}
+
+<h1>Edit @ViewBag.EntityTypeName</h1>
+
+<hr />
+<form asp-action="Edit">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group" style="display:none">
+                <label asp-for="EntityTypeId" class="control-label"></label>
+                <select asp-for="EntityTypeId" class="form-control DDFilter" asp-items="ViewBag.EntityTypeId"></select>
+                <span asp-validation-for="EntityTypeId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 offset-md-3">
+            <div class="form-group" style="display:none;">
+                <label asp-for="Code" class="control-label"></label>
+                <input asp-for="Code" class="form-control" />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 offset-md-3">
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 offset-md-3">
+            <div class="form-group">
+                <label asp-for="ArabicName" class="control-label">Arabic Name</label>
+                <input asp-for="ArabicName" class="form-control ArabicEntry" dir="rtl" lang="ar" />
+                <span asp-validation-for="ArabicName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-md-6 offset-md-3">
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 offset-md-3">
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input type="hidden" class="form-check-input" asp-for="IsActive" />
+                </label>
+            </div>
+        </div>
+        <div class="col-md-6 offset-md-3">
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input type="hidden" class="form-check-input" asp-for="IsDeleted" />
+                </label>
+            </div>
+        </div>
+        @*<div class="col-md-6 offset-md-3">
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </div>*@
+        <div class="col-md-6">
+            <div class="form-group col-md-6 float-right">
+                <a asp-action="Index" class="btn btn-info" asp-route-EntityTypeId="@Model.EntityTypeId">Back to List</a>
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+    
+
+@*<div>
+    <a asp-action="Index"  asp-route-EntityTypeId="@ViewBag.EntityTypeId">Back to List</a>
+</div>*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

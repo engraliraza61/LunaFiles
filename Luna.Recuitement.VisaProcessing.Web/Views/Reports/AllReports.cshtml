@@ -1,0 +1,44 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.DTO.TabReport
+@{
+    ViewData["Title"] = "AllReports";
+}
+
+<h1>AllReports</h1>
+
+
+
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-start-tab" data-toggle="tab" href="#nav-start" role="tab" aria-controls="nav-start" aria-selected="true">Start</a>
+        <a class="nav-item nav-link" id="nav-biometric-tab" data-toggle="tab" href="#nav-biometric" role="tab" aria-controls="nav-biometric" aria-selected="false">Biometric</a>
+        <a class="nav-item nav-link" id="nav-medical-tab" data-toggle="tab" href="#nav-medical" role="tab" aria-controls="nav-medical" aria-selected="false">Medical</a>
+        <a class="nav-item nav-link" id="nav-submission-tab" data-toggle="tab" href="#nav-submission" role="tab" aria-controls="nav-submission" aria-selected="false">Submission</a>
+        <a class="nav-item nav-link" id="nav-endorsement-tab" data-toggle="tab" href="#nav-endorsement" role="tab" aria-controls="nav-endorsement" aria-selected="false">Endorsement</a>
+        <a class="nav-item nav-link" id="nav-protector-tab" data-toggle="tab" href="#nav-protector" role="tab" aria-controls="nav-protector" aria-selected="false">Protector</a>
+        <a class="nav-item nav-link" id="nav-deployment-tab" data-toggle="tab" href="#nav-deployment" role="tab" aria-controls="nav-deployment" aria-selected="false">Deployment</a>
+
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-start" role="tabpanel" aria-labelledby="nav-start-tab">
+        <partial name="_reportStart" model="@Model.Start" />
+    </div>
+    <div class="tab-pane fade" id="nav-biometric" role="tabpanel" aria-labelledby="nav-biometric-tab">
+        <partial name="_reportBiometric" model="@Model.Biometric" />
+    </div>
+    <div class="tab-pane fade" id="nav-medical" role="tabpanel" aria-labelledby="nav-medical-tab">
+        <partial name="_reportMedical" model="@Model.MedicalOnline" />
+    </div>
+    <div class="tab-pane fade" id="nav-submission" role="tabpanel" aria-labelledby="nav-submission-tab">
+        <partial name="_reportSubmission" model="@Model.Submission" />
+    </div>
+    <div class="tab-pane fade" id="nav-endorsement" role="tabpanel" aria-labelledby="nav-endorsement-tab">
+        <partial name="_reportEndorsement" model="@Model.Endorsement" />
+    </div>
+    <div class="tab-pane fade" id="nav-protector" role="tabpanel" aria-labelledby="nav-protector-tab">
+        <partial name="_reportProtector" model="@Model.Protector" />
+    </div>
+    <div class="tab-pane fade" id="nav-deployment" role="tabpanel" aria-labelledby="nav-deployment-tab">
+        <partial name="_reportDeployment" model="@Model.Deployment" />
+    </div>
+</div>

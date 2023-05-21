@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.DTO.ReportDto>
+
+
+    <table class="table table-responsive-md applyDataTableWithExport6">
+        <thead>
+            <tr>
+                <th>File Number</th>
+                <th>Name</th>
+                <th>Passport</th>
+                <th>Trade</th>
+                <th>ENumber</th>
+                <th>ENumber Date</th>
+                <th>Biometric Send</th>
+                <th>Biometric Recv</th>
+                <th>Medical Online Send</th>
+                <th>Medical Online Recv</th>
+                <th>Passport Submit</th>
+                <th>Passport Recv</th>
+                <th>Company</th>
+                <th>Reference#</th>
+                <th>Status</th>
+                <th>Remarks</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.FileNumber)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Passport)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Trade)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ENumber)</td>
+                    <td>@item.ENumberDate</td>
+                    <td>@item.BiometricSendingDate</td>
+                    <td>@item.BiometricReceivingDate</td>
+                    <td>@item.MedicalOnlineSendingDate</td>
+                    <td>@item.MedicalOnlineReceivingDate</td>
+                    <td>@item.PassportSubmissionDate</td>
+                    <td>@item.PassportReceivingDate</td>
+                    <td>@Html.DisplayFor(modelItem => item.Company)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Reference)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                    <td>@item.StatusRemarks</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>

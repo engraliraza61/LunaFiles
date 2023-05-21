@@ -1,0 +1,354 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.VisaProcess
+
+@{
+    ViewData["Title"] = "Ticketing";
+    long OepvisaDemandId = 0;
+    bool showTicket2 = false;
+    bool showTicket3 = false;
+    if (Model.OepvisaDemandId != null)
+    {
+        OepvisaDemandId = Model.OepvisaDemandId.Value;
+    }
+    if (Model.DepartureDate1 != null)
+    {
+        showTicket2 = true;
+    }
+    if (Model.DepartureDate2 != null)
+    {
+        showTicket3 = true;
+    }
+}
+
+<h1>@("Protector     |      " + Model.CandidateSelectionDetail.CandidateProfile.FirstName + " " + @Model.CandidateSelectionDetail.CandidateProfile.LastName) </h1>
+
+<hr />
+<h5>
+    @*<a asp-controller="Permission" asp-action="Report" asp-route-OEPVisaDemandId="@Model.CandidateSelectionDetail.CandidateProfileId" asp-route-report="ChallanForm">Challan Form</a> |
+        <a asp-controller="Permission" asp-action="Report" asp-route-OEPVisaDemandId="@Model.CandidateSelectionDetail.CandidateProfileId" asp-route-report="Form7">Form 7</a> |
+        <a asp-controller="Permission" asp-action="Report" asp-route-OEPVisaDemandId="@Model.CandidateSelectionDetail.CandidateProfileId" asp-route-report="VisaFormKhi">Visa Form (KHI)</a> |
+        <a asp-controller="Permission" asp-action="Report" asp-route-OEPVisaDemandId="@Model.CandidateSelectionDetail.CandidateProfileId" asp-route-report="VisaFormIsb">Visa Form (ISB)</a>*@
+    @if (Model.Id != null && Model.Id > 0)
+    {
+        <span class="badge badge-info">Update</span>
+    }
+    else
+    {
+        <span class="badge badge-info">New</span>
+    }
+
+</h5>
+
+
+
+<form asp-controller="CandidateSelection" asp-action="VisaProcess" asp-route-calledFrom="Ticketing">
+    <div class="row">
+        <div class="col-md-6">
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CandidateSelectionDetailId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="OepvisaDemandId" class="control-label">File Number</label>
+                <select readonly asp-for="OepvisaDemandId" class="form-control DDFilter" asp-items="ViewBag.OepvisaDemandId"></select>
+                <span asp-validation-for="OepvisaDemandId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="VisaTradeEntitySetupId" class="control-label">Visa Trade</label>
+                <select readonly asp-for="VisaTradeEntitySetupId" class="form-control DDFilter" asp-items="@ViewBag.VisaTradeEntitySetupId"></select>
+                <span asp-validation-for="VisaTradeEntitySetupId" class="text-danger"></span>
+                <span id="lblVisaQuantity" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="ProcessingStartDate" class="control-label">Processing Start</label>
+                <input type="date" readonly asp-for="ProcessingStartDate" class="form-control" />
+                <span asp-validation-for="ProcessingStartDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @*previous label was Document Receiving*@
+                <label asp-for="DocumentReceivingDate" class="control-label">Visa Stamping</label>
+                <input type="date" readonly asp-for="DocumentReceivingDate" class="form-control" />
+                <span asp-validation-for="DocumentReceivingDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="MedicalOnlineSendingDate" class="control-label">Medical Sending</label>
+                <input type="date" readonly asp-for="MedicalOnlineSendingDate" class="form-control" />
+                <span asp-validation-for="MedicalOnlineSendingDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="MedicalOnlineReceivingDate" class="control-label">Medical Receiving</label>
+                <input type="date" readonly asp-for="MedicalOnlineReceivingDate" class="form-control" />
+                <span asp-validation-for="MedicalOnlineReceivingDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="BiometricSendingDate" class="control-label">Biometric Sending</label>
+                <input type="date" readonly asp-for="BiometricSendingDate" class="form-control" />
+                <span asp-validation-for="BiometricSendingDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="BiometricReceivingDate" class="control-label">Biometric Receiving</label>
+                <input type="date" readonly asp-for="BiometricReceivingDate" class="form-control" />
+                <span asp-validation-for="BiometricReceivingDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Enumber" class="control-label">E-Number</label>
+                <input type="text" readonly asp-for="Enumber" class="form-control" pattern="[E]{1}[0-9]{9}" />
+                <span asp-validation-for="Enumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="EnumberDate" class="control-label">E-Number Date</label>
+                <input type="date" readonly asp-for="EnumberDate" class="form-control" />
+                <span asp-validation-for="EnumberDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="PassportSubmissionDate" class="control-label">Passport Submission</label>
+                <input type="date" readonly asp-for="PassportSubmissionDate" class="form-control" />
+                <span asp-validation-for="PassportSubmissionDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="PassportReceivingDate" class="control-label">Passport Receiving</label>
+                <input type="date" readonly asp-for="PassportReceivingDate" class="form-control" />
+                <span asp-validation-for="PassportReceivingDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Registration Number</label>
+                <input type="text" asp-for="RegistrationNumber" readonly class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Registration Date</label>
+                <input type="date" asp-for="RegistrationDate" readonly class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <button type="button" id="btnAddTicket" onclick="addTicket()" class="btn btn-primary btn-block">Add Ticket Detail</button>
+            </div>
+        </div>
+
+        <div class="col-md-6 ticket1">
+            <div class="form-group">
+                <label class="control-label">Departure Date & Time</label>
+                <input type="datetime-local" asp-for="DepartureDate1" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 ticket1">
+            <div class="form-group">
+                <label class="control-label">Arrivate Date & Time</label>
+                <input type="datetime-local" asp-for="ArrivalDate1" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 ticket1">
+            <div class="form-group">
+                <label class="control-label">Flight Number</label>
+                <input type="text" asp-for="FlightNumber1" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 ticket1">
+            <div class="form-group">
+                <label class="control-label">Ticket Number</label>
+                <input type="text" asp-for="TicketNumber1" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 ticket1">
+            <div class="form-group">
+                <label class="control-label">Sector 1</label>
+                <select asp-for="Sector1From" class="form-control DDFilter" asp-items="ViewBag.Sector1From"></select>
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 ticket1">
+            <div class="form-group">
+                <label class="control-label">|</label>
+                <select asp-for="Sector1To" class="form-control DDFilter" asp-items="ViewBag.Sector1To"></select>
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 ticket2">
+            <div class="form-group">
+                <label class="control-label">Departure Date & Time 2</label>
+                <input type="datetime-local" asp-for="DepartureDate2" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 ticket2">
+            <div class="form-group">
+                <label class="control-label">Arrivate Date & Time 2</label>
+                <input type="datetime-local" asp-for="ArrivalDate2" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 ticket2">
+            <div class="form-group">
+                <label class="control-label">Flight Number 2</label>
+                <input type="text" asp-for="FlightNumber2" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 ticket2">
+            <div class="form-group">
+                <label class="control-label">Ticket Number 2</label>
+                <input type="text" asp-for="TicketNumber2" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 ticket2">
+            <div class="form-group">
+                <label class="control-label">Sector 2</label>
+                <select asp-for="Sector2From" class="form-control DDFilter" asp-items="ViewBag.Sector2From"></select>
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 ticket2">
+            <div class="form-group">
+                <label class="control-label">|</label>
+                <select asp-for="Sector2To" class="form-control DDFilter" asp-items="ViewBag.Sector2To"></select>
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 ticket3">
+            <div class="form-group">
+                <label class="control-label">Departure Date & Time 3</label>
+                <input type="datetime-local" asp-for="DepartureDate3" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 ticket3">
+            <div class="form-group">
+                <label class="control-label">Arrivate Date & Time 3</label>
+                <input type="datetime-local" asp-for="ArrivalDate3" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 ticket3">
+            <div class="form-group">
+                <label class="control-label">Flight Number 3</label>
+                <input type="text" asp-for="FlightNumber3" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 ticket3">
+            <div class="form-group">
+                <label class="control-label">Ticket Number 3</label>
+                <input type="text" asp-for="TicketNumber3" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 ticket3">
+            <div class="form-group">
+                <label class="control-label">Sector 3</label>
+                <select asp-for="Sector3From" class="form-control DDFilter" asp-items="ViewBag.Sector3From"></select>
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 ticket3">
+            <div class="form-group">
+                <label class="control-label">|</label>
+                <select asp-for="Sector3To" class="form-control DDFilter" asp-items="ViewBag.Sector3To"></select>
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="StatusEntitySetupId" class="control-label">Status</label>
+                <select asp-for="StatusEntitySetupId" class="form-control DDFilter" asp-items="ViewBag.StatusEntitySetupId"></select>
+                <span asp-validation-for="StatusEntitySetupId" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="StatusRemarks" class="control-label">Remarks</label>
+                <input type="text" asp-for="StatusRemarks" class="form-control" />
+                <span asp-validation-for="StatusRemarks" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group col-md-12 float-right">
+                &nbsp; &nbsp;
+                <input type="submit" value="Save" class="btn btn-primary float-right" /> &nbsp; &nbsp;
+                <a asp-action="TicketingList" class="btn btn-info float-right">Back to List</a> &nbsp; &nbsp;
+            </div>
+        </div>
+    </div>
+
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script charset="utf-8" type="text/javascript">
+    function addTicket()
+    {
+        $('.ticket2').show();
+        $('.ticket3').show();       
+    }
+    $(document).ready(function () {
+        $('.ticket2').hide();
+        $('.ticket3').hide();
+        alert(@showTicket2);
+        alert(@showTicket3);
+        if (@showTicket2==true) {
+            alert('ticket 2');
+            $('.ticket2').show();
+        }
+        if (@(showTicket3==true)) {
+            alert('ticket 3');
+            $('.ticket3').show();
+        }
+
+        $('#OepvisaDemandId').change(function () {
+            $('#VisaTradeEntitySetupId option').remove();
+            $('#VisaTradeEntitySetupId').append('<option value=""> Loading . . . </option>');
+            $.getJSON('/OEPVisaDemand/GetJobsByDemandId/")', { oepVisaDemandId: $('#OepvisaDemandId').val() }, function (data) {
+                $('#VisaTradeEntitySetupId option').remove();
+                $('#VisaTradeEntitySetupId').append('<option value="0" selected>-- Select Visa Trade --</option>');
+                $.each(data, function () {
+                    $('#VisaTradeEntitySetupId').append('<option value=' + this.id + '>' + this.name + '</b></option>');
+                });
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error getting visa trades!');
+            });
+        });
+
+        $.getJSON('/OEPVisaDemand/GetJobsByDemandId', { oepVisaDemandId: OepvisaDemandId}, function (data) {
+            $('#VisaTradeEntitySetupId option').remove();
+            $('#VisaTradeEntitySetupId').append('<option value="0">-- Select Visa Trade --</option>');
+            $.each(data, function () {
+                $('#VisaTradeEntitySetupId').append('<option value=' + this.id + '>' + this.name + '</option>');
+            });
+            $('#VisaTradeEntitySetupId').val(@Model.VisaTradeEntitySetupId);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting visa trades!');
+        });
+    });
+</script>
+}

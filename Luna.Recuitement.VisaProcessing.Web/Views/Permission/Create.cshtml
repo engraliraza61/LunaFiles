@@ -1,0 +1,63 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.PermissionRequest
+
+@{
+    ViewData["Title"] = "Create Permission";
+}
+
+<h1>Create Permission</h1>
+<hr />
+<form asp-action="Create">
+    <div class="row">
+        <div class="col-md-6">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="OepvisaDemandId" class="control-label">Visa Number</label>
+                <select asp-for="OepvisaDemandId" class="form-control DDFilter" asp-items="ViewBag.OepvisaDemandId"></select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="PermissionNumber" class="control-label">Permission Number</label>
+                <input asp-for="PermissionNumber" class="form-control" />
+                <span asp-validation-for="PermissionNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="ApplyDate" class="control-label">Apply Date</label>
+                <input asp-for="ApplyDate" type="date" class="form-control" />
+                <span asp-validation-for="ApplyDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="ReceivingDate" class="control-label">Receiving Date</label>
+                <input asp-for="ReceivingDate" type="date" class="form-control" />
+                <span asp-validation-for="ReceivingDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="ValidityDate" class="control-label">Expiry Date</label>
+                <input asp-for="ValidityDate" type="date" class="form-control" />
+                <span asp-validation-for="ValidityDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6" style="display:none;">
+            <div class="form-group">
+                <label asp-for="PermissionTypeEntitySetupId" class="control-label">Permission Type</label>
+                <select asp-for="PermissionTypeEntitySetupId" class="form-control DDFilter" asp-items="ViewBag.PermissionTypeEntitySetupId"></select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group col-md-6 float-right">
+                <a asp-action="Index" asp-route-OepvisaDemandId="@Model.OepvisaDemandId" class="btn btn-info">Back to List</a>
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

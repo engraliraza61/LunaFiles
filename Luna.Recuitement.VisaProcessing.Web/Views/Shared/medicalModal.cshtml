@@ -1,0 +1,191 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+<div>
+    <a href="#!" class="btn btn-primary float-right" data-toggle="modal" onclick="showMedical('N',this)" ;>Add</a>
+    <div class="modal fade" id="medicalModal" tabindex="-1" role="dialog" aria-labelledby="medicalModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Medical Detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-6" style="display:none;">
+                                <label>Id</label>
+                                <input type="hidden" id="medicalId" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-6" style="display:none;">
+                                <label>Sponser</label>
+                                <select id="sponserId" class="form-control DDFilter">
+                                    <option value="1" selected>Sponser A</option>
+                                    <option value="2">Sponser B</option>
+                                    <option value="3">Sponser C</option>
+                                    <option value="4">Sponser D</option>
+                                    <option value="5">Sponser E</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label>Medical Center</label>
+                                <select id="medicalCenterName" class="form-control DDFilter"></select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>GHC Code</label>
+                                <input type="text" id="ghccodeNo" class="form-control">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>GCC Slip No</label>
+                                <input type="number" id="gccslipNo" max="20" class="form-control">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Date Examined</label>
+                                <input type="date" id="dateExamined" required class="form-control" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Report ExpiryDate</label>
+                                <input type="date" id="reportExpiryDate" required class="form-control">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closeMedicalModal" class="btn btn-secondary">Close</button>
+                    <button type="button" class="btn btn-success" id="SaveMedicalDialogBtn" @*onclick="saveMedical()*@>Save</button>
+                </div>
+                <div id="show_stored_data">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th style="display:none;">Record Id (PK)</th>
+            <th>Medical Center</th>
+            <th>GCC Slip#</th>
+            <th>GHC Code</th>
+            <th>Date Examined</th>
+            <th>Expiry Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="medicalDetail">
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    //function showMedical(type,button) {
+    //    if (type == "U") {
+    //        $("#medicalId").val($(button).closest('tr').children('td:nth(0)').text());
+    //        //$("#sponserId").val($(button).closest('tr').children('td:nth(1)').text());
+    //        $("#medicalCenterName").val($(button).closest('tr').children('td:nth(1)').text());
+    //        $("#ghccodeNo").val($(button).closest('tr').children('td:nth(2)').text()); //change label to slip
+    //        $("#gccslipNo").val($(button).closest('tr').children('td:nth(3)').text());//hide
+    //        document.getElementById("dateExamined").valueAsDate = new Date($(button).closest('tr').children('td:nth(4)').text());
+    //        document.getElementById("reportExpiryDate").valueAsDate = new Date($(button).closest('tr').children('td:nth(5)').text());
+    //    }
+    //    else //(type == "N") {
+    //    {
+    //        debugger;
+    //        $("#medicalId").val(0);
+    //        $("#medicalCenterName").val("")
+    //        $("#ghccodeNo").val("");
+    //        $("#gccslipNo").val("");
+    //        $("#dateExamined").val("");
+    //        $("#reportExpiryDate").val("")
+    //    }
+    //    $('#medicalModal').modal('show');
+    //}
+    //function saveMedical() {
+    //    var data = {
+    //        "id": $("#medicalId").val(),
+    //        "candidateProfileId": $(".pkid").val(),
+    //        "sponserId": $("#sponserId").val(),
+    //        "medicalCenterName": $("#medicalCenterName").val(),
+    //        "ghccodeNo": $("#ghccodeNo").val(),
+    //        "gccslipNo": $("#gccslipNo").val(),
+    //        "dateExamined": $("#dateExamined").val(),
+    //        "reportExpiryDate": $("#reportExpiryDate").val()
+    //    };
+    //    if (!$("#dateExamined").val()) {
+    //        alert("Date Examined is mandatory.");
+    //        return false;
+    //    }
+    //    if (!$("#reportExpiryDate").val()) {
+    //        alert("Expiry Date is mandatory.");
+    //        return false;
+    //    }
+    //    $.ajax({
+    //        type: "POST",
+    //        url: '/CandidateProfile/UpdateMedical',
+    //        data: data,
+    //        dataType: "json",
+
+    //        success: function (data) {
+    //            toastr.success('Medical record saved successfully.', "Alert")
+    //            var html = '<tr>' +
+    //                '<td style="display:none;">' + data.id + '</td>' +
+    //                //'<td style="display:none;">' + $('#sponserId').val() + '</td>' +
+    //                //'<td>' + $('#sponserId option:selected').text() + '</td>' +
+    //                '<td>' + $('#medicalCenterName').val() + '</td>' +
+    //                '<td>' + $('#ghccodeNo').val() + '</td>' +
+    //                '<td>' + $('#gccslipNo').val() + '</td>' +
+    //                '<td>' + $('#dateExamined').val() + '</td>' +
+    //                '<td>' + $('#reportExpiryDate').val() + '</td>' +
+    //                '<td><a href="#!"  onclick="ShowDialog(\'U\',this);"><i class="fas fa-edit"></i></a><a href="#" onclick="deleteMedical(' + data.id +')"><i class="fas fa-trash"></i></a></td>' +
+    //                '</tr>';
+    //            if ($('#medicalId').val() == "0") {
+    //                $('#medicalDetail').append(html);
+    //            } else {
+    //                //$("#medicalRow" + $('#medicalId').val()).children('td:nth(2)').text($('#sponserId option:selected').text());
+    //                $("#medicalRow" + $('#medicalId').val()).children('td:nth(1)').text($('#medicalCenterName').val());
+    //                $("#medicalRow" + $('#medicalId').val()).children('td:nth(2)').text($('#ghccodeNo').val());
+    //                $("#medicalRow" + $('#medicalId').val()).children('td:nth(3)').text($('#gccslipNo').val());
+    //                $("#medicalRow" + $('#medicalId').val()).children('td:nth(4)').text($('#dateExamined').val());
+    //                $("#medicalRow" + $('#medicalId').val()).children('td:nth(5)').text($('#reportExpiryDate').val());
+    //            }
+    //        },
+    //        error: function () {
+    //            toastr.error('Error occured while saving medical record.', "Error")
+    //        }
+    //    });
+
+    //    return false;
+    //}
+    //function deleteMedical(medicalId) {
+    //    var data = { "Id": medicalId };
+    //    if (confirm("Are you sure to delete this medical info?")) {
+    //        if (!medicalId || medicalId == "0") {
+    //            //Remove line from table only.
+    //            $("#medicalRow" + medicalId).remove();
+    //        }
+    //        else {
+    //            $.ajax({
+    //                type: "POST",
+    //                url: '/CandidateProfile/DeleteMedical',
+    //                data: data,
+    //                dataType: "json",
+    //                success: function (data) {
+    //                    toastr.success('Medical info deleted.')
+    //                    $("#medicalRow" + medicalId).remove();
+    //                },
+    //                error: function () {
+    //                    toastr.error('while occured while deleting medical info.')
+    //                }
+    //            });
+    //        }
+    //    }
+    //    return false;
+    //}
+</script>
+

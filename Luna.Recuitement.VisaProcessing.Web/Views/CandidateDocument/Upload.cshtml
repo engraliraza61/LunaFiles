@@ -1,0 +1,112 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.CandidateProfile
+
+@{
+    ViewData["Title"] = "Candidate Document";
+}
+@if (ViewBag.ErrorMessage != null)
+{
+<div class="alert alert-danger offset-md-4 col-md-4 " role="alert">
+        @ViewBag.ErrorMessage
+</div>
+}
+<h1>Document List</h1>
+<form asp-action="ShowDocuments" method="get" id="frmShowDocuments">
+    <div class="row" style="border:2px solid gray">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">CNIC</label>
+                <input type="text" id="CNIC" name="CNIC" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Passport</label>
+                <input type="text" id="passportNumber" name="passportNumber" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">&nbsp;|&nbsp;</label>
+                <input type="submit" value="Search" class="form-control btn btn-info" />
+            </div>
+        </div>
+    </div>
+    @if (Model != null && Model.Id>0)
+    {
+<div class="alert alert-info" role="alert">
+    <span><b>Name:</b> @Model.FirstName&nbsp;@Model.LastName </span>&nbsp;&nbsp;<span><b>Father Name:</b> @Model.FatherName </span>&nbsp;&nbsp;<span><b>CNIC:</b> @Model.Cnic</span>
+</div>
+    }
+</form> 
+<br />
+<form asp-action="Upload" enctype="multipart/form-data" method="post">
+    <div class="row" style="border:2px solid gray">
+        <input type="hidden" name="CandidateProfileId" id="CandidateProfileId" value="@Model.Id"/>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">File Type</label>
+                @Html.DropDownList("FileTypeEntitySetupId", (IEnumerable<SelectListItem>)ViewBag.FileTypeEntitySetupId, new { @class = "form-control DDFilter" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">File</label>
+                <input type="file" id="File" name="File" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                &nbsp;
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <input type="submit" value="Upload" class="form-control btn btn-info" />
+            </div>
+        </div>
+    </div>
+</form>
+<br />
+<table class="table applyDataTable">
+    <thead>
+        <tr>
+            <th style="display:none;">Id</th>
+            <th>Document Type</th>
+            <th>Upload Date</th>
+            <th>Document Name</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.CandidateDocument != null)
+        {
+            @foreach (var item in Model.CandidateDocument)
+            {
+        <tr>
+            <td style="display:none;">@Html.DisplayFor(modelItem => item.Id)</td>
+            <td>@Html.DisplayFor(modelItem => item.FileTypeEntitySetup.Name)</td>
+            <td>@Html.DisplayFor(modelItem => item.UploadDate)</td>
+            <td>@Html.DisplayFor(modelItem => item.FileName)</td>
+            <td>
+                <a asp-action="Download" asp-controller="CandidateDocument" target="_blank" asp-route-documentId="@item.Id"><i class="fas fa-cloud-download-alt"></i></a> |
+                <form id="frmDeleteDocument_@item.Id" method="post" asp-action="Delete">
+                    <input type="hidden" id="DocumentId" name="DocumentId" value="@item.Id" />
+                    <input type="hidden" id="CandidateProfileId" name="CandidateProfileId" value="@item.CandidateProfileId" />
+                    <a onclick="DeleteDocument(@item.Id)"><i class="fas fa-trash"></i></a>
+                </form>
+            </td>
+        </tr>
+            }
+        }
+    </tbody>
+</table>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+    function DeleteDocument(id) {
+        if (confirm("Are you sure to delete this document?")) {
+            document.getElementById("frmDeleteDocument_"+id).submit();
+        }
+    }
+</script>
+}

@@ -1,0 +1,1356 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+
+<div class="modal fade " id="InfoCandidateModal" tabindex="-1" role="dialog" aria-labelledby="docUploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Candidate</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="true">Basic Info</a>
+                        <a class="nav-item nav-link" id="nav-passport-tab" data-toggle="tab" href="#nav-passport" role="tab" aria-controls="nav-passport" aria-selected="false">Passport</a>
+                        <a class="nav-item nav-link" id="nav-medical-tab" data-toggle="tab" href="#nav-medical" role="tab" aria-controls="nav-medical" aria-selected="false">Medical</a>
+                        <a class="nav-item nav-link" id="nav-vaccine-tab" data-toggle="tab" href="#nav-vaccine" role="tab" aria-controls="nav-vaccine" aria-selected="false">Vaccination</a>
+                        <a class="nav-item nav-link" id="nav-nominee-tab" data-toggle="tab" href="#nav-nominee" role="tab" aria-controls="nav-nominee" aria-selected="false">Nominee</a>
+                        <a class="nav-item nav-link" id="nav-document-tab" data-toggle="tab" href="#nav-document" role="tab" aria-controls="nav-document" aria-selected="false">Documents</a>
+                    </div>
+                </nav>
+
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <partial name="profileModal" />
+                    </div>
+                    <div class="tab-pane fade" id="nav-passport" role="tabpanel" aria-labelledby="nav-passport-tab">
+                        <partial name="passportModal" />
+                    </div>
+                    <div class="tab-pane fade" id="nav-medical" role="tabpanel" aria-labelledby="nav-medical-tab">
+                        <partial name="medicalModal" />
+                    </div>
+                    <div class="tab-pane fade" id="nav-vaccine" role="tabpanel" aria-labelledby="nav-vaccine-tab">
+                        <partial name="_VaccineModal" />
+                    </div>
+                    <div class="tab-pane fade" id="nav-nominee" role="tabpanel" aria-labelledby="nav-nominee-tab">
+                        <partial name="NomineeModal" />
+                    </div>
+                    <div class="tab-pane fade" id="nav-document" role="tabpanel" aria-labelledby="nav-document-tab">
+                        <partial name="documentModal" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            <div id="show_stored_data">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<h1>Deployment</h1>
+<form asp-action="Deployment" asp-controller="Reports" id="frmENumber">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">File Number</label>
+                <select id="FileNumber" name="FileNumber" max="25" class="form-control DDFilter"></select>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            &nbsp;
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label"></label>
+                <input type="submit" value="Filter" class="btn btn-primary form-control" />
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<div align="right" style="display:none">
+    <div class="form-group" style="float:inherit">
+        <label class="control-label">Tab Name</label>
+        <input readonly id="TabName" />
+    </div>
+</div>
+
+
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        @*<a class="nav-item nav-link active" id="nav-start-tab" data-toggle="tab" href="#nav-start" role="tab" aria-controls="nav-start" aria-selected="true">Start</a>
+        <a class="nav-item nav-link" id="nav-biometric-tab" data-toggle="tab" href="#nav-biometric" role="tab" aria-controls="nav-biometric" aria-selected="false">Biometric</a>
+        <a class="nav-item nav-link" id="nav-biometricA-tab" data-toggle="tab" href="#nav-biometricA" role="tab" aria-controls="nav-biometricA" aria-selected="false">Medical</a>
+        <a class="nav-item nav-link" id="nav-submission-tab" data-toggle="tab" href="#nav-submission" role="tab" aria-controls="nav-submission" aria-selected="false">Submission</a>*@
+        <a class="nav-item nav-link active" id="nav-endorsement-tab" data-toggle="tab" href="#nav-endorsement" role="tab" aria-controls="nav-endorsement" aria-selected="false">Passport Endorsement</a>
+        <a class="nav-item nav-link" id="nav-protector-tab" data-toggle="tab" href="#nav-protector" role="tab" aria-controls="nav-protector" aria-selected="false">Visa Protection</a>
+        <a class="nav-item nav-link" id="nav-travel-tab" data-toggle="tab" href="#nav-travel" role="tab" aria-controls="nav-travels" aria-selected="false">Travel Bookings</a>
+        <a class="nav-item nav-link" id="nav-deployment-tab" data-toggle="tab" href="#nav-deployment" role="tab" aria-controls="nav-deployment" aria-selected="false">Deployment</a>
+        <a class="nav-item nav-link" id="nav-caseCloure-tab" data-toggle="tab" href="#nav-caseCloure" role="tab" aria-controls="nav-caseCloure" aria-selected="false">Case Cloure</a>
+
+
+
+
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    @*<div class="tab-pane fade show active" id="nav-start" role="tabpanel" aria-labelledby="nav-start-tab">
+            <partial name="_reportStart" model="@Model.Start" />
+        </div>
+        <div class="tab-pane fade" id="nav-biometric" role="tabpanel" aria-labelledby="nav-biometric-tab">
+            <partial name="_reportBiometric" model="@Model.Biometric" />
+        </div>
+        <div class="tab-pane fade" id="nav-biometricA" role="tabpanel" aria-labelledby="nav-biometricA-tab">
+            <partial name="_reportMedical" model="@Model.MedicalOnline" />
+        </div>
+        <div class="tab-pane fade" id="nav-submission" role="tabpanel" aria-labelledby="nav-submission-tab">
+            <partial name="_reportSubmission" model="@Model.Submission" />
+        </div>*@
+    <div class="tab-pane fade" id="nav-travel" role="tabpanel" aria-labelledby="nav-travel-tab">
+        <partial name="_reportTravel" model="@Model.TravelBooking" />
+    </div>
+    <div class="tab-pane fade" id="nav-deployment" role="tabpanel" aria-labelledby="nav-deployment-tab">
+        <partial name="_reportDeployment" model="@Model.Deployment" />
+    </div>
+    <div class="tab-pane fade" id="nav-caseCloure" role="tabpanel" aria-labelledby="nav-caseCloure-tab">
+        <partial name="_reportCaseCloure" model="@Model.CaseCloure" />
+    </div>
+    <div class="tab-pane fade" id="nav-protector" role="tabpanel" aria-labelledby="nav-protector-tab">
+        <partial name="_reportProtector" model="@Model.Protector" />
+    </div>
+    <div class="tab-pane fade show active" id="nav-endorsement" role="tabpanel" aria-labelledby="nav-endorsement-tab">
+        <partial name="_reportEndorsement" model="@Model.Endorsement" />
+    </div>
+
+
+</div>
+
+
+
+
+<script>
+    $.getJSON('/CandidateProfile/GetFileNo/', function (data) {
+        $("#FileNumber option").remove();
+        $("#FileNumber").append('<option value=0>--select File No--</option>');
+        $.each(data, function () {
+            $("#FileNumber").append('<option value=' + this.code + '>' + this.code + '</option>');
+        });
+        $("#FileNumber").val();
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        alert('Error getting FileNo!');
+    });
+
+    function updateCandidateInfo() {
+
+        id = $('#updatedId').val();
+        title = $('#updatedTitle').val();
+        maritalStatus = $('#updatedMaritalStatus').val();
+        gender = $('#updatedGender').val();
+        religion = $('#updatedReligion').val();
+        sect = $('#updatedSect').val();
+        fatherName = $('#updatedFatherName').val();
+        firstName = $('#updatedFirstName').val();
+        lastName = $('#updatedLastName').val();
+        arabicName = $('#updatedArabicName').val();
+        dateOfBirth = $('#updatedDateOfBirth').val();
+        homeAddress = $('#updatedHomeAddress').val();
+        permanentAddress = $('#updatedPermanentAddress').val();
+        phoneNumber = $('#updatedPhoneNumber').val();
+        businessAddress = $('#updatedBusinessAddress').val();
+        businessPhone = $('#updatedBusinessPhone').val();
+        email = $('#updatedEmail').val();
+        cellNumber = $('#updatedCellNumber').val();
+        cnic = $('#updatedCnic').val();
+        fatherArabicName = $('#updatedFatherArabicName').val();
+        qualification = $('#updatedQualification').val();
+        husbandName = $('#updatedHusbandName').val();
+        husbandArabicName = $('#updatedHusbandArabicName').val();
+        placeOfBirthCountryId = $('#updatedPlaceOfBirthCountryId').val();
+        placeOfBirthCityId = $('#updatedPlaceOfBirthCityId').val();
+        reference = $('#updatedReference').val();
+        agentId = $('#updatedAgentId').val();
+        referenceName = $('#updatedReferenceName').val();
+        referencePhone = $('#updatedReferencePhone').val();
+        companyName = $('#updatedCompanyName').val();
+        expiryDate = $('#updatedExpiryDate').val();
+        issueDate = $('#updatedIssueDate').val();
+        domicile = $('#updatedDomicile').val();
+        isActive = true;
+        var jasonObj = {
+            /*'expiryDate': expiryDate, 'issueDate': issueDate, 'domicile': domicile,*/
+            'id': id, 'title': title, 'firstName': firstName, 'lastName': lastName, 'arabicName': arabicName, 'maritalStatus': maritalStatus, 'gender': gender, 'religion': religion, 'sect': sect, 'dateOfBirth': dateOfBirth, 'homeAddress': homeAddress, 'permanentAddress': permanentAddress, 'phoneNumber': phoneNumber, 'businessAddress': businessAddress, 'businessPhone': businessPhone, 'email': email, 'cellNumber': cellNumber, 'cnic': cnic, 'fatherName': fatherName, 'fatherArabicName': fatherArabicName, 'qualification': qualification, 'husbandName': husbandName, 'husbandArabicName': husbandArabicName, 'placeOfBirthCountryId': placeOfBirthCountryId, 'placeOfBirthCityId': placeOfBirthCityId, 'reference': reference, 'agentId': agentId, 'referenceName': referenceName, 'referencePhone': referencePhone, 'companyName': companyName, 'isActive': isActive,
+        }
+        $.ajax({
+            type: "POST",
+            url: '/CandidateProfile/updateCandidateInfo',
+            data: jasonObj,
+            dataType: "json",
+            success: function (data) {
+                alert('updated');
+                $("#InfoCandidateModal").modal('hide');
+            },
+            error: function (errormsg) {
+                alert('updated successfully');
+                $("#InfoCandidateModal").modal('hide');
+            }
+        });
+    }
+
+    function updatedCandidateInfo(Obj) {
+        $.ajax({
+            type: "GET",
+            url: '/CandidateProfile/ForUpdate',
+            data: Obj,
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var date = data[0].dateOfBirth;
+                var cityId = data[0].placeOfBirthCityId;
+                var cityName = data[0].placeOfBirthCity.name;
+                var countryId = data[0].placeOfBirthCountryId;
+                var counryName = data[0].placeOfBirthCountry.name;
+                var MedicalCenterName = null;
+
+                $.getJSON('/CandidateProfile/GetAgent/', { CountryId: "0" }, function (data) {
+                    $('#updatedAgentId option').remove();
+                    $('#updatedAgentId').append('<option value="0">-- Select Agent --</option>');
+                    $.each(data, function () {
+                        $('#updatedAgentId').append('<option value=' + this.id + '>' + this.name + '</option>');
+                    });
+                    $('#passportBirthCity').val();
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error getting agentName!');
+                });
+
+                if ($('#updatedReference').val() == 'Agent') {
+                    console.log('Agent in reference.');
+                    $('.divAgent').show();
+                    $('.divReferenceName').hide();
+                }
+                else if ($('#Reference').val() == 'Nominated') {
+                    $('.divAgent').hide();
+                    $('.divReferenceName').show();
+                }
+                else if ($('#updatedReference').val() == 'Self') {
+                    $('.divAgent').hide();
+                    $('.divReferenceName').hide();
+                }
+                $('#updatedReference').change(function () {
+                    if ($('#updatedReference').val() == 'Agent') {
+                        console.log('Agent in reference.');
+                        $('.divAgent').show();
+                        $('.divReferenceName').hide();
+                    }
+                    else if ($('#updatedReference').val() == 'Nominated') {
+                        $('.divAgent').hide();
+                        $('.divReferenceName').show();
+                    }
+                    else if ($('#updatedReference').val() == 'Self') {
+                        $('.divAgent').hide();
+                        $('.divReferenceName').hide();
+                    }
+                });
+                $.getJSON('/CandidateProfile/GetCityByCountry/', { CountryId: "0" }, function (data) {
+                   // console.log(data);
+                    $('#updatedPlaceOfBirthCityId option').remove();
+                    $('#updatedPlaceOfBirthCityId').append('<option value="0">--select cities--</option>');
+                    $.each(data, function () {
+                        $('#updatedPlaceOfBirthCityId').append('<option value=' + this.id + '>' + this.name + '</option>');
+                    });
+                    $('#passportBirthCity').val();
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error getting cities!');
+                });
+                $('#updatedPlaceOfBirthCountryId').change(function () {
+                    $('#PlaceOfBirthCountryId option').remove(); // Clear State Dropdown
+                    $('#updatedPlaceOfBirthCityId option').remove();  // Clear City Dropdown
+                    $('#updatedPlaceOfBirthCityId').append('<option value=""> Loading . . . </option>'); // Add Default Value to City Dropdown
+                    $.getJSON('/CandidateProfile/GetCityByCountry/")', { CountryId: $('#updatedPlaceOfBirthCountryId').val() }, function (data) {
+                        $('#updatedPlaceOfBirthCityId option').remove();  // Clear City Dropdown
+                        $('#updatedPlaceOfBirthCityId').append('<option value=' + cityId + '>' + cityName + '</option>'); // Add Default Value to City Dropdown
+                        $.each(data, function () {
+                            $('#updatedPlaceOfBirthCityId').append('<option value=' + this.id + '>' + this.name + '</option>');
+                        });
+
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        alert('Error getting cities!');
+                    });
+                });
+                $.getJSON('/CandidateProfile/GetCountry/', { CountryId: "0" }, function (data) {
+                    $('#updatedPlaceOfBirthCountryId option').remove();
+                    $('#updatedPlaceOfBirthCountryId').append('<option value=' + countryId + '>' + counryName + '</option>');
+                    $('#updatedPreviousNationalityCountryId').append('<option value=' + countryId + '>' + counryName + '</option>');
+                    $.each(data, function () {
+                        $('#updatedPlaceOfBirthCountryId').append('<option value=' + this.id + '>' + this.name + '</option>');
+                        $('#updatedPreviousNationalityCountryId').append('<option value=' + this.id + '>' + this.name + '</option>');
+                    });
+                    $('#passportBirthCity').val();
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error getting cities!');
+                });
+                $.getJSON('/CandidateProfile/GetMedicalCenter/', function (data) {
+                    $("#medicalCenterName option").remove();
+                    $("#medicalCenterName").append('<option value=0>" --select Medical Center--"</option>');
+                    $.each(data, function () {
+                        $("#medicalCenterName").append('<option value=' + this.id + '>' + this.name + '</option>');
+                    });
+                    $("#medicalCenterName").val();
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error getting Medical center!');
+                });
+                $.getJSON('/CandidateProfile/GetVaccineTypes/', function (data) {
+                    $("#vaccineType option").remove();
+                    $("#vaccineType").append('<option value=0>" --select Vaccine--"</option>');
+                    $.each(data, function () {
+                        $("#vaccineType").append('<option value=' + this.id + '>' + this.name + '</option>');
+                    });
+                    $("#vaccineType").val();
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error getting Vaccine center!');
+                });
+                $.getJSON('/CandidateProfile/GetVaccineVariants/', function (data) {
+                    $("#vaccineVariant option").remove();
+                    $("#vaccineVariant").append('<option value=0>" --select Vaccine--"</option>');
+                    $.each(data, function () {
+                        $("#vaccineVariant").append('<option value=' + this.id + '>' + this.name + '</option>');
+                    });
+                    $("#vaccineVariant").val();
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error getting Vaccine center!');
+                });
+                $('#updatedId').val(data.id);
+                $('#updatedFatherName').val(data[0].fatherName);
+                $('#updatedFirstName').val(data[0].firstName);
+                $('#updatedLastName').val(data[0].lastName);
+                $('#updatedArabicName').val(data[0].arabicName);
+                document.getElementById("updatedDateOfBirth").valueAsDate = new Date(date);
+                $("select#updatedPlaceOfBirthCountryId option:checked").val();
+                $("select#updatedPlaceOfBirthCityId option:checked").val();
+                /*$('#updatedPlaceOfBirthCountryId').val();*/
+                /*$('#updatedPlaceOfBirthCityId').append('<option selected="selected" value=' + data[0].placeOfBirthCityId + '>' + data[0].placeOfBirthCity.name + '</option>');*/
+                $('#updatedHomeAddress').val(data[0].homeAddress);
+                $('#updatedPermanentAddress').val(data[0].permanentAddress);
+                $('#updatedPhoneNumber').val(data[0].phoneNumber);
+                $('#updatedBusinessAddress').val(data[0].businessAddress);
+                $('#updatedBusinessPhone').val(data[0].businessPhone);
+                $('#updatedEmail').val(data[0].email);
+                $('#updatedCellNumber').val(data[0].cellNumber);
+                $('#updatedCnic').val(data[0].cnic);
+                $('#updatedFatherArabicName').val(data[0].fatherArabicName);
+                $('#updatedQualification').val(data[0].qualification);
+                $('#updatedHusbandName').val(data[0].husbandName);
+                $('#updatedHusbandArabicName').val(data[0].husbandArabicName);
+
+                function savePassport() {
+
+                    debugger;
+
+                    var dataPassport = {
+                        "id": $("#passportId").val(),
+                        "candidateProfileId": data[0].id,
+                        "firstName": $("#passportGivenName").val(),
+                        "lastName": $("#passportSurname").val(),
+                        "PlaceOfIssueCountryId": $("#passportPlaceOfIssue").val(),
+                        "passportNo": $("#passportNumber").val(),
+                        "issueDate": $("#passportIssueDate").val(),
+                        "expiryDate": $("#passportExpiryDate").val(),
+                        "placeOfBirthCountryId": $("#passportBirthCountry").val(),
+                        "placeOfBirthCityId": $("#passportBirthCity").val()
+                    };
+                    //console.log(data);
+                    //if (!$("#passportGivenName").val()) {
+                    //    alert("Given name is mandatory.");
+                    //    return false;
+                    //}
+                    //else if (!$("#passportSurname").val()) {
+                    //    alert("Surname is mandatory.");
+                    //    return false;
+                    //}
+                    if (!$("#passportNumber").val()) {
+                        alert("Passport number is mandatory.");
+                        return false;
+                    }
+                    else if (!$("#passportIssueDate").val()) {
+                        alert("Issue date is mandatory.");
+                        return false;
+                    }
+                    else if (!$("#passportExpiryDate").val()) {
+                        alert("Expiry date is mandatory.");
+                        return false;
+                    }
+                    //if (!document.forms['frmpassport'].reportValidity()) {
+                    //    if ($("#passportLastName").validity.typeMismatch) {
+                    //        $("#passportLastName").setCustomValidity("Last name should contian only characters!");
+                    //    }
+                    //    return false;
+                    //}
+                    $.ajax({
+                        type: "POST",
+                        url: '/CandidateProfile/Updatepassport',
+                        data: dataPassport,
+                        dataType: "json",
+                        success: function (data) {
+                            toastr.success('passport added successfuly.');
+                            var html = '<tr>' +
+                                '<td style="display:none;">' + data.id + '</td>' +
+                                '<td style="display:none;">' + $('#passportGivenName').val() + '</td>' +
+                                '<td style="display:none;">' + $('#passportSurname').val() + '</td>' +
+                                '<td style="display:none;">' + $('#passportPlaceOfIssue').val() + '</td>' +
+                                '<td>' + $('#passportNumber').val() + '</td>' +
+                                '<td>' + $('#passportIssueDate').val() + '</td>' +
+                                '<td>' + $('#passportExpiryDate').val() + '</td>' +
+                                '<td style="display:none;">' + $('#passportBirthCountry').val() + '</td>' +
+                                '<td style="display:none;">' + $('#passportBirthCity').val() + '</td>' +
+                                '<td><a href="#" onclick="showPassport(' + this.id + ')"><i class="fas fa-edit"></i></a><a href="#" onclick="deletePassport(' + this.id + ')"><i class="fas fa-trash"></i></a></td>' +
+                                '</tr>';
+                            if ($('#passportId').val() == "0") {
+                                $('#passportDetail').append(html);
+                            } else {
+                                //$("#passportRow" + $('#passportId').val()).children('td:nth(1)').text($('#passportGivenName').val());
+                                //$("#passportRow" + $('#passportId').val()).children('td:nth(2)').text($('#passportSurname').val());
+                                //$("#passportRow" + $('#passportId').val()).children('td:nth(3)').text($('#passportPlaceOfIssue').val());
+                                $("#passportRow" + $('#passportId').val()).children('td:nth(4)').text($('#passportNumber').val());
+                                $("#passportRow" + $('#passportId').val()).children('td:nth(5)').text($('#passportIssueDate').val());
+                                $("#passportRow" + $('#passportId').val()).children('td:nth(6)').text($('#passportExpiryDate').val());
+                                //$("#passportRow" + $('#passportId').val()).children('td:nth(7)').text($('#passportBirthCountry').val());
+                                //$("#passportRow" + $('#passportId').val()).children('td:nth(8)').text($('#passportBirthCity').val());
+                            }
+                        },
+                        error: function () {
+                            toastr.error('while occured while saving passport.')
+                        }
+                    });
+                    return false;
+                }
+                function saveMedical() {
+                    var data = {
+                        "id": $("#medicalId").val(),
+                        "candidateProfileId": data[0].id,
+                        "sponserId": $("#sponserId").val(),
+                        "medicalCenterName": $("#medicalCenterName").val(),
+                        "ghccodeNo": $("#ghccodeNo").val(),
+                        "gccslipNo": $("#gccslipNo").val(),
+                        "dateExamined": $("#dateExamined").val(),
+                        "reportExpiryDate": $("#reportExpiryDate").val()
+                    };
+                    if (!$("#dateExamined").val()) {
+                        alert("Date Examined is mandatory.");
+                        return false;
+                    }
+                    if (!$("#reportExpiryDate").val()) {
+                        alert("Expiry Date is mandatory.");
+                        return false;
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: '/CandidateProfile/UpdateMedical',
+                        data: data,
+                        dataType: "json",
+
+                        success: function (data) {
+                            toastr.success('Medical record saved successfully.', "Alert")
+                            var html = '<tr>' +
+                                '<td style="display:none;">"medicalRow"' + data.id + '</td>' +
+                                //'<td style="display:none;">' + $('#sponserId').val() + '</td>' +
+                                //'<td>' + $('#sponserId option:selected').text() + '</td>' +
+                                '<td>' + $('#medicalCenterName').val() + '</td>' +
+                                '<td>' + $('#ghccodeNo').val() + '</td>' +
+                                '<td>' + $('#gccslipNo').val() + '</td>' +
+                                '<td>' + $('#dateExamined').val() + '</td>' +
+                                '<td>' + $('#reportExpiryDate').val() + '</td>' +
+                                '<td><a href="#!"  onclick="ShowDialog(\'U\',this);"><i class="fas fa-edit"></i></a><a href="#" onclick="deleteMedical(' + data.id + ')"><i class="fas fa-trash"></i></a></td>' +
+                                '</tr>';
+                            if ($('#medicalId').val() == "0") {
+                                $('#medicalDetail').append(html);
+                            } else {
+                                //$("#medicalRow" + $('#medicalId').val()).children('td:nth(2)').text($('#sponserId option:selected').text());
+                                $("#medicalRow" + $('#medicalId').val()).children('td:nth(1)').text($('#medicalCenterName').val());
+                                $("#medicalRow" + $('#medicalId').val()).children('td:nth(2)').text($('#ghccodeNo').val());
+                                $("#medicalRow" + $('#medicalId').val()).children('td:nth(3)').text($('#gccslipNo').val());
+                                $("#medicalRow" + $('#medicalId').val()).children('td:nth(4)').text($('#dateExamined').val());
+                                $("#medicalRow" + $('#medicalId').val()).children('td:nth(5)').text($('#reportExpiryDate').val());
+                            }
+                        },
+                        error: function () {
+                            toastr.error('Error occured while saving medical record.', "Error")
+                        }
+                    });
+
+                    return false;
+                }
+                function saveVaccine() {
+                    var data = {
+                        "id": $("#vaccineId").val(),
+                        "candidateProfileId": data[0].id,
+                        "vaccineType": $("#sponserId").val(),
+                        "vaccineVariant": $("#vaccineCenterName").val(),
+                        "vaccineDose": $("#ghccodeNo").val(),
+                        "vaccineDate": $("#dateExamined").val(),
+                        "vaccineValidity": $("#reportExpiryDate").val()
+                    };
+                    //if (!$("#dateExamined").val()) {
+                    //    alert("Date Examined is mandatory.");
+                    //    return false;
+                    //}
+                    //if (!$("#reportExpiryDate").val()) {
+                    //    alert("Expiry Date is mandatory.");
+                    //    return false;
+                    //}
+                    $.ajax({
+                        type: "POST",
+                        url: '/CandidateProfile/UpdateVaccine',
+                        data: data,
+                        dataType: "json",
+
+                        success: function (data) {
+                            toastr.success('vaccine record saved successfully.', "Alert")
+                            var html = '<tr>' +
+                                '<td style="display:none;">' + data.id + '</td>' +
+                                '<td>' + $('#vaccineType').val() + '</td>' +
+                                '<td>' + $('#vaccineVariant').val() + '</td>' +
+                                '<td>' + $('#vaccineDose').val() + '</td>' +
+                                '<td>' + $('#vaccineDate').val() + '</td>' +
+                                '<td>' + $('#vaccineValidity').val() + '</td>' +
+                                '<td><a href="#!"  onclick="ShowDialog(\'U\',this);"><i class="fas fa-edit"></i></a><a href="#" onclick="deleteVaccine(' + data.id + ')"><i class="fas fa-trash"></i></a></td>' +
+                                '</tr>';
+                            if ($('#vaccineId').val() == "0") {
+                                $('#vaccineDetail').append(html);
+                            } else {
+                                //$("#vaccineRow" + $('#vaccineId').val()).children('td:nth(2)').text($('#sponserId option:selected').text());
+                                $("#vaccineRow" + $('#vaccineId').val()).children('td:nth(1)').text($('#vaccineType').val());
+                                $("#vaccineRow" + $('#vaccineId').val()).children('td:nth(2)').text($('#vaccineVariant').val());
+                                $("#vaccineRow" + $('#vaccineId').val()).children('td:nth(3)').text($('#vaccineDose').val());
+                                $("#vaccineRow" + $('#vaccineId').val()).children('td:nth(4)').text($('#vaccineDate').val());
+                                $("#vaccineRow" + $('#vaccineId').val()).children('td:nth(5)').text($('#vaccineValidity').val());
+                            }
+                        },
+                        error: function () {
+                            toastr.error('Error occured while saving vaccine record.', "Error")
+                        }
+                    });
+
+                    return false;
+                }
+                function saveNominee() {
+
+                    debugger;
+                    var data = {
+                        "id": $("#nomineeId").val(),
+                        "candidateProfileId": data[0].id,
+                        "firstName": $("#nomineeFirstName").val(),
+                        "lastName": $("#nomineeLastName").val(),
+                        "arabicName": $("#arabicName").val(),
+                        "relationship": $("#relationship").val(),
+                        "dob": $("#dob").val(),
+                        "cnic": $("#cnic").val(),
+                        "gender": $("#gender").val()
+                    };
+                    //if (!$("#nomineeFirstName").val()) {
+                    //    alert("First name is mandatory.");
+                    //    $("#nomineeFirstName").setCustomValidity("First name should contian only characters!");
+                    //    return false;
+                    //}
+                    //if (!$("#nomineeLastName").val()) {
+                    //    alert("Last name is mandatory.");
+                    //    $("#nomineeLastName").setCustomValidity("Last name should contian only characters!");
+                    //    return false;
+                    //}
+                    if (!$("#cnic").val()) {
+                        alert("CNIC is mandatory.");
+                        $("#cnic").setCustomValidity("CNIC should be in valid format.!");
+                        return false;
+                    }
+                    if (!$("#dob").val()) {
+                        alert("Date of birth is mandatory.");
+                        $("#dob").setCustomValidity("DOB is mandatory.");
+                        return false;
+                    }
+                    //if (!document.forms['frmNominee'].reportValidity()) {
+                    //    if ($("#nomineeLastName").validity.typeMismatch) {
+                    //        $("#nomineeLastName").setCustomValidity("Last name should contian only characters!");
+                    //    }
+                    //    return false;
+                    //}
+                    $.ajax({
+                        type: "POST",
+                        url: '/CandidateProfile/UpdateNominee',
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            toastr.success('Nominee added successfuly.')
+                            var html = '<tr>' +
+                                '<td style="display:none;">' + this.id + '</td>' +
+                                '<td>' + $('#nomineeFirstName').val() + '</td>' +
+                                '<td>' + $('#nomineeLastName').val() + '</td>' +
+                                '<td>' + $('#arabicName').val() + '</td>' +
+                                '<td>' + $('#relationship').val() + '</td>' +
+                                '<td>' + $('#dob').val() + '</td>' +
+                                '<td>' + $('#cnic').val() + '</td>' +
+                                '<td><a href="#" onclick="showNominee("U",'+this.id+')"><i class="fas fa-edit"></i></a></td>' +
+                                '</tr>';
+                            if ($('#nomineeId').val() == "0") {
+                                $('#nomineeDetail').append(html);
+                            } else {
+                                $("#nomineeRow" + $('#nomineeId').val()).children('td:nth(1)').text($('#nomineeFirstName').val());
+                                $("#nomineeRow" + $('#nomineeId').val()).children('td:nth(2)').text($('#nomineeLastName').val());
+                                $("#nomineeRow" + $('#nomineeId').val()).children('td:nth(3)').text($('#arabicName').val());
+                                $("#nomineeRow" + $('#nomineeId').val()).children('td:nth(4)').text($('#relationship').val());
+                                $("#nomineeRow" + $('#nomineeId').val()).children('td:nth(5)').text($('#dob').val());
+                                $("#nomineeRow" + $('#nomineeId').val()).children('td:nth(6)').text($('#cnic').val());
+                            }
+                        },
+                        error: function () {
+                            toastr.error('while occured while saving nominee.')
+                        }
+                    });
+                    return false;
+                }
+
+                $.each(data[0].passport, function () {
+                    $('#passportDetail').append(
+                        '<tr>' +
+                                '<td style="display:none;">'+ this.id + '</td>' +
+                        '<td style="display:none;">' + $('#passportGivenName').val() + '</td>' +
+                        '<td style="display:none;">' + $('#passportSurname').val() + '</td>' +
+                        '<td style="display:none;">' + $('#passportPlaceOfIssue').val() + '</td>' +
+                        '<td>' + this.passportNo + '</td>' +
+                        '<td>' + this.issueDate + '</td>' +
+                        '<td>' + this.expiryDate + '</td>' +
+                        '<td style="display:none;">' + $('#passportBirthCountry').val() + '</td>' +
+                        '<td style="display:none;">' + $('#passportBirthCity').val() + '</td>' +
+                        '<td><a href="#" onclick="showPassport(' + this.id + ')"><i class="fas fa-edit"></i></a><a href="#" onclick="deletePassport(' + this.id + ')"><i class="fas fa-trash"></i></a></td>' +
+                        '</tr>');
+                });
+                $('#documentUploadFromDialog').click(function () {
+                    uploadFiles(data[0].id);
+                });
+                $.each(data[0].medical, function () {
+                    $('#medicalDetail').append(
+                        '<tr><td style="display:none;">"medicalRow"' + this.id + '</td>' +
+                        //'<td style="display:none;">' + $('#sponserId').val() + '</td>' +
+                        //'<td>' + $('#sponserId option:selected').text() + '</td>' +
+                        '<td>' + this.medicalCenterName + '</td>' +
+                        '<td>' + this.ghccodeNo + '</td>' +
+                        '<td>' + this.gccslipNo + '</td>' +
+                        '<td>' + this.dateExamined + '</td>' +
+                        '<td>' + this.reportExpiryDate + '</td>' +
+                        '<td><a href="#!" id=""  onclick="showMedical(\'U\',' + this.id + ');"><i class="fas fa-edit"></i></a><a href="#" onclick="deleteMedical(' + this.id + ')"><i class="fas fa-trash"></i></a></td>' +
+                        '</tr>');
+                });
+                $.each(data[0].vaccine, function () {
+                    $('#vaccineDetail').append(
+                        '<tr><td style="display:none;">' + this.id + '</td>' +
+                        //'<td style="display:none;">' + $('#sponserId').val() + '</td>' +
+                        //'<td>' + $('#sponserId option:selected').text() + '</td>' +
+                        '<td>' + this.vaccineTypeEntitySetup + '</td>' +
+                        '<td>' + this.vaccineVariantEntitySetup + '</td>' +
+                        '<td>' + this.vaccineDose + '</td>' +
+                        '<td>' + this.vaccineDate + '</td>' +
+                        '<td>' + this.vaccineValidity + '</td>' +
+                        '<td><a href="#!" class="medicalforShow" id="VaccineIdForShow" class="VaccineForShow"  onclick="showVaccine(\'U\',' + this.id + ');"><i class="fas fa-edit"></i></a><a href="#" onclick="deleteVaccine(' + this.id + ')"><i class="fas fa-trash"></i></a></td>' +
+                        '</tr>');
+                });
+                $.each(data[0].nominee, function () {
+                    $('#nomineeDetail').append(
+                        '<tr><td style="display:none;">' + data.id + '</td>' +
+                        '<td>' + this.firstName + '</td>' +
+                        '<td>' + this.lastName + '</td>' +
+                        '<td>' + this.arabicName + '</td>' +
+                        '<td>' + this.relationship + '</td>' +
+                        '<td>' + this.dob + '</td>' +
+                        '<td>' + this.cnic + '</td>'+
+                        '<td><a href="#" class="nomineeforShow" nomineeIdForShow='+this.id+' onclick="showNominee("U",' + this.id+')"><i class="fas fa-edit"></i></a></td></tr>'
+                    );
+                });
+                $(document).on('click', '.nomineeforShow', function () {
+                    Id = $(this).attr('nomineeIdForShow');
+                    showNominee("U", Id);
+                });
+                $(document).on('click', '.medicalforShow', function () {
+                    Id = $(this).attr('medicalIdforShow');
+                    showMedical("U", Id);
+                });
+
+                $('#passsportDetailDialog').click(function () {
+                    showPassport('N', data[0].passport[0].id);
+                });
+                getUserDocument();
+                $('#SaveMedicalDialogBtn').click(function () {
+                    saveMedicalDialog();
+                });
+                candidateProfileIdForSave=data[0].id;
+                function saveMedicalDialog() {
+                    var dataMedical = {
+                        "id": $("#medicalId").val(),
+                        "candidateProfileId": candidateProfileIdForSave,
+                        "sponserId": $("#sponserId").val(),
+                        "medicalCenterName": $("#DialogmedicalCenterName").val(),
+                        "ghccodeNo": $("#ghccodeNo").val(),
+                        "gccslipNo": $("#gccslipNo").val(),
+                        "dateExamined": $("#dateExamined").val(),
+                        "reportExpiryDate": $("#reportExpiryDate").val()
+                    };
+                    if (!$("#dateExamined").val()) {
+                        alert("Date Examined is mandatory.");
+                        return false;
+                    }
+                    if (!$("#reportExpiryDate").val()) {
+                        alert("Expiry Date is mandatory.");
+                        return false;
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: '/CandidateProfile/UpdateMedical',
+                        data: dataMedical,
+                        dataType: "json",
+
+                        success: function (data) {
+                            toastr.success('Medical record saved successfully.', "Alert")
+                            var html = '<tr>' +
+                                '<td style="display:none;">' + data.id + '</td>' +
+                                //'<td style="display:none;">' + $('#sponserId').val() + '</td>' +
+                                //'<td>' + $('#sponserId option:selected').text() + '</td>' +
+                                '<td>' + $('#medicalCenterName').val() + '</td>' +
+                                '<td>' + $('#ghccodeNo').val() + '</td>' +
+                                '<td>' + $('#gccslipNo').val() + '</td>' +
+                                '<td>' + $('#dateExamined').val() + '</td>' +
+                                '<td>' + $('#reportExpiryDate').val() + '</td>' +
+                                '<td><a href="#!"  onclick="ShowDialog(\'U\',' + this.id + ');"><i class="fas fa-edit"></i></a><a href="#" onclick="deleteMedical(' + this.id + ')"><i class="fas fa-trash"></i></a></td>' +
+                                '</tr>';
+                            if ($('#medicalId').val() == "0") {
+                                $('#medicalDetail').append(html);
+                            } else {
+                                //$("#medicalRow" + $('#medicalId').val()).children('td:nth(2)').text($('#sponserId option:selected').text());
+                                $("#medicalRow" + $('#medicalId').val()).children('td:nth(1)').text($('#medicalCenterName').val());
+                                $("#medicalRow" + $('#medicalId').val()).children('td:nth(2)').text($('#ghccodeNo').val());
+                                $("#medicalRow" + $('#medicalId').val()).children('td:nth(3)').text($('#gccslipNo').val());
+                                $("#medicalRow" + $('#medicalId').val()).children('td:nth(4)').text($('#dateExamined').val());
+                                $("#medicalRow" + $('#medicalId').val()).children('td:nth(5)').text($('#reportExpiryDate').val());
+                            }
+                        },
+                        error: function () {
+                            toastr.error('Error occured while saving medical record.', "Error")
+                        }
+                    });
+
+                    return false;
+                }
+                function getUserDocument() {
+                    var cnicA = data[0].cnic;
+                /*var passportA = data[0].passport[0].passportNo;*/
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetUserDocuments", "CandidateDocument")',
+                    data: { "Cnic": cnicA, "passport": null },
+                    dataType: "json",
+                    success: function (dataDoc, status) {
+                        debugger;
+                        //console.log(dataDoc);
+                        //console.log(dataDoc)
+                        var $dropdown = $("#ddlFileType");
+                        $dropdown.find('option')
+                            .remove()
+                            .end()
+                            .append('<option value="-1">Select File Type</option>')
+                            .val('whatever')
+                        $.each(dataDoc.fileType, function () {
+                            $dropdown.append($("<option />").val(this.id).text(this.name));
+                        });
+                        $('#tbdDocumentUploadsDialog').empty();
+
+                        $.each(dataDoc.candidate.candidateDocument, function () {
+                            $('#tbdDocumentUploadsDialog').append(
+                                '<tr id=""> \
+                                <td style = "display:none;"></td > \
+                                <td>'+ this.fileName + '</td> \
+                                <td>'+ this.uploadDate + '</td> \
+                                <td>'+ this.fileTypeEntitySetup.name + '</td> \
+                                <td><a href="#!" onclick="deleteDocument('+ this.id +')" style="margin - right: 5px;" ><i class="fas fa-trash-alt"></i>\
+                                    </a><a href="#!" onclick="downloadFile('+ this.id +')"  style="margin - right: 5px;" ><i class="fas fa-file-download"></i></a>\
+                                    <a href="#!" onclick="downloadFile('+ this.id +')" ><i class="fas fa-eye"></i></a> </td> \
+                            </tr >');
+                        });
+
+
+
+                    },
+                    error: function () { alert('Error'); }
+                });
+                }
+
+               /* $('#passportDetail').append(html);*/
+
+                $('#passsportSaveDialog').click(function () {
+                    savePassport();
+                });
+                $('#VaccinebtnSave').click(function () {
+                    saveVaccineDialog();
+                });
+                $('#btnSaveNomineeModal').click(function () {
+                    saveNomineeDialog();
+                });
+                $('#closeVaccineModal').click(function () {
+                    $('#vaccineModal').modal('hide')
+                });
+                $('#documentUploadFromDialog').click(function () {
+                    uploadFiles(data[0].id);
+                });
+
+                function saveNomineeDialog() {
+
+                    debugger;
+                    var dataNominee = {
+                        "id": $("#nomineeId").val(),
+                        "candidateProfileId": data[0].id,
+                        "firstName": $("#nomineeFirstName").val(),
+                        "lastName": $("#nomineeLastName").val(),
+                        "arabicName": $("#arabicName").val(),
+                        "relationship": $("#relationship").val(),
+                        "dob": $("#dob").val(),
+                        "cnic": $("#cnic").val(),
+                        "gender": $("#gender").val()
+                    };
+                    //if (!$("#nomineeFirstName").val()) {
+                    //    alert("First name is mandatory.");
+                    //    $("#nomineeFirstName").setCustomValidity("First name should contian only characters!");
+                    //    return false;
+                    //}
+                    //if (!$("#nomineeLastName").val()) {
+                    //    alert("Last name is mandatory.");
+                    //    $("#nomineeLastName").setCustomValidity("Last name should contian only characters!");
+                    //    return false;
+                    //}
+                    if (!$("#cnic").val()) {
+                       // alert("CNIC is mandatory.");
+                        $("#cnic").setCustomValidity("CNIC should be in valid format.!");
+                        return false;
+                    }
+                    if (!$("#dob").val()) {
+                        alert("Date of birth is mandatory.");
+                        $("#dob").setCustomValidity("DOB is mandatory.");
+                        return false;
+                    }
+                    //if (!document.forms['frmNominee'].reportValidity()) {
+                    //    if ($("#nomineeLastName").validity.typeMismatch) {
+                    //        $("#nomineeLastName").setCustomValidity("Last name should contian only characters!");
+                    //    }
+                    //    return false;
+                    //}
+                    $.ajax({
+                        type: "POST",
+                        url: '/CandidateProfile/UpdateNominee',
+                        data: dataNominee,
+                        dataType: "json",
+                        success: function (data) {
+                            toastr.success('Nominee added successfuly.')
+                            var html = '<tr>' +
+                                '<td style="display:none;">' + data.id + '</td>' +
+                                '<td>' + $('#nomineeFirstName').val() + '</td>' +
+                                '<td>' + $('#nomineeLastName').val() + '</td>' +
+                                '<td>' + $('#arabicName').val() + '</td>' +
+                                '<td>' + $('#relationship').val() + '</td>' +
+                                '<td>' + $('#dob').val() + '</td>' +
+                                '<td>' + $('#cnic').val() + '</td>' +
+                                '<td><a href="#" onclick="showNominee("U",'+data.id+')"><i class="fas fa-edit"></i></a></td>' +
+                                '</tr>';
+                            if ($('#nomineeId').val() == "0") {
+                                $('#nomineeDetail').append(html);
+                            } else {
+                                $("#nomineeRow" + $('#nomineeId').val()).children('td:nth(1)').text($('#nomineeFirstName').val());
+                                $("#nomineeRow" + $('#nomineeId').val()).children('td:nth(2)').text($('#nomineeLastName').val());
+                                $("#nomineeRow" + $('#nomineeId').val()).children('td:nth(3)').text($('#arabicName').val());
+                                $("#nomineeRow" + $('#nomineeId').val()).children('td:nth(4)').text($('#relationship').val());
+                                $("#nomineeRow" + $('#nomineeId').val()).children('td:nth(5)').text($('#dob').val());
+                                $("#nomineeRow" + $('#nomineeId').val()).children('td:nth(6)').text($('#cnic').val());
+                            }
+                        },
+                        error: function () {
+                            toastr.error('while occured while saving nominee.')
+                        }
+                    });
+                    return false;
+                }
+                function saveVaccineDialog() {
+                    var dataVaccine = {
+                        "id": $("#vaccineId").val(),
+                        "candidateProfileId": data[0].id,
+                        "vaccineType": $("#sponserId").val(),
+                        "vaccineVariant": $("#vaccineCenterName").val(),
+                        "vaccineDose": $("#ghccodeNo").val(),
+                        "vaccineDate": $("#dateExamined").val(),
+                        "vaccineValidity": $("#reportExpiryDate").val()
+                    };
+                    //if (!$("#dateExamined").val()) {
+                    //    alert("Date Examined is mandatory.");
+                    //    return false;
+                    //}
+                    //if (!$("#reportExpiryDate").val()) {
+                    //    alert("Expiry Date is mandatory.");
+                    //    return false;
+                    //}
+                    $.ajax({
+                        type: "POST",
+                        url: '/CandidateProfile/UpdateVaccine',
+                        data: dataVaccine,
+                        dataType: "json",
+
+                        success: function (data) {
+                            toastr.success('vaccine record saved successfully.', "Alert")
+                            var html = '<tr>' +
+                                '<td style="display:none;">' + data.id + '</td>' +
+                                '<td>' + $('#vaccineType').val() + '</td>' +
+                                '<td>' + $('#vaccineVariant').val() + '</td>' +
+                                '<td>' + $('#vaccineDose').val() + '</td>' +
+                                '<td>' + $('#vaccineDate').val() + '</td>' +
+                                '<td>' + $('#vaccineValidity').val() + '</td>' +
+                                '<td><a href="#!"  onclick="ShowDialog(\'U\','+this.id+');"><i class="fas fa-edit"></i></a><a href="#" onclick="deleteVaccine(' + this.id + ')"><i class="fas fa-trash"></i></a></td>' +
+                                '</tr>';
+                            if ($('#vaccineId').val() == "0") {
+                                $('#vaccineDetail').append(html);
+                            } else {
+                                //$("#vaccineRow" + $('#vaccineId').val()).children('td:nth(2)').text($('#sponserId option:selected').text());
+                                $("#vaccineRow" + $('#vaccineId').val()).children('td:nth(1)').text($('#vaccineType').val());
+                                $("#vaccineRow" + $('#vaccineId').val()).children('td:nth(2)').text($('#vaccineVariant').val());
+                                $("#vaccineRow" + $('#vaccineId').val()).children('td:nth(3)').text($('#vaccineDose').val());
+                                $("#vaccineRow" + $('#vaccineId').val()).children('td:nth(4)').text($('#vaccineDate').val());
+                                $("#vaccineRow" + $('#vaccineId').val()).children('td:nth(5)').text($('#vaccineValidity').val());
+                            }
+                        },
+                        error: function () {
+                            toastr.error('Error occured while saving vaccine record.', "Error")
+                        }
+                    });
+
+                    return false;
+                }
+
+                $("#InfoCandidateModal").modal('show');
+
+                //alert(data[0].id);
+                //alert(data[0].firstName);
+                //alert(data[0].fatherName);
+            },
+            error: function (errormsg) {
+                alert(errormsg);
+            }
+
+        });
+        $('#passportDetail').html('');
+        $('#medicalDetail').html('');
+        $('#vaccineDetail').html('');
+        $('#nomineeDetail').html('');
+    }
+
+    $('#passportDialogClosBtn').click(function () {
+        $('#passportModal').modal('hide');
+    });
+    $('#NomineebtnClose').click(function () {
+        $('#nomineeModal').modal('hide');
+    });
+    $('#closeMedicalModal').click(function () {
+        $('#medicalModal').modal('hide');
+    });
+    $('#closeVaccineModal').click(function () {
+        $('#vaccineModal').modal('hide');
+    });
+
+
+    //Passport part
+    function getDateFormat(inputDate) {
+        console.log(inputDate);
+        var day = inputDate.split('/')[0];
+        var month = inputDate.split('/')[1];
+        var year = inputDate.split('/')[2];
+        var monthName = 'Not Working';
+        console.log('Day =>' + day);
+        console.log('Month =>' + month);
+        console.log('Year =>' + year);
+        switch (month) {
+            case '01' || '1':
+                monthName = 'Jan';
+                break;
+            case '02' || '2':
+                monthName = 'Feb';
+                break;
+            case '03' || '3':
+                monthName = 'Mar';
+                break;
+            case '04' || '4':
+                monthName = 'Apr';
+                break;
+            case '05' || '5':
+                monthName = 'May';
+                break;
+            case '06' || '6':
+                monthName = 'Jun';
+                break;
+            case '07' || '7':
+                monthName = 'Jul';
+                break;
+            case '08' || '8':
+                monthName = 'Aug';
+                break;
+            case '09' || '9':
+                monthName = 'Sep';
+                break;
+            case '10':
+                monthName = 'Oct';
+                break;
+            case '11':
+                monthName = 'Nov';
+                break;
+            case '12':
+                monthName = 'Dec';
+                break;
+        }
+        console.log('Final Date : ' + day + '-' + monthName + '-' + year);
+        return day + '-' + monthName + '-' + year;
+    }
+    function showPassport(type, passportRowId) {
+        if (type == "U") {
+            //console.log(type);
+            //console.log(passportRowId);
+            $("#passportId").val($("#" + passportRowId).closest('tr').children('td:nth(0)').text());
+            $("#passportGivenName").val($("#" + passportRowId).closest('tr').children('td:nth(1)').text());
+            $("#passportSurname").val($("#" + passportRowId).closest('tr').children('td:nth(2)').text());
+            $("#passportPlaceOfIssue").val($("#" + passportRowId).closest('tr').children('td:nth(3)').text());
+            $("#passportNumber").val($("#" + passportRowId).closest('tr').children('td:nth(4)').text());
+            //document.getElementById("passportIssueDate").valueAsDate = new Date($("#" + passportRowId).closest('tr').children('td:nth(5)').text());
+            //document.getElementById("passportExpiryDate").valueAsDate = new Date($("#" + passportRowId).closest('tr').children('td:nth(6)').text());
+            $("#passportIssueDate").val(getDateFormat($("#" + passportRowId).closest('tr').children('td:nth(5)').text()));
+            $("#passportExpiryDate").val(getDateFormat($("#" + passportRowId).closest('tr').children('td:nth(6)').text()));
+            //$("#passportExpiryDate").val($("#" + passportRowId).closest('tr').children('td:nth(6)').text());
+            $("#passportBirthCountry").val($("#" + passportRowId).closest('tr').children('td:nth(7)').text());
+            $("#passportBirthCity").val($("#" + passportRowId).closest('tr').children('td:nth(8)').text());
+        }
+        else {
+            $("#passportId").val(0);
+            $("#passportGivenName").val("");
+            $("#passportSurname").val("");
+            $("#passportPlaceOfIssue").val("");
+            $("#passportNumber").val("");
+            $("#passportIssueDate").val("");
+            $("#passportExpiryDate").val("");
+            $("#passportBirthCountry").val(1);
+            $("#passportBirthCity").val(1);
+        }
+        $('#passportModal').modal('show');
+    }
+    function showPassport(passportRowId) {
+            //console.log(type);
+        //console.log(passportRowId);
+            //$("#passportId").val($(passportRowId).closest('tr').children('td:nth(0)').text());
+            //$("#passportGivenName").val($(passportRowId).closest('tr').children('td:nth(1)').text());
+            //$("#passportSurname").val($(passportRowId).closest('tr').children('td:nth(2)').text());
+        //$("#passportPlaceOfIssue").val($("#" + passportRowId).closest('tr').children('td:nth(3)').text());
+            $("#passportNumber").val($(passportRowId).closest('tr').children('td:nth(0)').text());
+            //document.getElementById("passportIssueDate").valueAsDate = new Date($("#" + passportRowId).closest('tr').children('td:nth(5)').text());
+            //document.getElementById("passportExpiryDate").valueAsDate = new Date($("#" + passportRowId).closest('tr').children('td:nth(6)').text());
+            //$("#passportIssueDate").val(getDateFormat($("#" + passportRowId).closest('tr').children('td:nth(5)').text()));
+            //$("#passportExpiryDate").val(getDateFormat($("#" + passportRowId).closest('tr').children('td:nth(6)').text()));
+            //$("#passportExpiryDate").val($("#" + passportRowId).closest('tr').children('td:nth(6)').text());
+            $("#passportBirthCountry").val($("#" + passportRowId).closest('tr').children('td:nth(7)').text());
+            $("#passportBirthCity").val($("#" + passportRowId).closest('tr').children('td:nth(8)').text());
+        $('#passportModal').modal('show');
+    }
+    function deletePassport(passportId) {
+        alert(passportId);
+        var data = { "Id": passportId };
+        if (confirm("Are you sure to delete this passport info?")) {
+            if (!passportId || passportId == "0") {
+                //Remove line from table only.
+                $("#passportRow" + passportId).remove();
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '/CandidateProfile/DeletePassport',
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        toastr.success('passport deleted.')
+                        $("#passportRow" + passportId).remove();
+                    },
+                    error: function () {
+                        toastr.error('while occured while deleting passport.')
+                    }
+                });
+            }
+        }
+
+        return false;
+    }
+
+
+
+    //Medical Part
+    function showMedical(type, button) {
+        if (type == "U") {
+            $("#medicalId").val($(button).closest('tr').children('td:nth(0)').text());
+            //$("#sponserId").val($(button).closest('tr').children('td:nth(1)').text());
+            $("#medicalCenterName").val($(button).closest('tr').children('td:nth(1)').text());
+            $("#ghccodeNo").val($(button).closest('tr').children('td:nth(2)').text()); //change label to slip
+            $("#gccslipNo").val($(button).closest('tr').children('td:nth(3)').text());//hide
+            document.getElementById("dateExamined").valueAsDate = new Date($(button).closest('tr').children('td:nth(4)').text());
+            document.getElementById("reportExpiryDate").valueAsDate = new Date($(button).closest('tr').children('td:nth(5)').text());
+        }
+        else //(type == "N") {
+        {
+            debugger;
+            $("#medicalId").val(0);
+            $("#medicalCenterName").val("")
+            $("#ghccodeNo").val("");
+            $("#gccslipNo").val("");
+            $("#dateExamined").val("");
+            $("#reportExpiryDate").val("")
+        }
+        $('#medicalModal').modal('show');
+    }
+    function deleteMedical(medicalId) {
+        var data = { "Id": medicalId };
+        if (confirm("Are you sure to delete this medical info?")) {
+            if (!medicalId || medicalId == "0") {
+                //Remove line from table only.
+                $("#medicalRow" + medicalId).remove();
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '/CandidateProfile/DeleteMedical',
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        toastr.success('Medical info deleted.')
+                        $("#medicalRow" + medicalId).remove();
+                    },
+                    error: function () {
+                        toastr.error('while occured while deleting medical info.')
+                    }
+                });
+            }
+        }
+        return false;
+    }
+
+
+    //Vaccine Part
+    function showVaccine(type, button) {
+        if (type == "U") {
+            $("#vaccineId").val($(button).closest('tr').children('td:nth(0)').text());
+            $("#vaccineType").val($(button).closest('tr').children('td:nth(1)').text());
+            $("#vaccineVariant").val($(button).closest('tr').children('td:nth(2)').text());
+            $("#vaccineDose").val($(button).closest('tr').children('td:nth(3)').text());
+            document.getElementById("VaccineDate").valueAsDate = new Date($(button).closest('tr').children('td:nth(4)').text());
+            document.getElementById("VaccineValidity").valueAsDate = new Date($(button).closest('tr').children('td:nth(5)').text());
+        }
+        else //(type == "N") {
+        {
+            debugger;
+            $("#vaccineId").val(0);
+            $("#vaccineType").val("0")
+            $("#vaccineVariant").val("0");
+            $("#vaccineDose").val("First");
+            $("#vaccineDate").val("");
+            $("#vaccineValidity").val("");
+        }
+        $('#vaccineModal').modal('show');
+    }
+    function deleteVaccine(vaccineId) {
+        var data = { "Id": vaccineId };
+        if (confirm("Are you sure to delete this vaccine info?")) {
+            if (!vaccineId || vaccineId == "0") {
+                //Remove line from table only.
+                $("#vaccineRow" + vaccineId).remove();
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '/CandidateProfile/DeleteVaccine',
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        toastr.success('vaccine info deleted.')
+                        $("#vaccineRow" + vaccineId).remove();
+                    },
+                    error: function () {
+                        toastr.error('while occured while deleting vaccine info.')
+                    }
+                });
+            }
+        }
+        return false;
+    }
+
+    //Nominee Part
+    function showNominee(type, button) {
+        debugger;
+        if (type == "U") {
+            alert($(button).closest('tr').children('td:nth(0)').text());
+            alert($(button).closest('tr').find('td').eq(3).text());
+            alert($(button).closest('tr').find('td').eq(3).html());
+            alert($(button).closest('tr').find('td').eq(0).html());
+            alert($(button).closest('tr').children('td:nth(0)').text());
+            alert($(button).closest('tr').children('td:nth(0)').text());
+            alert($(button).closest('tr').children('td:nth(0)').text());
+            $("#nomineeId").val($(button).closest('tr').children('td:nth(0)').text());
+            $("#nomineeFirstName").val($(button).closest('tr').children('td:nth(1)').text());
+            $("#nomineeLastName").val($(button).closest('tr').children('td:nth(2)').text());
+            $("#arabicName").val($(button).closest('tr').children('td:nth(3)').text());
+            $("#relationship").val($(button).closest('tr').children('td:nth(4)').text());
+            document.getElementById("dob").valueAsDate = new Date($(button).closest('tr').children('td:nth(5)').text());
+            $("#cnic").val($(button).closest('tr').children('td:nth(6)').text());
+        }
+        else {
+            debugger;
+            $("#nomineeId").val(0);
+            $("#nomineeFirstName").val("")
+            $("#nomineeLastName").val("");
+            $("#arabicName").val("");
+            $("#relationship").val("");
+            $("#dob").val("")
+            $("#cnic").val("")
+            $("#gender").val(1)
+        }
+        $('#nomineeModal').modal('show');
+    }
+
+    //Document Tab
+
+     $(document).ready(function () {
+        let cnic = document.getElementById("Cnic") ? document.getElementById("Cnic").value : null;
+        if (cnic) {
+            document.getElementById("txtCNIC").value = cnic;
+            $("#divCNIC").hide();
+            $("#divSearch").hide();
+            $("#divPassport").hide();
+        }
+       // getUserDocuments();
+
+    });
+    @*function getUserDocuments() {
+        var cnic = document.getElementById("txtCNIC").value;
+        var passport = document.getElementById("txtPassport").value;
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetUserDocuments", "CandidateDocument")',
+            data: { "Cnic": cnic, "passport": passport },
+            dataType: "json",
+            success: function (data, status) {
+                debugger;
+                var $dropdown = $("#ddlFileType");
+                $dropdown.find('option')
+                    .remove()
+                    .end()
+                    .append('<option value="-1">Select File Type</option>')
+                    .val('whatever')
+                $.each(data.fileType, function () {
+                    $dropdown.append($("<option />").val(this.id).text(this.name));
+                });
+                $('#tbdDocumentUploads').empty();
+
+                $.each(data.candidate.candidateDocument, function () {
+                    $('#tbdDocumentUploads').append(
+                        '<tr id=""> \
+                        <td style = "display:none;"></td > \
+                        <td>'+ this.fileName + '</td> \
+                        <td>'+ this.uploadDate + '</td> \
+                        <td>'+ this.fileTypeEntitySetup.name + '</td> \
+                        <td><a href="#!" onclick="deleteDocument('+ this.id +')" style="margin - right: 5px;" ><i class="fas fa-trash-alt"></i>\
+                            </a><a href="#!" onclick="downloadFile('+ this.id +')"  style="margin - right: 5px;" ><i class="fas fa-file-download"></i></a>\
+                            <a href="#!" onclick="downloadFile('+ this.id +')" ><i class="fas fa-eye"></i></a> </td> \
+                    </tr >');
+                });
+
+
+
+            },
+            error: function () { alert('Error'); }
+        });
+    }*@
+    function uploadFiles(inputId) {
+        var cnic = document.getElementById("updatedCnic").value;
+        //alert(cnic);
+        //var passport = document.getElementById("txtPassport").value;
+        var fileType = document.getElementById("ddlFileType").value;
+        if (fileType < 0) {
+            alert("Please Select File Type");
+            return;
+        }
+        var input = document.getElementById(inputId);
+        var files = input.files;
+
+        var formData = new FormData();
+
+        for (var i = 0; i != files.length; i++) {
+            formData.append("files", files[i]);
+        }
+
+        formData.append("cnic", cnic);
+        //formData.append("passport", passport);
+        formData.append("fileType", fileType);
+
+        $.ajax(
+            {
+                url: '@Url.Action("UploadDocuments", "CandidateDocument")',
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: "POST",
+                success: function (data) {
+                    toastr.success('Document uploaded.')
+                    getUserDocument();
+                    clearInputFile(input);
+                },
+                error: function (data) {
+                    alert(data.statusText);
+                }
+            }
+        );
+    }
+    function clearInputFile(f) {
+        if (f.value) {
+            try {
+                f.value = ''; //for IE11, latest Chrome/Firefox/Opera...
+            } catch (err) { }
+            if (f.value) { //for IE5 ~ IE10
+                var form = document.createElement('form'),
+                    parentNode = f.parentNode, ref = f.nextSibling;
+                form.appendChild(f);
+                form.reset();
+                parentNode.insertBefore(f, ref);
+            }
+        }
+    }
+    function deleteDocument(id) {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("DeleteDocument", "CandidateDocument")',
+            data: { "documentId": id },
+            dataType: "json",
+            success: function (data, status) {
+                toastr.success('document deleted.')
+                getUserDocuments();
+            },
+            error: function () { alert('Error'); }
+        });
+    }
+    function downloadFile(id) {
+        window.open('@Url.Action("Download", "CandidateDocument")' + "?documentId=" + id, '_blank');
+    }
+</script>

@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.Models.VisaProcess>
+
+
+@{
+    ViewData["Title"] = "Protector List";
+}
+<div @*style="overflow-y:auto;overflow-x:auto;height:800px;"*@>
+    <h1>Visa Stamping List</h1>
+    <hr />
+    
+    <div class="panel panel-info">
+        <div class="panel-body">
+            <table class="table datatableHideFirstThree" id="tableSelectionList" style="border:2px solid black">
+                <thead>
+                    <tr>
+                        <th style="display:none;" id="tdCandidateSelectionDetailId">CandidateSelectionDetailId</th>
+                        <th style="display:none;" id="tdCandidateSelectionId">CandidateSelectionId</th>
+                        <th style="display:none;" id="tdCandidateProfileId">CandidateProfileId</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Father Name</th>
+                        <th>Passport</th>
+                        <th>CNIC</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tbSelection">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td style="display:none;">@item.CandidateSelectionDetail.Id</td>
+                            <td style="display:none;">@item.CandidateSelectionDetail.CandidateSelectionId</td>
+                            <td style="display:none;">@item.CandidateSelectionDetail.CandidateProfileId</td>
+                            <td>@item.CandidateSelectionDetail.CandidateProfile.FirstName</td>
+                            <td>@item.CandidateSelectionDetail.CandidateProfile.LastName</td>
+                            <td>@item.CandidateSelectionDetail.CandidateProfile.FatherName</td>
+                            <td>@{
+                                @if (@item.CandidateSelectionDetail.CandidateProfile.Passport != null && item.CandidateSelectionDetail.CandidateProfile.Passport.Any())
+                                {
+                                    @item.CandidateSelectionDetail.CandidateProfile.Passport.FirstOrDefault().PassportNo;
+                                }
+                                else
+                                {
+                                    @("N/A")
+                                }
+                                }
+                            </td>
+                            <td>@item.CandidateSelectionDetail.CandidateProfile.Cnic</td>
+                            <td>
+                                <a asp-controller="CandidateSelection" asp-action="Protector" asp-route-candidateSelectionDetailId="@item.CandidateSelectionDetail.Id"><i class="fas fa-umbrella"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}

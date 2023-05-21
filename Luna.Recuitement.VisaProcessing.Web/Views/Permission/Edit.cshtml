@@ -1,0 +1,253 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.PermissionRequest
+
+@{
+    ViewData["Title"] = "Edit Permission";
+}
+
+
+<h1>Edit Permission</h1>
+<hr />
+<form asp-action="Edit">
+    <div class="row">
+        <div class="col-md-6">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="OepvisaDemandId" class="control-label">Visa Number</label>
+                <select asp-for="OepvisaDemandId" class="form-control DDFilter" asp-items="ViewBag.OepvisaDemandId"></select>
+                <span asp-validation-for="OepvisaDemandId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="PermissionNumber" class="control-label">Permission Number</label>
+                <input asp-for="PermissionNumber" id="permissionNumber" class="form-control" />
+                <span asp-validation-for="PermissionNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="ApplyDate" class="control-label">Apply Date</label>
+                <input asp-for="ApplyDate" type="date" class="form-control" />
+                <span asp-validation-for="ApplyDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="ReceivingDate" class="control-label">Receiving Date</label>
+                <input asp-for="ReceivingDate" type="date" class="form-control" />
+                <span asp-validation-for="ReceivingDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="ValidityDate" class="control-label">Expiry Date</label>
+                <input asp-for="ValidityDate" type="date" class="form-control" />
+                <span asp-validation-for="ValidityDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6" style="display:none;">
+            <div class="form-group">
+                <div class="form-group">
+                    <label asp-for="PermissionTypeEntitySetupId" class="control-label">Permission Type</label>
+                    <select asp-for="PermissionTypeEntitySetupId" class="form-control DDFilter" asp-items="ViewBag.PermissionTypeEntitySetupId"></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group col-md-6 float-right">
+                <a asp-action="Index" asp-route-OepvisaDemandId="@Model.OepvisaDemandId" class="btn btn-info">Back to List</a>
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<h3>Add Test Center</h3>
+<div class="row" style="border:2px solid gray">
+    <div class="col-md-6" hidden>
+        <div class="form-group">
+            <label class="control-label">PermissionId</label>
+            <input type="text" id="permissionId" class="form-control" value="@ViewBag.PermsiionTestCenterId" />
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">Test Center</label>
+            <select id="testCenterId" class="form-control DDFilter">
+            </select>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <label>Test Date</label>
+        <input type="date" id="AssignDate" class="form-control" />
+    </div>
+    <div class="form-group col-md-6 float-right">
+        <input type="button" value="Add Test Center" id="btnAddTestCenter" class="btn btn-primary" />
+    </div>
+</div>
+
+<hr />
+<div class="row">
+    <table class="table table-primary" width="100%" id="tblDemandDetail">
+        <thead>
+            <tr>
+                <th hidden>Id</th>
+                <th>Permission Number</th>
+                <th>Test Center Name</th>
+                <th>Test Date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="tbTestCenterDetail">
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        getAssignTestCenter();
+        $("#btnAddTestCenter").click(function () {
+            var permissionId = $('#permissionId').val();
+            var AssignDate = $('#AssignDate').val();
+            var testCenterId = $('#testCenterId option:selected').val();
+            if (!AssignDate) {
+                alert('please enter Test Date');
+                return false;
+            }
+            if (testCenterId==0) {
+                alert('please enter Test Center');
+                return false;
+            }
+            var detail = {
+                "permissionId": permissionId,
+                "TestCenterId": testCenterId,
+                "AssignDate": AssignDate
+            };
+            $.ajax({
+                type: "POST",
+                url: '/TestCenter/AddTestCenter',
+                data: detail,
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    if (data.status == true) {
+                        assignDate = $('#AssignDate').val();
+                        var newDate = formatDate(assignDate);
+                        var html = '<tr>';
+                        var html = html + '<td style="display:none;"/>' + data.lastId+ '</td>';
+                        var html = html + '<td>' + $('#permissionNumber').val() + '</td>';
+                        var html = html + '<td>' + $('#testCenterId option:selected').text() + '</td>';
+                        var html = html + '<td>' + newDate + '</td>';
+                        var html = html + '<td><a href="#!" id="DeletePermissionDetail(' + data.lastId + ')" class="btnDelete" onclick="DeletePermissionDetail(' + data.lastId + ')"> <i class="fas fa-trash" title="Delete"></i></a></td>';
+                        var html = html + '<tr>';
+                        $("#tbTestCenterDetail").append(html);
+
+                        toastr.success('Record saved successfully.', "Alert");
+                    }
+                    else {
+            toastr.error('Record is already present.', "Error");
+                    }
+
+                },
+                error: function () {
+                    toastr.error('Error occured while saving medical record.', "Error");
+                    $("#Quantity").val(totalQty());
+                }
+            });
+        });
+    });
+    function DeletePermissionDetail(id) {
+        if (confirm("Are you sure to delete this row?")) {
+            $("#tblDemandDetail").on('click', '.btnDelete', function () {
+                if (id !== "undefined") {
+                    $.ajax({
+                        type: "POST",
+                        url: '/TestCenter/DeleteAssignTestCenter',
+                        data: { "id": id },
+                        dataType: "json",
+                        success: function (data) {
+                            toastr.success('Record deleted successfully.', "Alert");
+                        },
+                        error: function () {
+                            toastr.error('Error occured while deleting the record.', "Error")
+                        }
+                    });
+                }
+                $(this).closest('tr').remove();
+            });
+        }
+    }
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [day, month, year].join('/');
+    }
+    function getAssignTestCenter() {
+        $.ajax({
+            type: "POST",
+            url: '/TestCenter/GetAssignTestCenter',
+            data: {"id":@ViewBag.PermsiionTestCenterId},
+             dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $.each(data, function (index) {
+                    permissionid = data[index].permissionId;
+                    id = data[index].id;
+                     $.ajax({
+                        type: "POST",
+                         url: '/TestCenter/GetAssignName',
+                         data: { "id": id, "permissionid": permissionid, 'testId': data[index].testCenterId },
+                        dataType: "json",
+                         success: function (data) {
+                             console.log(data);
+                             permissionName = data.permissionNo;
+                             centerName = data.centerName;
+                             assignDate = data.assignDate;
+                             var newDate = formatDate(assignDate);
+                             console.log(newDate);
+                             var html = '<tr>';
+                             var html = html + '<td style="display:none;"/>' + data.permssionId+ '</td>';
+                             var html = html + '<td>' + permissionName + '</td>';
+                             var html = html + '<td>' + centerName + '</td>';
+                             var html = html + '<td>' + newDate + '</td>';
+                             var html = html + '<td><a href="#!" class="btnDelete" onclick="DeletePermissionDetail(' + data.permssionId + ')"> <i class="fas fa-trash" title="Delete"></i></a></td>';
+                             var html = html + '<tr>';
+                             $("#tbTestCenterDetail").append(html);
+                         },
+                         error: function () {
+                            toastr.error('Error occured while saving medical record.', "Error");
+                            $("#Quantity").val(totalQty());
+                         }
+                     });
+
+                })
+             },
+             error: function () {
+                toastr.error('Error occured while saving medical record.', "Error");
+                $("#Quantity").val(totalQty());
+             }
+        });
+    }
+    $.getJSON('/TestCenter/GetTestCenter/', function (data) {
+        $("#testCenterId option").remove();
+        $("#testCenterId").append('<option value=0>--select TestCenter--</option>');
+        $.each(data, function () {
+            $("#testCenterId").append('<option value=' + this.id + '>' + this.name + '</option>');
+        });
+        $("#SponsorIdSelection").val();
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        alert('Error getting test center!');
+    });
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

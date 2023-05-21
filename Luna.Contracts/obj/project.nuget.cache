@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "um/SQ3Q370BPYe14PdILaiAYqreZawxZ5PLu7keuFoxJtzlMtthyrAX730ql04NbDMbo3fyAN20gATd+9/rv8A==",
+  "success": true,
+  "projectFilePath": "D:\\LUNA\\LUNA PROD\\Code\\Luna.Contracts\\Luna.Contracts.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\HP\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\HP\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

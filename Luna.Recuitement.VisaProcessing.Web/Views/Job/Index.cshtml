@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.Models.OepvisaDemandDetail>
+
+@{
+    ViewData["Title"] = "Job";
+}
+
+<h1>Jobs</h1>
+<input type="hidden" id="txtOEPVisaDemandId" value="@ViewBag.OEPVisaDemandId" />
+<p>
+    <a asp-action="Create" class="btn btn-primary" asp-route-OEPVisaDemandId="@ViewBag.OEPVisaDemandId" >Create New</a>
+</p>
+<table class="table applyDataTable">
+    <thead>
+        <tr>
+            <th>Job Title</th>
+            <th>Quantity</th>
+            <th>Min Salary</th>
+            <th>Max Salary</th>
+            <th>Duration</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobTypeEntitySetup.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinSalary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxSalary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => (item.DurationYears.ToString()+" Years, "+ item.DurationYears.ToString()+" Months"))
+            </td>
+
+
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a> |
+                @*<a asp-action="Details" asp-route-id="@item.Id">Details</a> |*@
+                <a asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt"></i></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<div class="col-md-12">
+    <div class="form-group col-md-12 float-left">
+        &nbsp; &nbsp;
+        <a asp-controller="OEPVisaDemand" asp-action="Index" class="btn btn-info float-right">Demand List</a> &nbsp; &nbsp;
+    </div>
+</div>

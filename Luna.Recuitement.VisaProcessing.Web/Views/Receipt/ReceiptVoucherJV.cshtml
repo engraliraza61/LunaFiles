@@ -1,0 +1,30 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.Receipt
+@{
+    ViewData["Title"] = "Receipt,Payment JV";
+}
+
+<h1>Receipt,Payment JV</h1>
+
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link" id="nav-biometric-tab" data-toggle="tab" href="#nav-biometric" role="tab" aria-controls="nav-biometric" aria-selected="false">Payment</a>
+        <a class="nav-item nav-link " id="nav-start-tab" data-toggle="tab" href="#nav-start" role="tab" aria-controls="nav-start" aria-selected="true">Receipt</a>
+        <a class="nav-item nav-link" id="nav-biometricA-tab" data-toggle="tab" href="#nav-biometricA" role="tab" aria-controls="nav-biometricA" aria-selected="false">Journal Voucher</a>
+
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-biometric" role="tabpanel" aria-labelledby="nav-biometric-tab">
+        <partial name="_PaymentViewJv" />
+    </div>
+    <div class="tab-pane fade" id="nav-start" role="tabpanel" aria-labelledby="nav-start-tab">
+        <partial name="_ReceiptViewJv" />
+    </div>
+    <div class="tab-pane fade" id="nav-biometricA" role="tabpanel" aria-labelledby="nav-biometricA-tab">
+        <partial name="_JvViewJv" />
+    </div>
+
+</div>
+
+
+

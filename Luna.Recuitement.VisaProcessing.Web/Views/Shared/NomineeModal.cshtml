@@ -1,0 +1,200 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+<div>
+    <a href="#!" class="btn btn-primary float-right" data-toggle="modal" onclick="showNominee('N', this);">Add</a>
+    <div class="modal fade" id="nomineeModal" tabindex="-1" role="dialog" aria-labelledby="nomineeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nominee Detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="frmNominee">
+                        <div class="form-row">
+                            <div class="form-group col-md-6" style="display:none;">
+                                <label>Id</label>
+                                <input type="hidden" id="nomineeId" class="form-control" />
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>First Name</label>
+                                <input type="text" id="nomineeFirstName" max="25" required class="form-control" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Last Name</label>
+                                <input type="text" id="nomineeLastName" max="25" required class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Arabic Name</label>
+                                <input type="text" id="arabicName" class="form-control ArabicEntry" dir="rtl" lang="ar">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Relationship</label>
+                                <select id="relationship" class="form-control ">
+                                    <option value="1" selected>Spouse</option>
+                                    <option value="2">Father</option>
+                                    <option value="3">Mother</option>
+                                    <option value="4">Brother</option>
+                                    <option value="5">Sister</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Date Of Birth</label>
+                                <input type="date" id="dob" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>CNIC</label>
+                                <input type="text" id="cnic" class="form-control" pattern="^\d{5}-\d{7}-\d{1}$" required autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Gender</label>
+                                <select id="gender" class="form-control DDFilter">
+                                    <option value="1" selected>Male</option>
+                                    <option value="2">Female</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="NomineebtnClose">Close</button>
+                    <button type="button" class="btn btn-success" id="btnSaveNomineeModal" onclick="saveNominee()">Save</button>
+                </div>
+                <div id="show_stored_data">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th style="display:none;">Record Id (PK)</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Arabic Name</th>
+            <th>Relationship</th>
+            <th>DOB</th>
+            <th>CNIC</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="nomineeDetail">
+    </tbody>
+</table>
+<script type="text/javascript">
+        //function showNominee(type, button) {
+        //    debugger;
+        //    if (type == "U") {
+        //        $("#nomineeId").val($(button).closest('tr').children('td:nth(0)').text());
+        //        $("#nomineeFirstName").val($(button).closest('tr').children('td:nth(1)').text());
+        //        $("#nomineeLastName").val($(button).closest('tr').children('td:nth(2)').text());
+        //        $("#arabicName").val($(button).closest('tr').children('td:nth(3)').text());
+        //        $("#relationship").val($(button).closest('tr').children('td:nth(4)').text());
+        //        document.getElementById("dob").valueAsDate = new Date($(button).closest('tr').children('td:nth(5)').text());
+        //        $("#cnic").val($(button).closest('tr').children('td:nth(6)').text());
+        //    }
+        //    else  {
+        //        debugger;
+        //        $("#nomineeId").val(0);
+        //        $("#nomineeFirstName").val("")
+        //        $("#nomineeLastName").val("");
+        //        $("#arabicName").val("");
+        //        $("#relationship").val("");
+        //        $("#dob").val("")
+        //        $("#cnic").val("")
+        //        $("#gender").val(1)
+        //    }
+        //    $('#nomineeModal').modal('show');
+        //}
+        //function saveNominee() {
+
+        //    debugger;
+        //    var data = {
+        //        "id": $("#nomineeId").val(),
+        //        "candidateProfileId": $('.pkid').val(),
+        //        "firstName": $("#nomineeFirstName").val(),
+        //        "lastName": $("#nomineeLastName").val(),
+        //        "arabicName": $("#arabicName").val(),
+        //        "relationship": $("#relationship").val(),
+        //        "dob": $("#dob").val(),
+        //        "cnic": $("#cnic").val(),
+        //        "gender": $("#gender").val()
+        //    };
+        //    //if (!$("#nomineeFirstName").val()) {
+        //    //    alert("First name is mandatory.");
+        //    //    $("#nomineeFirstName").setCustomValidity("First name should contian only characters!");
+        //    //    return false;
+        //    //}
+        //    //if (!$("#nomineeLastName").val()) {
+        //    //    alert("Last name is mandatory.");
+        //    //    $("#nomineeLastName").setCustomValidity("Last name should contian only characters!");
+        //    //    return false;
+        //    //}
+        //    if (!$("#cnic").val()) {
+        //        alert("CNIC is mandatory.");
+        //        $("#cnic").setCustomValidity("CNIC should be in valid format.!");
+        //        return false;
+        //    }
+        //    if (!$("#dob").val()) {
+        //        alert("Date of birth is mandatory.");
+        //        $("#dob").setCustomValidity("DOB is mandatory.");
+        //        return false;
+        //    }
+        //    //if (!document.forms['frmNominee'].reportValidity()) {
+        //    //    if ($("#nomineeLastName").validity.typeMismatch) {
+        //    //        $("#nomineeLastName").setCustomValidity("Last name should contian only characters!");
+        //    //    }
+        //    //    return false;
+        //    //}
+        //    $.ajax({
+        //        type: "POST",
+        //        url: '/CandidateProfile/UpdateNominee',
+        //        data: data,
+        //        dataType: "json",
+        //        success: function (data) {
+        //            toastr.success('Nominee added successfuly.')
+        //            var html = '<tr>' +
+        //                '<td style="display:none;">' + data.id + '</td>' +
+        //                '<td>' + $('#nomineeFirstName').val() + '</td>' +
+        //                '<td>' + $('#nomineeLastName').val() + '</td>' +
+        //                '<td>' + $('#arabicName').val() + '</td>' +
+        //                '<td>' + $('#relationship').val() + '</td>' +
+        //                '<td>' + $('#dob').val() + '</td>' +
+        //                '<td>' + $('#cnic').val() + '</td>' +
+        //                '<td><a href="#" onclick="showNominee("U",this)"><i class="fas fa-edit"></i></a></td>' +
+        //                '</tr>';
+        //            if ($('#nomineeId').val() == "0")
+        //            {
+        //                $('#nomineeDetail').append(html);
+        //            } else {
+        //                $("#nomineeRow" + $('#nomineeId').val()).children('td:nth(1)').text($('#nomineeFirstName').val());
+        //                $("#nomineeRow" + $('#nomineeId').val()).children('td:nth(2)').text($('#nomineeLastName').val());
+        //                $("#nomineeRow" + $('#nomineeId').val()).children('td:nth(3)').text($('#arabicName').val());
+        //                $("#nomineeRow" + $('#nomineeId').val()).children('td:nth(4)').text($('#relationship').val());
+        //                $("#nomineeRow" + $('#nomineeId').val()).children('td:nth(5)').text($('#dob').val());
+        //                $("#nomineeRow" + $('#nomineeId').val()).children('td:nth(6)').text($('#cnic').val());                }
+        //        },
+        //        error: function () {
+        //            toastr.error('while occured while saving nominee.')
+        //        }
+        //    });
+        //    return false;
+        //}
+    </script>
+

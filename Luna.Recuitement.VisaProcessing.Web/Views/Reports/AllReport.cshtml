@@ -1,0 +1,200 @@
+﻿@using Luna.Recruitment.VisaProcessing.Data.DTO
+@model IEnumerable<ReportDto>
+
+@{
+    //ViewBag.Title = "Home Page";
+    //Layout = null;
+    //Int64 newcustID = 0;
+    //Int64 newprodID = 0;
+}
+
+
+<table class="table table-responsive-md applyDataTableWithExport" id="datatable">
+    <thead>
+        <tr>
+            <th>File Number</th>
+            <th>Name</th>
+            <th>Passport</th>
+            <th>Trade</th>
+            <th>ENumber</th>
+            <th>ENumber Date</th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody class="tbody" id="tblbody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="FileNumber">
+                    <span>@item.FileNumber</span>
+                    <input type="text" value="@item.FileNumber" style="display:none" />
+                </td>
+                <td class="Name">
+                    <span>@item.Name</span>
+                    <input type="text" value="@item.Name" style="display:none" />
+                </td>
+                <td class="Passport">
+                    <span>@item.Passport</span>
+                    <input type="text" value="@item.Passport" style="display:none" />
+                </td>
+                <td class="Trade">
+                    <span>@item.Trade</span>
+                    <input type="text" value="@item.Trade" style="display:none" />
+                </td>
+                <td class="ENumber">
+                    <span>@item.ENumber</span>
+                    <input type="text" value="@item.ENumber" style="display:none" />
+                </td>
+                <td class="ENumberDate">
+                    <span>@item.ENumberDate</span>
+                    <input type="date" value="@item.ENumberDate" style="display:none" />
+                </td>
+                <td>
+                    <a class="btnEdit" href="javascript:;">Edit</a>
+                    <a class="btnUpdate" href="javascript:;" style="display:none">Update</a>
+                    <a class="btnCancel" href="javascript:;" style="display:none">Cancel</a>
+                    <a class="btnDelete" href="javascript:;">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    function AppendRowAfterInsertRecord(row, name, Name, Passport, Trade, ENumberDate) {
+
+        //Bind Name.
+        $(".FileNumber", row).find("span").html(name);
+        $(".FileNumber", row).find("input").val(name);
+
+        //Bind Country.
+        $(".Name", row).find("span").html(Name);
+        $(".Name", row).find("input").val(Name);
+
+        //Bind Country.
+        $(".Passport", row).find("span").html(Passport);
+        $(".Passport", row).find("input").val(Passport);
+
+        //Bind Country.
+        $(".Trade", row).find("span").html(Trade);
+        $(".Trade", row).find("input").val(Trade);
+
+        //Bind Country.
+        $(".ENumber", row).find("span").html(ENumber);
+        $(".ENumber", row).find("input").val(ENumber);
+
+        //Bind Country.
+        $(".ENumberDate", row).find("span").html(ENumberDate);
+        $(".ENumberDate", row).find("input").val(ENumberDate);
+        debugger;
+        row.find(".btnEdit").show();
+        row.find(".btnDelete").show();
+        $("#datatable").append(row);
+    };
+
+    //Edit event handler.
+    $("body").on("click", "#datatable .btnEdit", function () {
+        //debugger;
+        var row = $(this).closest("tr");
+        $("td", row).each(function () {
+            if ($(this).find("input").length > 0) {
+                $(this).find("input").show();
+                $(this).find("span").hide();
+            }
+        });
+        row.find(".btnUpdate").show();
+        row.find(".btnCancel").show();
+        row.find(".btnDelete").hide();
+        $(this).hide();
+    });
+
+    //Update event handler.
+    $("body").on("click", "#datatable .btnUpdate", function () {
+        var row = $(this).closest("tr");
+        $("td", row).each(function () {
+            if ($(this).find("input").length > 0) {
+                var span = $(this).find("span");
+                var input = $(this).find("input");
+                span.html(input.val());
+                span.show();
+                input.hide();
+            }
+        });
+        row.find(".btnEdit").show();
+        row.find(".btnDelete").show();
+        row.find(".btnCancel").hide();
+        $(this).hide();
+
+        var patientObj = {
+            FileNumber: row.find(".FileNumber").find("span").html(),
+            Name: row.find(".Name").find("span").html(),
+            Passport: row.find(".Passport").find("span").html(),
+            Trade: row.find(".Trade").find("span").html(),
+            ENumber: row.find(".ENumber").find("span").html(),
+            ENumberDate: row.find(".ENumberDate").find("span").html(),
+        };
+        if (!patientObj.FileNumber || patientObj.FileNumber <= 0) {
+            alert("Invalid Id!");
+            return false;
+        }
+        $.ajax({
+            url: "/Reports/UpdateProcessing",
+            data: JSON.stringify(patientObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                ClearAllInput();
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    });
+
+    //Cancel event handler.
+    $("body").on("click", "#datatable .btnCancel", function () {
+        var row = $(this).closest("tr");
+        $("td", row).each(function () {
+            if ($(this).find("input").length > 0) {
+                var span = $(this).find("span");
+                var input = $(this).find("input");
+                input.val(span.html());
+                span.show();
+                input.hide();
+            }
+        });
+        row.find(".btnEdit").show();
+        row.find(".btnDelete").show();
+        row.find(".btnUpdate").hide();
+        $(this).hide();
+    });
+
+    //Delete event handler.
+    $("body").on("click", "#datatable .btnDelete", function () {
+        if (confirm("Do you want to delete this row?")) {
+            var row = $(this).closest("tr");
+            var FileNumber = row.find("span").html();
+            $.ajax({
+                url: "/Reports/DeletePatient?FileNumber=" + FileNumber,
+                type: "POST",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (response) {
+                    if ($("#datatable tr").length > 2) {
+                        row.remove();
+                    } else {
+                        row.find(".btnEdit").hide();
+                        row.find(".btnDelete").hide();
+                        row.find("span").html(' ');
+                    }
+                }
+            });
+        }
+    });
+</script>

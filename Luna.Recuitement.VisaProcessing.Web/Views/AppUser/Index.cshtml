@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.Models.AspNetUsers>
+
+@{
+    ViewData["Title"] = "Application Users";
+}
+
+<h1>Application Users</h1>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>UserName</th>
+            <th>Email</th>
+            <th>PhoneNumber</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+            <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+            <td>@Html.DisplayFor(modelItem => item.AspNetUserRoles.FirstOrDefault().Role.Name)</td>
+            <td>
+                @if (item.Status == false)
+                {
+                    <span class="badge badge-secondary">Deactive</span>
+                }
+                else
+                {
+                    <span class="badge badge-secondary">Active</span>
+                }
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id"><i style="font-size:20px" class="fa">&#xf044;</i></a> |
+                <a asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash"></i></a>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    </button>
+                    <div class="dropdown-menu shadow animated--grow-in">
+                        <a style='margin-right:16px' asp-controller="RolePermission" asp-action="Index" asp-route-userId="@item.Id" class="dropdown-item">
+                            <i class="fas fa-wrench"></i> Manage Permissions
+                        </a>
+                    </div>
+                </div>
+                <br />
+                @if (item.Status == false)
+                {
+                    <a href="#" class="activeUser">Activate</a>
+                }
+                else
+                {
+                    <a href="#" class="activeUser">Deactivate</a>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $('.activeUser').click(function () {
+            var updateRow = $(this).closest('tr');
+            var Email = $(updateRow).find('td').eq(1).html();
+            var active = $(this).text();
+            $.ajax({
+                type: "POST",
+                url: '/AppUser/activateUser',
+                data: { "email": Email, "active": active },
+                dataType: "json",
+                success: function (data) {
+                    window.location.href="/AppUser/"
+                },
+                error: function (errormsg) {
+                    prompt("", JSON.stringify(errormsg))
+                }
+            });
+        });
+    });
+</script>

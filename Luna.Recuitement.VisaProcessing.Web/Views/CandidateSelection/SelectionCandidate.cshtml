@@ -1,0 +1,342 @@
+@model Luna.Recruitment.VisaProcessing.Data.Models.SelectionAddCandidateMaster
+@{
+    ViewData["Title"] = "Selection Candidate";
+}
+
+<h1>SelectionCandidate</h1>
+<form asp-action="CreateSelectionCandidate" enctype="multipart/form-data" method="post" asp-controller="CandidateSelection" id="selectionCandidateIda">
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="SponserId" class="control-label">Selection For</label>
+                <select asp-for="SponserId" id="SponsorId" name="SponserId" class="form-control DDFilter" asp-items="ViewBag.SponserId"></select>
+                <span asp-validation-for="SponserId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="SelectionGroup" class="control-label">Selection Group</label>
+                <select asp-for="SelectionGroup" id="SelectionGroup" name="SelectionGroup" class="form-control DDFilter" asp-items="ViewBag.SelectionGroup"></select>
+                <span asp-validation-for="SelectionGroup" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="DateOfInterview" class="control-label">Date Of Interview</label>
+                <input asp-for="DateOfInterview" required type="date" name="DateOfInterview" class="form-control" />
+                <span asp-validation-for="SelectionGroup" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="PlaceOfInterview" class="control-label">Place Of Interview</label>
+                <input asp-for="PlaceOfInterview" required name="PlaceOfInterview" class="form-control" />
+                <span asp-validation-for="SelectionGroup" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="ListFile" class="control-label">List File</label>
+                <input type="file" name="File" id="listFiles" class="form-control" />
+                <span asp-validation-for="SelectionGroup" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="DateOfUploading" class="control-label">Date Of Uploading</label>
+                <input asp-for="DateOfUploading" required name="DateOfUploading" type="date" class="form-control" />
+                <span asp-validation-for="SelectionGroup" class="text-danger"></span>
+            </div>
+        </div>
+        @*<div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Batch Number</label>
+                <select required name="SelectionBatchNumber" id="selectionBatchNumber" type="date" class="form-control DDFilter" />
+            </div>
+        </div>*@
+        <div class="col-md-6">
+            <div class="form-group col-md-12 float-right">
+                <a asp-action="Index" class="btn btn-info">Back to List</a>
+                <input type="submit" value="Upload" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+<div class="row" hidden>
+    <div class="col-md-6">
+        <form asp-action="BulkSelectionInsert" asp-controller="Reports" id="AddToCandidateId">
+            <div class="row">
+                <div class="col-md-6" hidden>
+                    <label>Batch Number</label> 
+                    <input value="@ViewBag.BatchNumber" name="AddToCandidateBulkSelection"/>
+                </div>
+
+                @*<div class="col-md-6">
+                    <label>Selection Name</label>
+                    <select id="SponsorIdA" name="selectionToCandidate" class="form-control DDFilter"></select>
+                </div>*@
+                <input type="text" name="selectionToCandidate" hidden id="selectionIdforCandidate" value="@ViewBag.SponsorSelectionId" />
+
+                <input type="submit" value="Add To Candidate" class="btn btn-info" id="BulkSelectionInsert" />
+            </div>
+            
+        </form>
+    </div>      
+</div>
+<br/>
+<div class="row">
+    <div class="col-md-6">
+        @ViewBag.SponsorSelectionId
+        <form asp-action="GetSelectionCandidateByBatchNumber" asp-controller="CandidateSelection" id="AddToCandidateId">
+            @*<div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Batch Number</label>
+                        <select required name="SelectionBatchNumber" id="selectionBatchNumberA" type="date" class="form-control DDFilter" />
+                    </div>
+                </div>*@
+            <select name="batchNumber" class="form-control DDFilter" id="AddToCandidateBulkSelectionA"></select><br />
+            <input type="submit" value="Get Selection" class="btn btn-info" id="BulkSelectionInsert" />
+        </form>
+    </div>
+</div>
+
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Selection List</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table datatableHideFirstOnly" id="tableSelectionList" style="border:2px solid black">
+            <thead>
+                <tr>
+                    <th>Batch Number</th>
+                    <th>Batch Number</th>
+                    <th>Name</th>
+                    <th>Name</th>
+                    <th>Father Name</th>
+                    <th>Marital Status</th>
+                    <th>Gender</th>
+                    <th>Cnic Number</th>
+                    <th>Cnic Issue Date</th>
+                    <th>Expiry Date</th>
+                    <th>Date Of Birth</th>
+                    <th>Birth Country</th>
+                    <th>Parmanent Address</th>
+                    <th>Current Address</th>
+                    <th>Religion</th>
+                    <th>Cell No</th>
+                    <th>Passport No</th>
+                    <th>Passport Issue Date</th>
+                    <th>Passport Expiry Date</th>
+                    <th>Selection Trade</th>
+                    <th>Food</th>
+                    <th>Salary</th>
+                    <th>Contract Duration Type</th>
+                    <th>Contract Duration</th>
+                    <th>Reference</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="tbCandidateList">
+                @foreach (var item in (List<Luna.Recruitment.VisaProcessing.Data.Models.CandidateBulkSelection>)ViewBag.candidateBulk)
+                {
+                    <tr>
+                        <td>@item.BatchNumber</td>
+                        <td>@item.BatchNumber</td>
+                        <td>@item.CandidateName</td>
+                        <td>@item.CandidateName</td>
+                        <td>@item.FatherName</td>
+                        <td>@item.MaritalStatus</td>
+                        <td>@item.Gender</td>
+                        <td>@item.CnicNumber</td>
+                        <td>@item.CnicIssueDate</td>
+                        <td>@item.ExpiryDate</td>
+                        <td>@item.DateOfBirth</td>
+                        <td>@item.BirthCountry</td>
+                        <td>@item.PermanentAddress</td>
+                        <td>@item.CurrentAddress</td>
+                        <td>@item.Religion</td>
+                        <td>@item.CellNo</td>
+                        <td>@item.PassportNo</td>
+                        <td>@item.PassportIssueDate</td>
+                        <td>@item.passportExpiryDate</td>
+                        <td>@item.SelectionTrade</td>
+                        <td>@item.Food</td>
+                        <td>@item.Salary</td>
+                        <td>@item.ContrctDurationType</td>
+                        <td>@item.ContrctDuration</td>
+                        <td>@item.Reference</td>
+                        <td>@item.Status</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="BulkSelectionInsert" asp-controller="Reports" id="AddToCandidateId">
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Batch Number</label>
+                    @*<input value="@ViewBag.BatchNumber" name="AddToCandidateBulkSelection" />*@
+                    <select name="AddToCandidateBulkSelection" id="AddToCandidateBulkSelection" class="form-control DDFilter"></select>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Selection Name</label>
+                    <select id="SponsorIdA" name="SponsorIdA" class="form-control DDFilter"></select>
+                </div>
+                <div class="col-md-6">
+                    <label>Selection Group</label>
+                    <select id="SelectionGroupA" name="SelectionGroupA" class="form-control DDFilter"></select>
+                </div>
+                <div class="col-md-6">
+
+                </div>
+                <span>&nbsp;</span>
+                <div class="col-md-6">
+                        <input type="submit" value="Add To Candidate" class="btn btn-info" id="BulkSelectionInsert" />
+                </div>
+                @*<input type="text" name="selectionToCandidate" id="selectionIdforCandidate" value="@ViewBag.SponsorSelectionId" />*@
+                
+
+            </div>
+
+        </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#selectionIdforCandidate').val(@ViewBag.SponsorSelectionId);
+        $.getJSON('/CandidateSelection/GetSelectionForBulkAdd/', function (data) {
+            $("#AddToCandidateBulkSelection option").remove();
+            $("#AddToCandidateBulkSelection").append('<option value=0>--select Selection--</option>');
+            var arr = [];
+         
+            $.each(data, function () {
+                arr.push(this.batchNumber);
+            });
+            var unique = arr.filter((v, i, a) => a.indexOf(v) === i);
+            $.each(unique, function (dataa,value) {
+                console.log(value);
+                $("#AddToCandidateBulkSelection").append('<option value=' + value + '>' + value + '</option>');
+            });
+           
+            $("#SponsorIdSelection").val();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting Medical center!');
+        });
+
+        $.getJSON('/CandidateSelection/GetSelectionForBulkAdd/', function (data) {
+            $("#AddToCandidateBulkSelectionA option").remove();
+            $("#AddToCandidateBulkSelectionA").append('<option value=0>--select Selection--</option>');
+            var arr = [];
+         
+            $.each(data, function () {
+                arr.push(this.batchNumber);
+            });
+            var unique = arr.filter((v, i, a) => a.indexOf(v) === i);
+            $.each(unique, function (dataa,value) {
+                console.log(value);
+                $("#AddToCandidateBulkSelectionA").append('<option value=' + value + '>' + value + '</option>');
+            });
+           
+            $("#SponsorIdSelection").val();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting Medical center!');
+        });
+    });
+    $("#selectionCandidateIda").submit(function () {
+        var fileType = $('#listFiles').val().split('.').pop();
+        if (fileType != 'xlsx') {
+            alert('Please select excel file');
+            return false;
+        }
+        if ($('#SponsorId').val() == 0) {
+            alert('Please select Selection');
+            return false;
+        }
+        var selectionId = $('#SponsorIdSelection').val();
+        $('#selectionIdforCandidate').val(selectionId);
+    });
+    $.getJSON('/CandidateSelection/GetSelection/', function (data) {
+        $("#SponsorId option").remove();
+        $("#SponsorId").append('<option value=0>--select Selection--</option>');
+        $.each(data, function () {
+            $("#SponsorId").append('<option value=' + this.id + '>' + this.companyShortName + '</option>');
+        });
+        $("#SponsorIdSelection").val();
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        alert('Error getting Medical center!');
+    });
+    $.getJSON('/CandidateSelection/GetSelection/', function (data) {
+        $("#SponsorIdA option").remove();
+        $("#SponsorIdA").append('<option value=0>--select Selection--</option>');
+        $.each(data, function () {
+            $("#SponsorIdA").append('<option value=' + this.id + '>' + this.companyShortName + '</option>');
+        });
+        $("#SponsorIdSelection").val();
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        alert('Error getting Medical center!');
+    });
+    $.getJSON('/CandidateSelection/GetSelectionForBulkAdd/', function (data) {
+        $("#AddToCandidateBulkSelection option").remove();
+        $("#AddToCandidateBulkSelection").append('<option value=0>--select Selection--</option>');
+        $.each(data, function () {
+            $("#AddToCandidateBulkSelection").append('<option value=' + this.id + '>' + this.companyShortName + '</option>');
+        });
+        $("#SponsorIdSelection").val();
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        alert('Error getting Medical center!');
+    });
+    $.getJSON('/CandidateSelection/GetBatchNumber/', function (data) {
+        $("#selectionBatchNumber option").remove();
+        $("#selectionBatchNumber").append('<option value=0>--select BatchNumber--</option>');
+        $.each(data, function () {
+            $("#selectionBatchNumber").append('<option value=' + this.id + '>' + this.batchNumber + '</option>');
+            $("#selectionBatchNumberA").append('<option value=' + this.id + '>' + this.batchNumber + '</option>');
+        });
+        $("#SponsorIdSelection").val();
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        alert('Error getting Medical center!');
+    });
+    
+    $('#SponsorId').change(function () {
+        //$('#PlaceOfBirthCountryId option').remove(); // Clear State Dropdown
+        $('#SelectionGroup option').remove();  // Clear City Dropdown
+        $('#SelectionGroup').append('<option value=""> Loading . . . </option>'); // Add Default Value to City Dropdown
+        $.getJSON('/CandidateSelection/GetSelectionGroup', { sponsorId: $('#SponsorId').val() }, function (data) {
+            console.log(data);
+            $('#SelectionGroup option').remove();  // Clear City Dropdown
+            $('#SelectionGroup').append('<option value="">-- Select Group --</option>'); // Add Default Value to City Dropdown
+            $.each(data, function () {
+                console.log(data);
+                $("#SelectionGroup").append('<option value=' + this.id + '>' + this.selectionGroup + '</option>');
+            });
+                    @*$('#PlaceOfBirthCityId').val(@Model.PlaceOfBirthCityId);*@
+
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting cities!');
+        });
+    });
+    $('#SponsorIdA').change(function () {
+        //$('#PlaceOfBirthCountryId option').remove(); // Clear State Dropdown
+        $('#SelectionGroupA option').remove();  // Clear City Dropdown
+        $('#SelectionGroupA').append('<option value=""> Loading . . . </option>'); // Add Default Value to City Dropdown
+        $.getJSON('/CandidateSelection/GetSelectionGroup', { sponsorId: $('#SponsorIdA').val() }, function (data) {
+            console.log(data);
+            $('#SelectionGroupA option').remove();  // Clear City Dropdown
+            $('#SelectionGroupA').append('<option value="">-- Select Group --</option>'); // Add Default Value to City Dropdown
+            $.each(data, function () {
+                console.log(data);
+                $("#SelectionGroupA").append('<option value=' + this.id + '>' + this.selectionGroup + '</option>');
+            });
+            @* $('#PlaceOfBirthCityId').val(@Model.PlaceOfBirthCityId);*@
+
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error getting cities!');
+            });
+    });
+</script>

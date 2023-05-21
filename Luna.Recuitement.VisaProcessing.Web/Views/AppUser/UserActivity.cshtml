@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.Models.UserActivity>
+
+@{
+    ViewData["Title"] = "User Activity";
+}
+
+<h1>User Activity</h1>
+<form asp-action="UserActivity" asp-controller="AppUser">
+    <div class="col-md-6">
+        <span>
+            UserName
+        </span>
+        <select class="form-control" id="getUserActivity" name="email">
+            
+        </select>
+    </div>
+    <button class="btn btn-outline-primary" type="submit">Submit</button>
+</form>
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th>Url</th>
+            <th>Data</th>
+            <th>UserName</th>
+            <th>ActivityDate</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Url)</td>
+                <td><textarea style="width:100%">@Html.DisplayFor(modelItem => item.Data)</textarea></td>
+                <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                <td>@Html.DisplayFor(modelItem => item.ActivityDate)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $.getJSON('/AppUser/getUserName/', function (data) {
+            $.each(data, function () {
+                console.log(this.userName);
+                $("#getUserActivity").append('<option value=' + this.userName + '>' + this.userName + '</option>');
+            });
+            $("#getUserActivity").val();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting FileNo!');
+        });
+    });
+</script>

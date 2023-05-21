@@ -1,0 +1,338 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.CandidateProfile
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="true">Basic Info</a>
+        <a class="nav-item nav-link" id="nav-passport-tab" data-toggle="tab" href="#nav-passport" role="tab" aria-controls="nav-passport" aria-selected="false">Passport</a>
+        <a class="nav-item nav-link" id="nav-medical-tab" data-toggle="tab" href="#nav-medical" role="tab" aria-controls="nav-medical" aria-selected="false">Medical</a>
+        <a class="nav-item nav-link" id="nav-vaccine-tab" data-toggle="tab" href="#nav-vaccine" role="tab" aria-controls="nav-vaccine" aria-selected="false">Vaccination</a>
+        @*<a class="nav-item nav-link" id="nav-dependent-tab" data-toggle="tab" href="#nav-dependents" role="tab" aria-controls="nav-dependent" aria-selected="false">Dependents</a>
+        <a class="nav-item nav-link" id="nav-mehrum-tab" data-toggle="tab" href="#nav-mehrum" role="tab" aria-controls="nav-mehrum" aria-selected="false">Mehrum</a>*@
+        <a class="nav-item nav-link" id="nav-nominee-tab" data-toggle="tab" href="#nav-nominee" role="tab" aria-controls="nav-nominee" aria-selected="false">Nominee</a>
+        <a class="nav-item nav-link" id="nav-document-tab" data-toggle="tab" href="#nav-document" role="tab" aria-controls="nav-document" aria-selected="false">Documents</a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <partial name="_profileInfo" model="@Model" />
+    </div>
+    <div class="tab-pane fade" id="nav-passport" role="tabpanel" aria-labelledby="nav-passport-tab">
+        <partial name="_passportInfo" model="@Model.Passport" />
+    </div>
+    @*<div class="tab-pane fade" id="nav-dependents" role="tabpanel" aria-labelledby="nav-dependent-tab">
+            <partial name="_dependentInfo" model="@Model.Dependent" />
+        </div>*@
+    <div class="tab-pane fade" id="nav-medical" role="tabpanel" aria-labelledby="nav-medical-tab">
+        <partial name="_medical" model="@Model.Medical" />
+    </div>
+    <div class="tab-pane fade" id="nav-vaccine" role="tabpanel" aria-labelledby="nav-vaccine-tab">
+        <partial name="_vaccine" model="@Model.Vaccine" />
+    </div>
+    <div class="tab-pane fade" id="nav-nominee" role="tabpanel" aria-labelledby="nav-nominee-tab">
+        <partial name="_nomineeInfo" model="@Model.Nominee" />
+    </div>
+    <div class="tab-pane fade" id="nav-document" role="tabpanel" aria-labelledby="nav-document-tab">
+        <partial name="_documentUpload" />
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $.getJSON('/CandidateProfile/GetMedicalCenters/', function (data) {
+            $('#medicalCenterName option').remove();
+            $('#medicalCenterName').append('<option value="0">-- Select Medical Center --</option>');
+            $.each(data, function () {
+                console.log(this);
+                console.log(this.name);
+                console.log(this.ghcCode);
+                $('#medicalCenterName').append("<option value='" + this.id + "'>" + this.name + "   |   " + this.city + "</option>");
+            });
+            //$('#passportBirthCity').val();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting medical centers!');
+        });
+
+        $.getJSON('/CandidateProfile/GetVaccineTypes/', function (data) {
+            $('#vaccineType option').remove();
+            $('#vaccineType').append('<option value="0">-- Select Vaccine Type --</option>');
+            $.each(data, function () {
+                $('#vaccineType').append("<option value='" + this.id + "'>" + this.name + "</option>");
+            });
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting vaccine types!');
+        });
+
+        //$.getJSON('/CandidateProfile/GetVaccineVariants/', function (data) {
+        //    $('#vaccineVariant option').remove();
+        //    $('#vaccineVariant').append('<option value="0">-- Select Vaccine Variant --</option>');
+        //    $.each(data, function () {
+        //        $('#vaccineVariant').append("<option value='" + this.id + "'>" + this.name + "</option>");
+        //    });
+        //}).fail(function (jqXHR, textStatus, errorThrown) {
+        //    alert('Error getting vaccine variants!');
+        //});
+
+        $.getJSON('/CandidateProfile/GetCityByCountry/', { CountryId: "0" }, function (data) {
+            $('#passportBirthCity option').remove();
+            $('#passportBirthCity').append('<option value="0">-- Select City --</option>');
+            $.each(data, function () {
+                $('#passportBirthCity').append('<option value=' + this.id + '>' + this.name + '</option>');
+            });
+            //$('#passportBirthCity').val();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting cities!');
+        });
+        function callAgentList() {
+            $.getJSON('/CandidateProfile/GetAgents/', function (data) {
+                var agentId = $('#agentIdOnCandidate').val();
+                $('#agentOnCandidate option').remove();
+                $('#agentOnCandidate').append('<option value="0">-- Select Agent --</option>');
+                console.log('a')
+                console.log(data);
+                $.each(data, function () {
+                    $('#agentOnCandidate').append('<option value=' + this.id + '>' + this.name + '(' + this.city.name + ')</option>');
+                });
+                if (agentId.length != 0) {
+                    $('#agentOnCandidate').val(agentId);
+                }
+                else {
+                    $('#agentOnCandidate').val(0);
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error getting cities!');
+            });
+        }
+        $('#agentOnCandidate').change(function () {
+            var agentId = $(this).val();
+            $('#agentIdOnCandidate').val(agentId);
+        });
+        $('#Reference').change(function () {
+            if ($('#Reference').val() == 'Agent') {
+                console.log('Agent in reference.');
+                callAgentList();
+               
+                $('.divAgent').show();
+                //$('.divReference').hide();
+            }
+            else {
+                $('.divAgent').hide();
+                //$('.divReference').show();
+            }
+        });
+
+        $(document).ready(function () {
+            callAgentList();
+            $('.divReferenceName').hide();
+            $('.dtPassport').datetimepicker({
+                format: 'DD-MMM-YYYY'
+            }).on("change", function (e) {
+                $('.dtPassport').attr('value', e.format());
+            });
+            /* BEGIN PASSPORT SCREEN SECTIOM */
+
+            $.getJSON('/CandidateProfile/GetCountry/', function (data) {
+                $('#passportPlaceOfIssue option').remove();
+                $('#passportPlaceOfIssue').append('<option value="0">-- Select Country --</option>');
+                $('#passportBirthCountry').append('<option value="0">-- Select Country --</option>');
+                console.log(data);
+                $.each(data, function () {
+                    $('#passportPlaceOfIssue').append('<option value=' + this.id + '>' + this.name + '</option>');
+                    $('#passportBirthCountry').append('<option value=' + this.id + '>' + this.name + '</option>');
+                });
+                $('#passportPlaceOfIssue').val(0);
+                $('#passportBirthCountry').val(0);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error getting cities!');
+            });
+
+            $('#passportBirthCountry').change(function () {
+                //$('#PlaceOfBirthCountryId option').remove(); // Clear State Dropdown
+                $('#passportBirthCity option').remove();  // Clear City Dropdown
+                $('#passportBirthCity').append('<option value=""> Loading . . . </option>'); // Add Default Value to City Dropdown
+                $.getJSON('/CandidateProfile/GetCityByCountry/")', { CountryId: $('#passportBirthCountry').val() }, function (data) {
+                    $('#passportBirthCity option').remove();  // Clear City Dropdown
+                    $('#passportBirthCity').append('<option value="">-- Select City --</option>'); // Add Default Value to City Dropdown
+                    $.each(data, function () {
+
+                        $('#passportBirthCity').append('<option value=' + this.id + '>' + this.name + '</option>');
+                    });
+                    $('#passportBirthCity').val(0);
+
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error getting cities!');
+                });
+            });
+            /* END PASPORT SCREEN SCECTION */
+
+            $.getJSON('/CandidateProfile/GetCountry/', function (data) {
+                $('#PlaceOfBirthCountryId option').remove();
+                $('#PlaceOfBirthCountryId').append('<option value="0">-- Select Country --</option>');
+                console.log(data);
+                $.each(data, function () {
+                    console.log(this.id + " | " + this.name);
+                    $('#PlaceOfBirthCountryId').append('<option value=' + this.id + '>' + this.name + '</option>');
+                });
+                $('#PlaceOfBirthCountryId').val(@Model.PlaceOfBirthCountryId);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error getting cities!');
+            });
+
+            $('#PlaceOfBirthCountryId').change(function () {
+                //$('#PlaceOfBirthCountryId option').remove(); // Clear State Dropdown
+                $('#PlaceOfBirthCityId option').remove();  // Clear City Dropdown
+                $('#PlaceOfBirthCityId').append('<option value=""> Loading . . . </option>'); // Add Default Value to City Dropdown
+                $.getJSON('/CandidateProfile/GetCityByCountry/")', { CountryId: $('#PlaceOfBirthCountryId').val() }, function (data) {
+                    $('#PlaceOfBirthCityId option').remove();  // Clear City Dropdown
+                    $('#PlaceOfBirthCityId').append('<option value="">-- Select City --</option>'); // Add Default Value to City Dropdown
+                    $.each(data, function () {
+                        $('#PlaceOfBirthCityId').append('<option value=' + this.id + '>' + this.name + '</option>');
+                    });
+                    $('#PlaceOfBirthCityId').val(@Model.PlaceOfBirthCityId);
+
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error getting cities!');
+                });
+            });
+            if ($('#Reference').val() == 'Agent') {
+                console.log('Agent in reference.');
+                $('.divAgent').show();
+                $('.divReferenceName').hide();
+            }
+            else if ($('#Reference').val() == 'Nominated') {
+                $('.divAgent').hide();
+                $('.divReferenceName').show();
+            }
+            else if ($('#Reference').val() == 'Self') {
+                $('.divAgent').hide();
+                $('.divReferenceName').hide();
+            }
+            $('#Reference').change(function () {
+                if ($('#Reference').val() == 'Agent') {
+                    console.log('Agent in reference.');
+                    $('.divAgent').show();
+                    $('.divReferenceName').hide();
+                }
+                else if ($('#Reference').val() == 'Nominated') {
+                    $('.divAgent').hide();
+                    $('.divReferenceName').show();
+                }
+                else if ($('#Reference').val() == 'Self') {
+                    $('.divAgent').hide();
+                    $('.divReferenceName').hide();
+                }
+            });
+
+            $("#frmCP").submit(function () {
+                var userinput = document.getElementById("profileEditDate").value;
+                var dob = new Date(userinput);
+                var age = 0;
+                if (userinput == null || userinput == '') {
+                    document.getElementById("message").innerHTML = "**Choose a date please!";
+                    return false;
+                } else {
+                    var month_diff = Date.now() - dob.getTime();
+                    var age_dt = new Date(month_diff);
+                    var year = age_dt.getUTCFullYear();
+                    age = Math.abs(year - 1970);
+                }
+
+                if (!$('#PlaceOfBirthCountryId').val() || $('#PlaceOfBirthCountryId').val() == 0) {
+                    alert("Please select a country.");
+                    return false;
+                }
+                if (!$('#PlaceOfBirthCityId').val() || $('#PlaceOfBirthCityId').val() == 0) {
+                    alert("Please select a city.");
+                    return false;
+                }
+                //if ($('#CandidateCompanyNameId').val() != 'GPC-Romania') {
+                //    if (age > 20) {
+
+                //        return true;
+                //    }
+                //    else
+                //    {
+                //        alert('age should be greater than 21 and less than 60');
+                //        return false;
+                //    }
+                //}
+                //else {
+                //    if (age > 18) {
+
+                //        return true;
+                //    }
+                //    else {
+                //        alert('age should be greater than 18 and less than 60');
+                //        return false;
+                //    }
+                //}
+                //$.getJSON('/CandidateProfile/IsValidCNIC/")', { Cnic: $('#Cnic').val(), Id: $('#Id').val() }, function (data) {
+                //    console.log('CNIC VALIDITY:' + data);
+                //    if (data == false) {
+                //        alert('CNIC is duplicate!')
+                //        return false;
+                //    } else {
+
+                //    }
+                //}).fail(function (jqXHR, textStatus, errorThrown) {
+                //    return false;
+                //    alert('Error validatng cnic duplication!');
+                //});
+
+            });
+            function ageCalculator() {
+                //collect input from HTML form and convert into date format  
+                var userinput = document.getElementById("profileEditDate").value;
+                var dob = new Date(userinput);
+
+                //check user provide input or not  
+                if (userinput == null || userinput == '') {
+                    document.getElementById("message").innerHTML = "**Choose a date please!";
+                    return false;
+                }
+
+                //execute if user entered a date   
+                else {
+                    //extract and collect only date from date-time string  
+                    var mdate = userinput.toString();
+                    var dobYear = parseInt(mdate.substring(0, 4), 10);
+                    var dobMonth = parseInt(mdate.substring(5, 7), 10);
+                    var dobDate = parseInt(mdate.substring(8, 10), 10);
+
+                    //get the current date from system  
+                    var today = new Date();
+                    //date string after broking  
+                    var birthday = new Date(dobYear, dobMonth - 1, dobDate);
+                    //calculate the difference of dates  
+                    var diffInMillisecond = today.valueOf() - birthday.valueOf();
+                    //convert the difference in milliseconds and store in day and year variable          
+                    var year_age = Math.floor(diffInMillisecond / 31536000000);
+                    var day_age = Math.floor((diffInMillisecond % 31536000000) / 86400000);
+
+                    //when birth date and month is same as today's date        
+                    if ((today.getMonth() == birthday.getMonth()) && (today.getDate() == birthday.getDate())) {
+                        //alert("Happy Birthday!");
+                    }
+
+                    var month_age = Math.floor(day_age / 30);
+                    day_ageday_age = day_age % 30;
+
+                    var tMnt = (month_age + (year_age * 12));
+                    var tDays = (tMnt * 30) + day_age;
+
+                    //DOB is greater than today's date, generate an error: Invalid date    
+                    if (dob > today) {
+                        document.getElementById("result").innerHTML = ("Invalid date input - Please try again!");
+                    }
+                    else {
+                        //document.getElementById("result").innerHTML = (year_age * 365) + (month_age * 30) + day_age;
+                    }
+                    var totalDays = (year_age * 365) + (month_age * 30) + day_age;
+                    return totalDays;
+                    /*document.getElementById("result").innerHTML = (year_age * 365) + (month_age * 30) + day_age;*/
+                }
+            }
+        });
+    </script>
+
+} 

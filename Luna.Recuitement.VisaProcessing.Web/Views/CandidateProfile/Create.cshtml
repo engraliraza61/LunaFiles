@@ -1,0 +1,518 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.CandidateProfile
+
+@{
+    ViewData["Title"] = "Create Candidate";
+}
+
+<form asp-action="Create" id="frmCP">
+    <div class="row">
+        <div class="col-md-6">
+            <input type="hidden" asp-for="AgentId" id="agentIdOnCandidates" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <select asp-for="Title" class="form-control DDFilter">
+                    <option value="Mr.">Mr.</option>
+                    <option value="Mrs.">Mrs.</option>
+                    <option value="Miss.">Miss.</option>
+                    <option value="Dr.">Dr.</option>
+                    <option value="Prof.">Prof.</option>
+                </select>
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label"></label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label">Given Name</label>
+                <input asp-for="FirstName" type="text" max="25" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label">Surname</label>
+                <input asp-for="LastName" type="text" max="25" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="ArabicName" class="control-label">Arabic Name</label>
+                <input asp-for="ArabicName" class="form-control ArabicEntry" dir="rtl" lang="ar" />
+                <span asp-validation-for="ArabicName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="DateOfBirth" class="control-label">DOB</label>
+                <input asp-for="DateOfBirth" type="date" id="dobCreate" class="form-control" />
+                <h3 style="color:#008CBA" id="result" align="center"></h3>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="PlaceOfBirthCountryId" class="control-label">Birth Country</label>
+                <select asp-for="PlaceOfBirthCountryId" class="form-control DDFilter" asp-items="ViewBag.PlaceOfBirthCountryId"></select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="PlaceOfBirthCityId" class="control-label">Birth City</label>
+                <select asp-for="PlaceOfBirthCityId" class="form-control DDFilter" asp-items="ViewBag.PlaceOfBirthCityId"></select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="PreviousNationalityCountryId" class="control-label">Previous Nationality</label>
+                <select asp-for="PreviousNationalityCountryId" class="form-control DDFilter" asp-items="ViewBag.PreviousNationalityCountryId"></select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="MaritalStatus" class="control-label">Marital Status</label>
+                <select asp-for="MaritalStatus" class="form-control DDFilter">
+                    <option value="Single">Single</option>
+                    <option value="Married">Married</option>
+                    <option value="Widowed">Widowed</option>
+                </select>
+                <span asp-validation-for="MaritalStatus" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label">Gender</label>
+                <select asp-for="Gender" class="form-control DDFilter">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Religion" class="control-label">Religion</label>
+                <select asp-for="Religion" class="form-control DDFilter">
+                    <option value="Islam" selected="selected">Islam</option>
+                    <option value="Agnostic">Agnostic</option>
+                    <option value="Atheist">Atheist</option>
+                    <option value="Baha'i">Baha'i</option>
+                    <option value="Buddhism">Buddhism</option>
+                    <option value="Christianity">Christianity</option>
+                    <option value="Hinduism">Hinduism</option>
+                    <option value="Islam">Islam</option>
+                    <option value="Jainism">Jainism</option>
+                    <option value="Judaism">Judaism</option>
+                    <option value="Secular">Secular</option>
+                    <option value="Sikhism">Sikhism</option>
+                    <option value="Spiritism">Spiritism</option>
+                    <option value="Zoroastrianism">Zoroastrianism</option>
+                    <option value="Other">Other</option>
+                </select>
+                <span asp-validation-for="Religion" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Sect" class="control-label">Sect</label>
+                <select asp-for="Sect" class="form-control DDFilter">
+                    <option value="N/A" selected="selected">N/A</option>
+                    <option value="Sunni">Sunni</option>
+                    <option value="Shia">Shia</option>
+                </select>
+                <span asp-validation-for="Sect" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="HomeAddress" class="control-label">Home Addres</label>
+                <input asp-for="HomeAddress" class="form-control" />
+                <span asp-validation-for="HomeAddress" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="PermanentAddress" class="control-label">Parmanent Address</label>
+                <input asp-for="PermanentAddress" class="form-control" />
+                <span asp-validation-for="PermanentAddress" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label">Phone</label>
+                @*<input asp-for="PhoneNumber" class="form-control" placeholder="+xx-xxx-xxxxxxx" pattern="^$|^\+\d{1}\d{0,1}\d{0,1}-\d{2}\d{0,1}-\d{7}" />*@
+                <input asp-for="PhoneNumber" class="form-control" placeholder="+xx-xxx-xxxxxxx" type="number" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="BusinessAddress" class="control-label">Business Address</label>
+                <input asp-for="BusinessAddress" class="form-control" />
+                <span asp-validation-for="BusinessAddress" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="BusinessPhone" class="control-label">Business Phone</label>
+                <input asp-for="BusinessPhone" class="form-control" placeholder="+xx-xxx-xxxxxxx" pattern="^$|^\+\d{1}\d{0,1}\d{0,1}-\d{2}\d{0,1}-\d{7}" />
+                <span asp-validation-for="BusinessPhone" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Domicile" class="control-label">Domicile</label>
+                <select asp-for="Domicile" class="form-control DDFilter">
+                    <option value="Lahore" selected="selected">Lahore</option>
+                    <option value="Rawalpindi">Rawalpindi</option>
+                    <option value="Islamabad">Islamabad</option>
+                    <option value="Peshawar">Peshawar</option>
+                </select>
+                <span asp-validation-for="Domicile" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">Email</label>
+                <input asp-for="Email" type="email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="CellNumber" class="control-label">Cell</label>
+                @*<input asp-for="CellNumber" type="text" class="form-control" pattern="^$|^\+\d{1}\d{0,1}\d{0,1}-\d{2}\d{0,1}-\d{7}" autocomplete="off" />*@
+                <input asp-for="CellNumber" type="number" class="form-control" />
+                <span asp-validation-for="CellNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Cnic" class="control-label">CNIC</label>
+                @*pattern="^\d{5}-\d{7}-\d{1}$"*@
+                <input asp-for="Cnic" class="form-control" type="text" pattern="^\d{13}$" required autocomplete="off" max="13" placeholder="1234567890000" />
+                <span asp-validation-for="Cnic" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="IssueDate" class="control-label">Issue Date</label>
+                <input asp-for="IssueDate" type="date" class="form-control" />
+                <span asp-validation-for="IssueDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="ExpiryDate" class="control-label">Expiry date</label>
+                <input asp-for="ExpiryDate" type="date" class="form-control" />
+                <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="FatherName" class="control-label">Father Name</label>
+                <input asp-for="FatherName" type="text" pattern="[a-z A-Z]*" max="25" class="form-control" autocomplete="off" />
+                <span asp-validation-for="FatherName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="FatherArabicName" class="control-label">Father Name (Arabic)</label>
+                <input asp-for="FatherArabicName" class="form-control ArabicEntry" dir="rtl" lang="ar" />
+                <span asp-validation-for="FatherArabicName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Qualification" class="control-label">Qualification</label>
+                <input asp-for="Qualification" type="text" max="40" class="form-control" />
+                <span asp-validation-for="Qualification" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="HusbandName" class="control-label">Husband Name</label>
+                <input asp-for="HusbandName" max="25" class="form-control" />
+                <span asp-validation-for="HusbandName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="HusbandArabicName" class="control-label">Husband Name (Arabic)</label>
+                <input asp-for="HusbandArabicName" class="form-control ArabicEntry" dir="rtl" lang="ar" />
+                <span asp-validation-for="HusbandArabicName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Reference" class="control-label">Reference</label>
+                <select asp-for="Reference" class="form-control DDFilter">
+                    <option value="Self">Self</option>
+                    <option value="Nominated">Nominated</option>
+                    <option value="Agent">Agent</option>
+                </select>
+                <span asp-validation-for="Reference" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 divAgent" id="divAgentA" style="display:none;">
+            <div class="form-group">
+                <label asp-for="AgentId" class="control-label">Agent Name</label>
+                <select asp-for="AgentId" id="agentOnCandidates" class="form-control DDFilter">
+                    <option value="0">--select agent name--</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6 divReferenceName">
+            <div class="form-group">
+                <label asp-for="ReferenceName" class="control-label">Nominee Name</label>
+                <input type="text" asp-for="ReferenceName" class="form-control" />
+                <span asp-validation-for="ReferenceName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 divReference" style="display:none;">
+            <div class="form-group">
+                <label asp-for="ReferencePhone" class="control-label">Reference Phone</label>
+                <input type="text" asp-for="ReferencePhone" class="form-control" />
+                <span asp-validation-for="ReferencePhone" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6" style="display:none;">
+            <div class="form-group">
+                <label asp-for="CompanyName" class="control-label">Company</label>
+                <input asp-for="CompanyName" class="form-control" />
+                <span asp-validation-for="CompanyName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6"></div>
+        <div class="col-md-6">
+            <div class="form-group col-md-6 float-right">
+                <a asp-action="Index" class="btn btn-info">Back to List</a>
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+
+    </div>
+</form>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script charset="utf-8" type="text/javascript">
+    $(document).ready(function () {
+        $('#candidateCreateBirthCountry').change(function () {
+            alert($(this).val())
+        });
+        $('.divReferenceName').hide();
+        $.getJSON('/CandidateProfile/GetCountry/', function (data) {
+            $('#PlaceOfBirthCountryId option').remove();
+            $('#PlaceOfBirthCountryId').append('<option value="0">-- Select Country --</option>');
+            console.log(data);
+            $.each(data, function () {
+                //console.log(this.id + " | " + this.name);
+                $('#PlaceOfBirthCountryId').append('<option value=' + this.id + '>' + this.name+'</option>');
+            });
+            $('#PlaceOfBirthCountryId').val(@Model.PlaceOfBirthCountryId);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting cities!');
+        });
+        @*$.getJSON('/CandidateProfile/GetAgnet/', function (data) {
+            $('#AgentId option').remove();
+            $('#AgentId').append('<option value="0">-- Select Agent --</option>');
+            console.log(data);
+            $.each(data, function () {
+                //console.log(this.id + " | " + this.name);
+                $('#AgentId').append('<option value=' + this.id + '>' + this.name+'</option>');
+            });
+            $('#AgentId').val(@Model.AgentId);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting Agent!');
+        });*@
+        function callAgentList() {
+            $.getJSON('/CandidateProfile/GetAgents/', function (data) {
+                var agentId = $('#agentIdOnCandidate').val();
+                $('#agentOnCandidates option').remove();
+                $('#agentOnCandidates').append('<option value="0">-- Select Agent --</option>');
+                console.log(data);
+                $.each(data, function () {
+                    $('#agentOnCandidates').append('<option value=' + this.id + '>' + this.name + '(' + this.phone + ')</option>');
+                });
+                $('#agentOnCandidates').val(0);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error getting Agent!');
+            });
+        }
+        $('#agentOnCandidates').change(function () {
+            var agentId = $(this).val();
+            $('#agentIdOnCandidates').val(agentId);
+        });
+        $('#PlaceOfBirthCountryId').change(function () {
+            //$('#PlaceOfBirthCountryId option').remove(); // Clear State Dropdown
+            $('#PlaceOfBirthCityId option').remove();  // Clear City Dropdown
+            $('#PlaceOfBirthCityId').append('<option value=""> Loading . . . </option>'); // Add Default Value to City Dropdown
+            $.getJSON('/CandidateProfile/GetCityByCountry/")', { CountryId: $('#PlaceOfBirthCountryId').val() }, function (data) {
+                $('#PlaceOfBirthCityId option').remove();  // Clear City Dropdown
+                $('#PlaceOfBirthCityId').append('<option value="">-- Select City --</option>'); // Add Default Value to City Dropdown
+                $.each(data, function () {
+                    console.log(this.arabicName);
+                    $('#PlaceOfBirthCityId').append('<option value=' + this.id + '>' + this.name + '  |  <b>' + this.arabicName + '</b></option>');
+                });
+                $('#PlaceOfBirthCityId').val(@Model.PlaceOfBirthCityId);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error getting cities!');
+            });
+        });
+           $('#Reference').change(function () {
+               if ($('#Reference').val() == 'Agent') {
+                   console.log('Agent in reference.');
+                    callAgentList();
+                   $('.divAgent').show();
+                   $('.divReferenceName').hide();
+               }
+               else if ($('#Reference').val() == 'Nominated'){
+                   $('.divAgent').hide();
+                   $('.divReferenceName').show();
+                   $('#AgentId').val() = null;
+               }
+               else if ($('#Reference').val() == 'Self') {
+                   $('.divAgent').hide();
+                   $('.divReferenceName').hide();
+                   $('#AgentId').val() = null;
+               }
+          });
+        $("#frmCP").submit(function () {
+            var userinput = document.getElementById("dobCreate").value;
+            var dob = new Date(userinput);
+            var age=0;
+            if (userinput == null || userinput == '') {
+                document.getElementById("message").innerHTML = "**Choose a date please!";
+                return false;
+            } else {
+                var month_diff = Date.now() - dob.getTime();
+                var age_dt = new Date(month_diff);
+                var year = age_dt.getUTCFullYear();
+                age = Math.abs(year - 1970);
+            }
+            
+            //var today = new Date();
+            //var dob=$('#dobCreate').val();
+            //var birthDate = new Date(dob);
+            //var age = today.getFullYear() - birthDate.getFullYear();
+            //var m = today.getMonth() - birthDate.getMonth();
+            //if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            //    age--;
+            //}
+            //if (age < 22 || age>60) {
+            //    alert("age should be greater than 21 and less than 60");
+            //    return false;
+            //}
+            if (!$('#PlaceOfBirthCountryId').val() || $('#PlaceOfBirthCountryId').val() == 0) {
+                alert("Please select a country.");
+                return false;
+            }
+            if (!$('#PlaceOfBirthCityId').val() || $('#PlaceOfBirthCityId').val() == 0) {
+                alert("Please select a city.");
+                return false;
+            }
+            if (!$('#dobCreate').val()) {
+                alert("Please enter a date of birth.");
+                return false;
+            }
+            if ($('#Reference').val() == 'Agent' && $('#AgentId').val() == 0)
+            {
+                alert('please enter Agent Name' );
+                return false;
+            }
+            if ($('#Reference').val() == 'Self') {
+                $('#AgentId').val(null);
+            }
+            if ($('#Reference').val() == 'Nominated') {
+                $('#AgentId').val(null);
+            }
+            //if ($('#PlaceOfBirthCountryId').val() == 231) {
+            //    if (age > 18) {
+            //        return true;
+            //    }
+            //    else {
+            //        alert('age should be greater than 18')
+            //        return false;
+            //    }
+               
+            //}
+            //else {
+            //    if (age > 20) {
+
+            //        return true;
+            //    }
+            //    else {
+            //        alert('age should be greater than 21 and less than 60');
+            //        return false;
+            //    }
+            //}
+           
+        });
+
+
+        function ageCalculator() {
+            //collect input from HTML form and convert into date format  
+            var userinput = document.getElementById("dobCreate").value;
+            var dob = new Date(userinput);
+
+            //check user provide input or not  
+            if (userinput == null || userinput == '') {
+                document.getElementById("message").innerHTML = "**Choose a date please!";
+                return false;
+            }
+
+            //execute if user entered a date   
+            else {
+                //extract and collect only date from date-time string  
+                var mdate = userinput.toString();
+                var dobYear = parseInt(mdate.substring(0, 4), 10);
+                var dobMonth = parseInt(mdate.substring(5, 7), 10);
+                var dobDate = parseInt(mdate.substring(8, 10), 10);
+
+                //get the current date from system  
+                var today = new Date();
+                //date string after broking  
+                var birthday = new Date(dobYear, dobMonth - 1, dobDate);
+                //calculate the difference of dates  
+                var diffInMillisecond = today.valueOf() - birthday.valueOf();
+                //convert the difference in milliseconds and store in day and year variable          
+                var year_age = Math.floor(diffInMillisecond / 31536000000);
+                var day_age = Math.floor((diffInMillisecond % 31536000000) / 86400000);
+            
+                //when birth date and month is same as today's date        
+                if ((today.getMonth() == birthday.getMonth()) && (today.getDate() == birthday.getDate())) {
+                    //alert("Happy Birthday!");
+                }
+
+                var month_age = Math.floor(day_age / 30);
+                day_ageday_age = day_age % 30;
+                
+                var tMnt = (month_age + (year_age * 12));
+                var tDays = (tMnt * 30) + day_age;
+               
+                //DOB is greater than today's date, generate an error: Invalid date    
+                if (dob > today) {
+                    document.getElementById("result").innerHTML = ("Invalid date input - Please try again!");
+                }
+                else {
+                    document.getElementById("result").innerHTML = (year_age * 365) + (month_age * 30) + day_age;
+                }
+                var totalDays = (year_age * 365) + (month_age * 30) + day_age;
+                return totalDays;
+                /*document.getElementById("result").innerHTML = (year_age * 365) + (month_age * 30) + day_age;*/
+            }
+        }
+    });
+
+</script>
+}

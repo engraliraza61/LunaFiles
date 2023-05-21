@@ -1,0 +1,284 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" CONTENT="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Luna Recruitment (Visa Processing)</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="~/fontawesome/css/all.css" />
+    <link href="/css/select2.min.css" rel="stylesheet" />
+    <link href="/css/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="~/css/buttons.dataTables.min.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
+    <script src="~/fontawesome/js/all.js"></script>
+    <script src="~/js/select2.min.js"></script>
+    <script src="~/js/toastr.min.js"></script>
+    <script src="~/js/moment.min.js"></script>
+    <script src="~/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/js/dataTables.fixedHeader.min.js"></script>
+    <script src="~/js/dataTables.buttons.min.js"></script>
+    <script src="~/js/jszip.min.js"></script>
+    <script src="~/js/pdfmake.min.js"></script>
+    <script src="~/js/vfs_fonts.js"></script>
+    <script src="~/js/buttons.html5.min.js"></script>
+    <script src="~/js/buttons.print.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js"></script>
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                    <ul class="navbar-nav flex-grow-1" >
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item dropdown" id="AdministrationMenu">
+                                <a class="nav-link dropdown-toggle dropbtn" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Administration
+                                </a>
+                                <div class="dropdown-menu dropdown-content" aria-labelledby="navbarDropdown">
+                                    @*<a class="dropdown-item" asp-area="" asp-controller="EntitySetup" asp-action="Index" asp-route-EntityTypeId="1">License Status</a>
+        <a class="dropdown-item" asp-area="" asp-controller="EntitySetup" asp-action="Index" asp-route-EntityTypeId="2">Permissions Types</a>
+        <a class="dropdown-item" asp-area="" asp-controller="EntitySetup" asp-action="Index" asp-route-EntityTypeId="3">Document Types</a>
+        <a class="dropdown-item" asp-area="" asp-controller="EntitySetup" asp-action="Index" asp-route-EntityTypeId="4">Visa Demand Status</a>*@
+                                    <a class="dropdown-item" asp-area="" asp-controller="EntitySetup" asp-action="Index" asp-route-EntityTypeId="5">Job Types</a>
+                                    @*<a class="dropdown-item" asp-area="" asp-controller="EntitySetup" asp-action="Index" asp-route-EntityTypeId="6">Candidate Status</a>*@
+                                    <div class="dropdown-divider"></div>
+                                    @*<a class="dropdown-item" asp-area="" asp-controller="Counslate" asp-action="Index">Counslates</a>*@
+                                    <a class="dropdown-item" asp-area="" asp-controller="Sponser" asp-action="Index">Sponser</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Agent" asp-action="Index">Agent</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Client" asp-action="Index">Client</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Cities" asp-action="Index">Cities</a>
+                                    @*<a class="dropdown-item" asp-area="" asp-controller="TestCenter" asp-action="Index">Test Center</a>*@
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" asp-area="" asp-controller="AppUser" asp-action="Index">User Management</a> <a class="dropdown-item" asp-area="" asp-controller="AppUser" asp-action="UserActivity">User Activity</a>
+                                    @*<a class="dropdown-item" asp-area="" asp-controller="AppUser" asp-action="AllUser">ManageUserRole</a>*@
+                                    @*<a class="dropdown-item" asp-area="" asp-controller="Roles" asp-action="Index">Role</a>
+        <a class="dropdown-item" asp-area="" asp-controller="AppUser" asp-action="AllUser">User</a>*@
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown dropbtn" id="HrMenu">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    HR
+                                </a>
+                                <div class="dropdown-menu dropdown-content" aria-labelledby="navbarDropdown">
+                                    @*<a class="dropdown-item" asp-area="" asp-controller="OEP" asp-action="index">OEP</a>*@
+                                    <a class="dropdown-item" asp-area="" asp-controller="OEPVisaDemand" asp-action="Index">File Creation</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="OEPVisaDemandPO" asp-action="Index">Purchase Order</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Permission" asp-action="Index" asp-route-OepvisaDemandId="0">Permissions</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="CandidateDocument" asp-action="Upload">Upload</a>
+                                    <a class="dropdown-item" asp-controller="Reports" asp-action="Receivable">Receivable</a>
+                                    <div class="dropdown-divider"></div>
+                                    @*<a class="dropdown-item" asp-area="" asp-controller="CandidateProfile" asp-action="Index">Candidates</a>
+        <a class="dropdown-item" asp-area="" asp-controller="CandidateSelection" asp-action="Index">Selection</a>
+        <a class="dropdown-item" asp-area="" asp-controller="CandidateSelection" asp-action="WalkInSelection">Walk-In Selection</a>
+        <a class="dropdown-item" asp-area="" asp-controller="CandidateSelection" asp-action="ProtectorList">Protector</a>f
+        <a class="dropdown-item" asp-area="" asp-controller="CandidateSelection" asp-action="TicketingList">Ticketing</a>
+        <a class="dropdown-item" asp-area="" asp-controller="CandidateDocument" asp-action="Upload">Upload</a>*@
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown dropbtn" id="SelectionMenu">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Selection
+                                </a>
+                                <div class="dropdown-menu dropdown-content" aria-labelledby="navbarDropdown">
+                                    @*<a class="dropdown-item" asp-area="" asp-controller="OEP" asp-action="index">OEP</a>*@
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" asp-area="" asp-controller="CandidateSelection" asp-action="Index">Selection</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="CandidateSelection" asp-action="WalkInSelection">General Candidate</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="CandidateSelection" asp-action="SelectionCandidate">Selection Candidate</a>
+                                    @*<a class="dropdown-item" asp-area="" asp-controller="CandidateSelection" asp-action="UploadExcelFile">Upload Excel File</a>*@
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown dropbtn" id="ProcessingMenu">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Processing
+                                </a>
+                                <div class="dropdown-menu dropdown-content" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-area="" asp-controller="CandidateProfile" asp-action="Index">Candidates</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="CandidateProfile" asp-action="UnderProcessed">UnderProcessed Candidates</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="CandidateProfile" asp-action="Deployed">Deployed Candidates</a>
+
+                                    <a class="dropdown-item" asp-controller="Reports" asp-action="TabReport">Visa Processing</a>
+                                    @*<a class="dropdown-item" asp-area="" asp-controller="CandidateSelection" asp-action="Index">Selection</a>
+        <a class="dropdown-item" asp-area="" asp-controller="CandidateSelection" asp-action="WalkInSelection">Walk-In Selection</a>
+        <a class="dropdown-item" asp-area="" asp-controller="CandidateSelection" asp-action="ProtectorList">Protector</a>
+        <a class="dropdown-item" asp-area="" asp-controller="CandidateSelection" asp-action="TicketingList">Ticketing</a>
+        <a class="dropdown-item" asp-area="" asp-controller="CandidateDocument" asp-action="Upload">Upload</a>*@
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown dropbtn" id="DeploymentMenu">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Deployment
+                                </a>
+                                <div class="dropdown-menu dropdown-content" aria-labelledby="navbarDropdown">
+                                    @*<a class="dropdown-item" asp-area="" asp-controller="OEP" asp-action="index">OEP</a>*@
+                                    <a class="dropdown-item" asp-area="" asp-controller="CandidateSelection" asp-action="ProtectorList">Protector</a>
+                                    <a class="dropdown-item" asp-controller="Reports" asp-action="Deployment">Deployment</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="CandidateSelection" asp-action="TicketingList">Ticketing</a>
+                                </div>
+                            </li>
+
+                            <li class="nav-item dropdown dropbtn" id="FinanceMenu">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Finance
+                                </a>
+                                <div class="dropdown-menu dropdown-content" aria-labelledby="navbarDropdown">
+                                    @*<a class="dropdown-item" asp-area="" asp-controller="OEP" asp-action="index">OEP</a>*@
+                                    <a class="dropdown-item" asp-area="" asp-controller="Receipt" asp-action="ReceiptVoucher">File Receipt,Payment JV</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Receipt" asp-action="ReceiptVoucherJV">Receipt,Payment JV</a>
+                                    <a class="dropdown-item" id="GeneralLedger">General Ledger</a>
+                                </div>
+                            </li>
+
+                            @*<li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Clousure
+                                    </a>
+                                </li>*@
+                            <!--<li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Visa Processing
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
+                            @*<a class="dropdown-item" asp-area="" asp-controller="OEP" asp-action="index">OEP</a>*@
+                            <!--<a class="dropdown-item" asp-area="" asp-controller="OEPVisaDemand" asp-action="Index">Demands</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="OEPVisaDemandPO" asp-action="Index">Purchase Order</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Permission" asp-action="Index" asp-route-OepvisaDemandId="0">Permissions</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" asp-area="" asp-controller="CandidateProfile" asp-action="Index">Candidates</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="CandidateSelection" asp-action="Index">Selection</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="CandidateSelection" asp-action="WalkInSelection">Walk-In Selection</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="CandidateSelection" asp-action="ProtectorList">Protector</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="CandidateSelection" asp-action="TicketingList">Ticketing</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="CandidateDocument" asp-action="Upload">Upload</a>
+                                </div>
+                            </li>-->
+
+                            @*<li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        SMS
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="SMS">SMS</a>
+                                    </div>
+                                </li>*@
+                            <li class="nav-item dropdown dropbtn" id="ReportsMenu">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Reports
+                                </a>
+                                <div class="dropdown-menu dropdown-content" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-controller="Reports" asp-action="enumber">General Report</a>
+                                    <a class="dropdown-item" style="display:none" asp-controller="Reports" asp-action="AIO">Dynamic Report</a>
+                                    @*<a class="dropdown-item" asp-controller="Reports" asp-action="TabReport">Visa Processing</a>*@
+                                    <a class="dropdown-item" asp-controller="Reports" asp-action="FileProcessing">File Processing</a>
+                                    <a class="dropdown-item" asp-controller="Reports" asp-action="SubmittionReport">Submission Report</a>
+                                    <a class="dropdown-item" asp-controller="Reports" asp-action="ENumberReport">E-Number Report</a>
+                                    <a class="dropdown-item" asp-controller="Reports" asp-action="VarificationClosing">Deployment Status</a>
+                                    <a class="dropdown-item" asp-controller="Reports" asp-action="PassportProtector">Passport Protector</a>
+                                    <a class="dropdown-item" asp-controller="Reports" asp-action="PassportFromCunslate">Passport Receipt Status</a>
+                                    <a class="dropdown-item" asp-controller="Reports" asp-action="ReservationReport">Reservation Report</a>
+                                    <a class="dropdown-item" asp-controller="Reports" asp-action="BankRefund">Bank Certificate Refund Report</a>
+                                    <a class="dropdown-item" asp-controller="Reports" asp-action="FileHistoryReport">File History Report</a>
+                                    <a class="dropdown-item" asp-controller="Reports" asp-action="SelectionReport">Selection Report</a>
+
+                                </div>
+                            </li>
+                            @*<li class="nav-item dropdown" id="ManagementMenu">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Management
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" asp-area="" asp-controller="OEPVisaDemand" asp-action="Dashboard">Dashboard</a>
+                                    </div>
+                                </li>*@
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - Luna Recruitment- <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="float-right">Powered By <a href="https://exaitechnologies.com" target="_blank">https://exaitechnologies.com</a></div>
+        </div>
+    </footer>
+
+    <script>
+        $(document).ready(function () {
+            $('#GeneralLedger').click(function () {
+                newTabUrl = sessionStorage.getItem("newTabUrl");
+               /* window.location = newTabUrl + '/login*/
+                window.open(newTabUrl + '/login', '_blank');
+
+                //var data = new FormData();
+                //data.append("sid", "44fe5fa382a2d7a86ad41ea3c00d850e64fd1016647e67eb77aeabe3");
+
+                //var xhr = new XMLHttpRequest();
+                //xhr.withCredentials = true;
+
+                //xhr.addEventListener("readystatechange", function () {
+                //    if (this.readyState === 4) {
+                //        console.log(this.responseText);
+                //    }
+                //});
+                //beforeSend: 
+                //    xhr.setRequestHeader('Content-type', 'application/ecmascript');
+                //    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+                //    xhr.setRequestHeader("Authorization", "token bdf6f5deb246b7e:13841c9d1884c39");
+                //    xhr.setRequestHeader('Access-Control-Allow-Headers', '*');
+                
+                //xhr.open("POST", "http://aliraza.erpnext.com/app/home");
+                
+                //xhr.send(data);
+            });
+            $('.DDFilter').select2();
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-center",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+        });
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+
+

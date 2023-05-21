@@ -1,0 +1,13 @@
+D:\LUNA\LUNA PROD\Code\Luna.Recruitment.VisaProcessing.Data\bin\Debug\netstandard2.0\Luna.Recruitment.VisaProcessing.Data.deps.json
+D:\LUNA\LUNA PROD\Code\Luna.Recruitment.VisaProcessing.Data\bin\Debug\netstandard2.0\Luna.Recruitment.VisaProcessing.Data.dll
+D:\LUNA\LUNA PROD\Code\Luna.Recruitment.VisaProcessing.Data\bin\Debug\netstandard2.0\Luna.Recruitment.VisaProcessing.Data.pdb
+D:\LUNA\LUNA PROD\Code\Luna.Recruitment.VisaProcessing.Data\bin\Debug\netstandard2.0\Luna.Recruitment.VisaProcessing.DTO.dll
+D:\LUNA\LUNA PROD\Code\Luna.Recruitment.VisaProcessing.Data\bin\Debug\netstandard2.0\Luna.Recruitment.VisaProcessing.DTO.pdb
+D:\LUNA\LUNA PROD\Code\Luna.Recruitment.VisaProcessing.Data\obj\Debug\netstandard2.0\Luna.Recruitment.VisaProcessing.Data.csproj.AssemblyReference.cache
+D:\LUNA\LUNA PROD\Code\Luna.Recruitment.VisaProcessing.Data\obj\Debug\netstandard2.0\Luna.Recruitment.VisaProcessing.Data.GeneratedMSBuildEditorConfig.editorconfig
+D:\LUNA\LUNA PROD\Code\Luna.Recruitment.VisaProcessing.Data\obj\Debug\netstandard2.0\Luna.Recruitment.VisaProcessing.Data.AssemblyInfoInputs.cache
+D:\LUNA\LUNA PROD\Code\Luna.Recruitment.VisaProcessing.Data\obj\Debug\netstandard2.0\Luna.Recruitment.VisaProcessing.Data.AssemblyInfo.cs
+D:\LUNA\LUNA PROD\Code\Luna.Recruitment.VisaProcessing.Data\obj\Debug\netstandard2.0\Luna.Recruitment.VisaProcessing.Data.csproj.CoreCompileInputs.cache
+D:\LUNA\LUNA PROD\Code\Luna.Recruitment.VisaProcessing.Data\obj\Debug\netstandard2.0\Luna.Recruitment.VisaProcessing.Data.csproj.CopyComplete
+D:\LUNA\LUNA PROD\Code\Luna.Recruitment.VisaProcessing.Data\obj\Debug\netstandard2.0\Luna.Recruitment.VisaProcessing.Data.dll
+D:\LUNA\LUNA PROD\Code\Luna.Recruitment.VisaProcessing.Data\obj\Debug\netstandard2.0\Luna.Recruitment.VisaProcessing.Data.pdb

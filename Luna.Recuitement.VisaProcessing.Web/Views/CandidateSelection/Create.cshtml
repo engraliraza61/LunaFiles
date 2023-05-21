@@ -1,0 +1,44 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.CandidateSelection
+
+@{
+    ViewData["Title"] = "Create Selection";
+}
+
+<h1>Selection Info</h1>
+<hr />
+<form asp-action="Create">
+    <div class="row">
+        <div class="col-md-6">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SelectionDate" class="control-label">Date</label>
+                <input type="date" asp-for="SelectionDate" class="form-control" value="@DateTime.Now.Date" />
+                <span asp-validation-for="SelectionDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="SponserId" class="control-label">Selection For</label>
+                <select asp-for="SponserId" class="form-control DDFilter"  asp-items="ViewBag.SponserId"></select>
+                <span asp-validation-for="SponserId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="SelectionGroup" class="control-label">Selection Group</label>
+                <input asp-for="SelectionGroup" class="form-control" />
+                <span asp-validation-for="SelectionGroup" class="text-danger"></span>
+            </div>
+        </div>        
+        <div class="col-md-6">
+            <div class="form-group col-md-12 float-right">
+                <a asp-action="Index" class="btn btn-info">Back to List</a>
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.DTO.FinalProcessing>
+@{
+    ViewData["Title"] = "ENumberReport";
+}
+
+<h1>E-Number Report</h1>
+<form asp-action="ENumberReport" asp-controller="Reports" id="frmENumber">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">File Number</label>
+                <select id="FileNumber" name="FileNumber" class="form-control DDFilter"></select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">ENumber Date From</label>
+                <input type="date" id="ENumberDateFrom" name="EnumberDateFrom" max="25" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">ENumber Date To</label>
+                <input type="date" id="ENumberDateTo" name="ENumberDateTo" max="25" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            &nbsp;
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label"></label>
+                <input type="submit" value="Filter" class="btn btn-primary form-control" />
+            </div>
+        </div>
+    </div>
+</form>
+<table class="table table-responsive-md applyDataTableWithExport">
+    <thead>
+        <tr>
+            <th>Sr</th>
+            <th>File ID</th>
+            <th>Candidate Name</th>
+            <th>Father Name</th>
+            <th>Passport #</th>
+            <th>Profession</th>
+            <th>Company</th>
+            <th>Selection Group</th>
+            <th>Reference</th>
+            <th>E-Number</th>
+            <th>E-Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Sr)</td>
+                <td>@Html.DisplayFor(modelItem => item.FileID)</td>
+                <td>@Html.DisplayFor(modelItem => item.NameOfCandidate)</td>
+                <td>@Html.DisplayFor(modelItem => item.FatherName)</td>
+                <td>@Html.DisplayFor(modelItem => item.Passport)</td>
+                <td>@Html.DisplayFor(modelItem => item.Profession)</td>
+                <td>@Html.DisplayFor(modelItem => item.Company)</td>
+                <td>@Html.DisplayFor(modelItem => item.SelectionGroup)</td>
+                <td>@Html.DisplayFor(modelItem => item.Reference)</td>
+                <td>@Html.DisplayFor(modelItem => item.ENumber)</td>
+                <td>@item.EDate.ToString("dd/MM/yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<script>
+    $(document).ready(function () {
+        $.getJSON('/CandidateProfile/GetFileNo/', function (data) {
+            $("#FileNumber option").remove();
+            $("#FileNumber").append('<option value=0>--select File No--</option>');
+            $.each(data, function () {
+                $("#FileNumber").append('<option value=' + this.code + '>' + this.code + '</option>');
+            });
+            $("#FileNumber").val();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting FileNo!');
+        });
+    });
+</script>

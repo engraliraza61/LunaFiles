@@ -1,0 +1,332 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.Receipt
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+
+
+
+<form asp-action="CreateSelectionCandidate" hidden asp-controller="CandidateSelection" id="selectionCandidateId">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Date" class="control-label">Date</label>
+                <input type="date" class="form-control" id="ReceiptDate" />
+                <span @*asp-validation-for="SponserId" *@ class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="ReceiptType" class="control-label">Receipt Type</label>
+                <select class="form-control" id="JVtypeId">
+                    <option value="Cash">Cash</option>
+                    <option value="Bank">Bank</option>
+                </select>
+                <span @*asp-validation-for="SelectionGroup" *@ class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 BankAccountId" id="BankAccountId" style="display:none">
+            <div class="form-group">
+                <label asp-for="BankAccoutNo" class="control-label">Bank Account No</label>
+                <input asp-for="BankAccoutNo" type="text" id="BankAccoutNoId" class="form-control" />
+                <span asp-for="BankAccoutNo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 receiptCheqNo" style="display:none">
+            <div class="form-group">
+                <label asp-for="CheqNo" class="control-label">Cheq #</label>
+                <input asp-for="CheqNo" id="receiptCheqNo" type="number" class="form-control" />
+                <span asp-for="CheqNo" class="text-danger"></span>
+            </div>
+        </div>
+
+    </div>
+</form>
+@*<div class="col-md-4" style="float:inherit">
+        <button class="btn btn-info" id="btnEnterData">Enter Data</button>
+    </div>
+    <div class="col-md-4" style="float:inherit">
+        <button class="btn btn-info" id="btnCallApi">Call api</button>
+    </div>
+    <div class="col-md-4">
+        <select id="JVGetChartAccount"></select>
+    </div>*@
+
+<div class="panel panel-primary">
+    <div class="panel-hea   ding">
+        <h3 class="panel-title">Receipt Voucher List</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table datatableHideFirstThree" width="100%" id="tableJVList" style="border:2px solid black">
+            <thead>
+                <tr>
+                    <th hidden>Candidate id</th>
+                    <th hidden>VisaProcess id</th>
+                    <th>CNIC #</th>
+                    <th>CNIC #</th>
+                    <th>Passport #</th>
+                    <th>Name</th>
+                    @*<th>Amount</th>*@
+                    <th>Credit Account</th>
+                    <th>Credit Amount</th>
+                    <th>Debit Account</th>
+                    <th>Debit Amount</th>
+                    <th style="display:none">FileNo</th>
+                    <th style="display:none">Reference</th>
+                </tr>
+            </thead>
+            <tbody id="tbCandidateList">
+                @foreach (var item in (List
+                <Luna.Recruitment.VisaProcessing.Data.DTO.ReportDto>
+                    )ViewBag.ReceiptProcedureData)
+                    {
+                <tr>
+                    <td hidden>@item.Id</td>
+                    <td hidden>@item.visaProcessId</td>
+                    <td>@item.CNIC</td>
+                    <td>@item.CNIC</td>
+                    <td>@item.Passport</td>
+                    <td>@item.Name</td>
+                    @*<td>
+                            <input type="number" id="amountId" value="0" />
+                        </td>*@
+                    <td>
+                        <select class="form-control DDFilter JVGetChartAccount" id="CreditAccount"></select>
+                    </td>
+                    <td>
+                        <input type="number" id="CreditamountId" value="0" />
+                    </td>
+                    <td>
+                        <select class="form-control DDFilter JVGetChartAccount" id="DebitAccount"></select>
+                    </td>
+                    <td>
+                        <input type="number" id="DebitamountId" value="0" />
+                    </td>
+                    <td style="display:none">@item.FileNumber</td>
+                    <td style="display:none">@item.Reference</td>
+                </tr>
+                    }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group col-md-12">
+        <button class="btn btn-primary float-right" id="btnSaveJV" value="Save" onclick="saveReceipt()">Save</button>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $.getJSON('/Receipt/GetChartOfAccount/', function (data) {
+            $('.JVGetChartAccount option').remove();
+            $('.JVGetChartAccount').append('<option value=0>--select Account--</option>');
+            $.each(data.response.data, function (dataA) {
+                for (var i = 0; i < Object.keys(data).length; i++) {
+                    console.log(this.name);
+                    var AccountValue = this.name;
+                    $('.JVGetChartAccount').append('<option value=' + AccountValue + '>' + this.name + '</option>');
+                }
+
+            });
+            $('#JVGetChartAccount').val();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Journal entry api is not live!');
+        });
+        //$("#btnCallApi").click(function () {
+        //    $.ajax({
+        //        method: "POST",
+        //        url: "/Receipt/GetChartOfAccount",
+        //        data:null,
+        //        success: function (data) {
+        //            console.log(data.response);
+        //        },
+        //        error: function (errormsg) { prompt("", JSON.stringify(errormsg)) }
+        //    });
+        //});
+        $("#JVtypeId").change(function () {
+            if ($(this).val() == "Bank") {
+                $('.BankAccountId').show();
+                $('.receiptCheqNo').show();
+            }
+            else {
+                $('.BankAccountId').hide();
+                $('.receiptCheqNo').hide();
+
+            }
+        });
+        $('#btnSaveJV').click(function () {
+            var lstCandidateId = [];
+            var lstVisaProcessId = [];
+            var CreditAccount = [];
+            var CreditAmount = [];
+            var DebitAccount = [];
+            var DebitAmount = [];
+            var table = $('#tableJVList').DataTable();
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                console.log(this.data());
+                lstCandidateId.push(this.data()[0]);
+                console.group("SELECTED Receipt");
+                console.log(lstCandidateId);
+                console.groupEnd();
+            });
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                console.log(this.data());
+                lstVisaProcessId.push(this.data()[1]);
+                console.group("SELECTED Receipt");
+                console.log(lstVisaProcessId);
+                console.groupEnd();
+            });
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                var d = this.data();
+                console.log(d);
+                var cell = table.cell({ row: rowIdx, column: 7 }).node();
+                CreditAmount.push($('input', cell).val());
+                console.group("SELECTED Receipt");
+                console.groupEnd();
+            });
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                var d = this.data();
+                console.log(d);
+                var cell = table.cell({ row: rowIdx, column: 9 }).node();
+                DebitAmount.push($('input', cell).val());
+                console.group("SELECTED Receipt");
+                console.groupEnd();
+            });
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                var d = this.data();
+                console.log(d);
+                var cell = table.cell({ row: rowIdx, column: 6 }).node();
+                CreditAccount.push($('#CreditAccount option:selected', cell).text());
+                console.group("SELECTED Receipt");
+                console.groupEnd();
+            });
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                var d = this.data();
+                console.log(d);
+                var cell = table.cell({ row: rowIdx, column: 8 }).node();
+                DebitAccount.push($('#DebitAccount option:selected', cell).text());
+                console.group("SELECTED Receipt");
+                console.groupEnd();
+            });
+            var ReceiptFileNo = "";
+            var ReceiptReference = "";
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                var d = this.data();
+                console.log(d);
+                ReceiptFileNo = this.data()[10];
+                console.group("SELECTED Receipt");
+                console.groupEnd();
+            });
+            console.log(ReceiptFileNo);
+            debugger
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                var d = this.data();
+                console.log(d);
+                ReceiptReference = this.data()[11];
+                console.group("SELECTED Receipt");
+                console.groupEnd();
+            });
+            for (var i = 0; i < lstCandidateId.length; i++) {
+                if (CreditAmount[i] > 0 || DebitAmount[i] > 0) {
+                    var data = {
+                        //"lstReceipt": lstCandidateId,
+                        //"lstCreditAmount": CreditAmount,
+                        //"lstCreditAccount": CreditAccount,
+                        //"lstDebitAmount": DebitAmount,
+                        //"lstDebitAccount": DebitAccount,
+                        //"lstVisaProcessId": lstVisaProcessId,
+                        "ID": "ACC-JV-2022-00003",
+                        "Entry Type": "Journal Entry",
+                        "Series": "ACC-JV-.YYYY.-",
+                        "company": "LUNA CORPORATION",
+                        "posting_date": "2022-02-02",
+                        "total_debit": 1.0,
+                        "total_credit": 1.0,
+                        "exchange_rate": 1.0,
+                        "accounts": [{
+                            "account": CreditAccount[i], "debit": 0.0, "credit": 1.0,
+                            "debit_in_account_currency": DebitAmount[i],
+                            "credit_in_account_currency": 0.00
+                        },
+                        {
+                            "account": DebitAccount[i], "debit": 1.0, "credit": 0.0,
+                            "debit_in_account_currency": 0.00,
+                            "credit_in_account_currency": DebitAmount[i]
+                        }]
+                    };
+                    $.ajax({
+                        type: "POST",
+                        url: '/Receipt/SaveJV',
+                        data: data,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data == true) {
+                                toastr.success('JV added successfuly.');
+                                setTimeout(() => { console.log("redirecting!"); }, 3000);
+                                window.location.href = "/Receipt/ReceiptVoucher?FileNumber=" + ReceiptFileNo + "&Reference=" + ReceiptReference;
+                            }
+                            else
+                            {
+                                toastr.error('journal entry api not live.');
+                            }
+                            console.log(data);
+                           
+                        },
+                        error: function () {
+                            toastr.error('error');
+                        }
+                    });
+                }
+                else {
+
+                }
+            }
+
+
+
+            //var data = {
+            //    "lstReceipt": lstCandidateId,
+            //    "lstCreditAmount": CreditAmount,
+            //    "lstCreditAccount": CreditAccount,
+            //    "lstDebitAmount": DebitAmount,
+            //    "lstDebitAccount": DebitAccount,
+            //    "lstVisaProcessId": lstVisaProcessId,
+            //    "ID": "ACC-JV-2022-00003",
+            //    "Entry Type": "Journal Entry",
+            //    "Series": "ACC-JV-.YYYY.-",
+            //    "company": "LUNA CORPORATION",
+            //    "posting_date": "2022-02-02",
+            //    "total_debit": 1.0,
+            //    "total_credit": 1.0,
+            //    "exchange_rate": 1.0,
+            //    "accounts": [{
+            //        "account": "1110 - Cash - LC", "debit": 0.0, "credit": 1.0,
+            //        "debit_in_account_currency": 0.0,
+            //        "credit_in_account_currency": 1.0
+            //    },
+            //    {
+            //        "account": "1770 - Softwares - LC", "debit": 1.0, "credit": 0.0,
+            //        "debit_in_account_currency": 1.0,
+            //        "credit_in_account_currency": 0.0
+            //    }]
+            //};
+            //$.ajax({
+            //    type: "POST",
+            //    url: '/Receipt/SaveJV',
+            //    data: data,
+            //    dataType: "json",
+            //    success: function (data) {
+            //        toastr.success('JV added successfuly.');
+            //        setTimeout(() => { console.log("redirecting!"); }, 3000);
+            //        window.location.href = '/Receipt/ReceiptVoucher';
+            //    },
+            //    error: function () {
+            //        toastr.error('while occured while saving passport.')
+            //    }
+            //});
+        });
+
+    });
+</script>

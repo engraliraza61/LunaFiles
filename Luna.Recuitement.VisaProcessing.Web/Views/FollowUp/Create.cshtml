@@ -1,0 +1,85 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.FollowUp
+
+@{
+    ViewData["Title"] = "Create Follow Up";
+}
+
+<h3>Create Follow Up</h3>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <input type="hidden" asp-for="CandidateSelectionDetailId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label">Type</label>
+                <select asp-for="Type" id="Type" class="form-control DDFilter">
+                    <option value="Call">Call</option>
+                    <option value="SMS">SMS</option>
+                    <option value="WhatsApp">WhatsApp</option>
+                    <option value="Email">Email</option>
+                    <option value="Other">Other</option>
+                </select>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FollowUpDate" class="control-label">Date</label>
+                <input asp-for="FollowUpDate" class="form-control" />
+                <span asp-validation-for="FollowUpDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Comments" class="control-label"></label>
+                <input asp-for="Comments" class="form-control" />
+                <span asp-validation-for="Comments" class="text-danger"></span>
+            </div>
+
+            <div class="form-group float-right">
+                <a asp-action="Index" asp-controller="FollowUp" asp-route-candidateSelectionDetailId="@Model.CandidateSelectionDetailId" class="btn btn-info">Back to List</a>
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+    $(document).ready(function () {
+        $('#Type').change(function () {
+            if ($('#Type').val() == 'Email') {
+                $.getJSON('/AppUser/GetEmail/', { candidateSelectionId: @Model.CandidateSelectionDetailId }, function (data) {
+                    console.log(data);
+                    $("#emailTO").val(data.email);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error getting Medical center!');
+                });
+                $('#sendEmail').show();
+                $('#sendSMS').hide();
+                $('#sendWatsapp').hide();
+            }
+            if ($('#Type').val() == 'SMS') {
+                 $.getJSON('/AppUser/GetEmail/', { candidateSelectionId: @Model.CandidateSelectionDetailId }, function (data) {
+                    console.log(data);
+                    $("#candidatePhoneNo").val(data.phone);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error getting Medical center!');
+                });
+                $('#sendSMS').show();
+                $('#sendEmail').hide();
+                $('#sendWatsapp').hide();
+            }
+            if ($('#Type').val() == 'WhatsApp') {
+                $('#sendWatsapp').show();
+                $('#sendSMS').hide();
+                $('#sendEmail').hide();
+            }
+            if ($('#Type').val() == 'Call') {
+                $('#sendWatsapp').hide();
+                $('#sendSMS').hide();
+                $('#sendEmail').hide();
+            }
+        });
+    });
+</script>

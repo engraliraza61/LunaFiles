@@ -1,0 +1,254 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.CandidateSelection
+
+@{
+    ViewData["Title"] = "Edit Selection";
+}
+<div @*style="overflow-y:auto;overflow-x:auto;height:800px;"*@>
+    <h1>Selection Info</h1>
+    <hr />
+    <form asp-action="Edit">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="hidden" asp-for="Id" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="SelectionDate" class="control-label">Date</label>
+                    <input asp-for="SelectionDate" class="form-control" />
+                    <span asp-validation-for="SelectionDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="SponserId" class="control-label">Selection For</label>
+                    <select asp-for="SponserId" class="form-control DDFilter" asp-items="ViewBag.SponserId"></select>
+                    <span asp-validation-for="SponserId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label asp-for="SelectionGroup" class="control-label">Selection Group</label>
+                    <input asp-for="SelectionGroup" class="form-control" />
+                    <span asp-validation-for="SelectionGroup" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group col-md-6 float-right">
+                    <a asp-action="Index" class="btn btn-info float-right">Back to List</a>
+                    <input type="submit" value="Update" class="btn btn-primary float-right" />
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Candidates List</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table datatableHideFirstOnly" id="tableCandidateList" style="border:2px solid black">
+                <thead>
+                    <tr>
+                        <th style="display:none;">Id</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Father Name</th>
+                        <th>Passport</th>
+                        <th>CNIC</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tbCandidateList">
+                    @foreach (var item in (List<Luna.Recruitment.VisaProcessing.Data.Models.CandidateProfile>)ViewBag.CandidateProfiles)
+                    {
+                    <tr>
+                        <td style="display:none;">@item.Id</td>
+                        <td>@item.FirstName</td>
+                        <td>@item.LastName</td>
+                        <td>@item.FatherName</td>
+                        <td>
+                            @{
+                                @if (@item.Passport != null && item.Passport.Any())
+                                {
+                                    @item.Passport.FirstOrDefault().PassportNo;
+                                }
+                                else
+                                {
+                                    @("N/A")
+                                }
+                        }
+                    </td>
+                    <td>@item.Cnic</td>
+                    <td><a href="#!" onclick="selectCandidates(this);"><i class="fas fa-plus-circle"></i></a></td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+            <input type="button" class="btn btn-primary float-right" id="btnSelect" value="Select All" onclick="selectCandidates();" />
+        </div>
+    </div>
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">Selected Candidates</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table datatableHideFirstThree" id="tableSelectionList" style="border:2px solid black">
+                <thead>
+                    <tr>
+                        <th id="tdCandidateSelectionDetailId">CandidateSelectionDetailId</th>
+                        <th  id="tdCandidateSelectionId">CandidateSelectionId</th>
+                        <th  id="tdCandidateProfileId">CandidateProfileId</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Father Name</th>
+                        <th>Passport</th>
+                        <th>CNIC</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tbSelection">
+                    @foreach (var item in Model.CandidateSelectionDetail)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.CandidateSelectionId</td>
+                            <td>@item.CandidateProfileId</td>
+                            <td><a asp-controller="CandidateProfile" asp-action="Profile" asp-route-id="@item.CandidateProfileId"> @item.CandidateProfile.FirstName</a></td>
+                            <td>@item.CandidateProfile.LastName</td>
+                            <td>@item.CandidateProfile.FatherName</td>
+                            <td>@{
+                                @if (@item.CandidateProfile.Passport != null && item.CandidateProfile.Passport.Any())
+                                {
+                                    @item.CandidateProfile.Passport.FirstOrDefault().PassportNo;
+                                }
+                                else
+                                {
+                                    @("N/A")
+                                }
+                                }
+                            </td>
+                            <td>@item.CandidateProfile.Cnic</td>
+                            <td>
+                                <a href="#!" id="chkSelection" onclick="removeCandidates(this)"><i class="fas fa-minus-circle" title="Remove Candidiate From Selection"></i></a>
+                                | <a asp-controller="CandidateSelection" target="_blank" asp-action="JobDetail" asp-route-candidateSelectionDetailId="@item.Id" asp-route-candidateSelectionId="@Model.Id"><i class="fas fa-info-circle" title="Show Job Detail"></i></a>
+                                | @*<a asp-controller="FollowUp" asp-action="Index" asp-route-candidateSelectionDetailId="@item.Id" id="chkSelection"><i class="fas fa-flag" title="Show Follow Up History"></i></a>*@
+                                | <a asp-controller="CandidateSelection" asp-action="VisaProcess" asp-route-candidateSelectionDetailId="@item.Id" target="_blank" asp-route-calledFrom="@ViewBag.ActionName"><i class="fas fa-asterisk" title="Show Visa Process"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <input type="button" class="btn btn-warning float-right" id="btnRemove" value="Remove All" />
+            <input type="button" class="btn btn-primary float-right" id="btnSaveSelection" value="Save" onclick="saveSelection()" />
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+    @*function selectCandidates1() {
+        $("#tableCandidateList input[type=checkbox]:checked").each(function () {
+            var row = $(this).closest("tr")[0];
+            var html = '<tr>' +
+                '<td style="display:none;">0</td>' +
+                '<td style="display:none;">' + @Model.Id+ '</td>' +
+                '<td style="display:none;">' + row.cells[0].innerHTML + '</td>' +
+                '<td>' + row.cells[1].innerHTML + '</td>'+
+                '<td>' + row.cells[2].innerHTML + '</td>' +
+                '<td>' + row.cells[3].innerHTML + '</td>' +
+                '<td>' + row.cells[4].innerHTML + '</td>' +
+                '<td>' + row.cells[5].innerHTML + '</td>' +
+                //'<td><input type="checkbox" id="chkRemove"> <a href="#!"><i class="fas fa-info-circle"></i></a></td>' +
+                 '<td><a href="#"><i class="fas fa-info-circle"></i></a>'+
+                '| <a href="#!" id="chkSelection" onclick="removeCandidates(this)"><i class="fas fa-minus-circle"></i></a>' +
+                '| <a asp-controller="FollowUp" asp-action="Index" asp-route-candidateSelectionDetailId="0" id="chkSelection" ><i class="fas fa-flag"></i></a>' +
+                '</tr>';
+            $("#tbSelection").append(html)
+            $(this).closest("tr").remove();
+        });
+    }
+    function removeCandidates2() {
+        $("#tableSelectionList input[type=checkbox]:checked").each(function () {
+            var row = $(this).closest("tr")[0];
+            var html = '<tr>' +
+                '<td style="display:none;">' + row.cells[2].innerHTML + '</td>' +
+                '<td>' + row.cells[3].innerHTML + '</td>' +
+                '<td>' + row.cells[4].innerHTML + '</td>' +
+                '<td>' + row.cells[5].innerHTML + '</td>' +
+                '<td>' + row.cells[6].innerHTML + '</td>' +
+                '<td>' + row.cells[7].innerHTML + '</td>' +
+                '<td><input type="checkbox" id="chkSelect"></td>' +
+                '</tr>';
+            $("#tbCandidateList").append(html);
+            $(this).closest("tr").remove();
+        });
+    }*@
+
+
+    function selectCandidates(button) {
+        var tblCandidateList = $('#tableCandidateList').DataTable();
+        var tblSelectionList = $('#tableSelectionList').DataTable();
+        console.log(button);
+        var row = tblCandidateList.row($(button).parents('tr'));
+        //console.log(row.data());
+        rowData = row.data();
+        //var rowNode = row.node();
+        var rowNode = tblSelectionList
+            .row.add(['0', @Model.Id, rowData[0], rowData[1], rowData[2], rowData[3], rowData[4], rowData[5],
+                '<a href="#!" id="chkSelection" onclick="removeCandidates(this)"><i class="fas fa-minus-circle"></i></a>' +
+                '| <a href="/CandidateSelection/JobDetail/#!"><i class="fas fa-info-circle"></i></a>' +
+                '| <a href="/CandidateSelection/FollowUp/#!"><i class="fas fa-flag"></i></a>' +
+                '| <a href="/CandidateSelection/VisaProcess/#!"><i class="fas fa-asterisk"></i></a>'
+                ])
+            .draw()
+            .node();
+        row.remove();
+        tblCandidateList.draw();
+    }
+    function removeCandidates(button) {
+        var tblCandidateList = $('#tableCandidateList').DataTable();
+        var tblSelectionList = $('#tableSelectionList').DataTable();
+        console.log(button);
+        var row = tblSelectionList.row($(button).parents('tr'));
+        rowData = row.data();
+        console.log(rowData);
+        var rowNode = tblCandidateList
+            .row.add([rowData[2], rowData[3], rowData[4], rowData[5], rowData[6], rowData[7],
+                '<a href="#!" onclick="selectCandidates(this);"><i class="fas fa-plus-circle"></i></a>'])
+            .draw()
+            .node();
+        row.remove();
+        tblSelectionList.draw();
+    }
+    function saveSelection() {
+        var lstSelectedCandidates = [];
+        var table = $('#tableSelectionList').DataTable();
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            console.log(this.data());
+            lstSelectedCandidates.push(this.data()[2]);
+            console.group("SELECTED CANDIDATES");
+            console.log(lstSelectedCandidates);
+            console.groupEnd();
+        });
+        var lstSelectedCandidateString = lstSelectedCandidates.toString();
+        console.log(lstSelectedCandidateString);
+        var data = {
+            "selectedCandidates": lstSelectedCandidateString,
+            "candidateSelectionId": @Model.Id };
+        $.ajax({
+            type: "POST",
+            url: '/CandidateSelection/SaveSelection',
+            data: data,
+            dataType: "json",
+            success: function (data) {
+                toastr.success('candidate selected successfuly.');
+                setTimeout(() => { console.log("redirecting!"); }, 3000);
+                window.location.href = '/CandidateSelection/Edit/@Model.Id';
+            },
+            error: function () {
+                toastr.error('while occured while saving passport.')
+            }
+        });
+    }
+</script>
+}

@@ -1,0 +1,281 @@
+﻿
+<form action="Edit" id="frmCP">
+    <div class="row">
+        <div class="col-md-4">
+
+            <input type="hidden" id="updatedId" name="updatedId" class="pkid" />
+            <div class="form-group">
+                <label class="control-label">Title</label>
+                <select name="updatedTitle" id="updatedTitle" class="form-control">
+                    <option value="Mr.">Mr.</option>
+                    <option value="Mrs.">Mrs.</option>
+                    <option value="Miss.">Miss.</option>
+                    <option value="Dr.">Dr.</option>
+                    <option value="Prof.">Prof.</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Given Name</label>
+                <input type="text" id="updatedFirstName" name="FirstName" max="25" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Surname</label>
+                <input type="text" id="updatedLastName" name="LastName" max="25" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Arabic Name</label>
+                <input type="text" id="updatedArabicName" name="updatedArabicName" class="form-control ArabicEntry" dir="rtl" lang="ar" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Date Of Birth</label>
+                <input required name="updatedDateOfBirth" id="updatedDateOfBirth" type="date" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Birth Country</label>
+                <select id="updatedPlaceOfBirthCountryId" class="form-control DDFilter">
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Birth City</label>
+                <select name="updatedPlaceOfBirthCityId" id="updatedPlaceOfBirthCityId" class="form-control DDFilter">
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Previous Nationality</label>
+                <select name="updatedPreviousNationalityCountryId" id="updatedPreviousNationalityCountryId" class="form-control DDFilter" items="ViewBag.PreviousNationalityCountryId"></select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Marital Status</label>
+                <select id="updatedMaritalStatus" name="updatedMaritalStatus" class="form-control DDFilter">
+                    <option value="Single">Single</option>
+                    <option value="Married">Married</option>
+                    <option value="Widowed">Widowed</option>
+                </select>       
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Gender</label>
+                <select id="updatedGender" name="updatedGender" class="form-control DDFilter">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Religion</label>
+                <select id="updatedReligion" name="updatedReligion" class="form-control DDFilter">
+                    <option value="Islam" selected="selected">Islam</option>
+                    <option value="Agnostic">Agnostic</option>
+                    <option value="Atheist">Atheist</option>
+                    <option value="Bahai">Bahai</option>
+                    <option value="Buddhism">Buddhism</option>
+                    <option value="Christianity">Christianity</option>
+                    <option value="Hinduism">Hinduism</option>
+                    <option value="Islam">Islam</option>
+                    <option value="Jainism">Jainism</option>
+                    <option value="Judaism">Judaism</option>
+                    <option value="Secular">Secular</option>
+                    <option value="Sikhism">Sikhism</option>
+                    <option value="Spiritism">Spiritism</option>
+                    <option value="Zoroastrianism">Zoroastrianism</option>
+                    <option value="Other">Other</option>
+                </select>
+                <span validation-for="Religion" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Sect</label>
+                <select id="updatedSect" name="updatedSect" class="form-control DDFilter">
+                    <option value="N/A" selected="selected">N/A</option>
+                    <option value="Sunni">Sunni</option>
+                    <option value="Shia">Shia</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Home Address</label>
+                <input type="text" id="updatedHomeAddress" name="updatedHomeAddress" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Permanent Address</label>
+                <input id="updatedPermanentAddress" name="updatedPermanentAddress" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Phone</label>
+                @*<input for="PhoneNumber" class="form-control" pattern="^$|^\+\d{1}\d{0,1}\d{0,1}-\d{2,3}-\d{7}" autocomplete="off" />*@
+                <input id="updatedPhoneNumber" name="updatedPhoneNumber" class="form-control" type="number" autocomplete="off" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Business Address</label>
+                <input id="updatedBusinessAddress" name="updatedBusinessAddress" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Business Phone</label>
+                @*<input for="BusinessPhone" class="form-control" pattern="^$|^\+\d{1}\d{0,1}\d{0,1}-\d{2}\d{0,1}-\d{7}" autocomplete="off" />*@
+                <input id="updatedBusinessPhone" name="updatedBusinessPhone" class="form-control" type="number" autocomplete="off" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Domicile</label>
+                <select id="updatedDomicile" name="updatedDomicile" class="form-control DDFilter">
+                    <option value="Lahore" selected="selected">Lahore</option>
+                    <option value="Rawalpindi">Rawalpindi</option>
+                    <option value="Islamabad">Islamabad</option>
+                    <option value="Peshawar">Peshawar</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Email</label>
+                <input id="updatedEmail" name="updatedEmail" type="email" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Cell</label>
+                @*<input for="CellNumber" class="form-control" pattern="^$|^\+\d{1}\d{0,1}\d{0,1}-\d{2}\d{0,1}-\d{7}" autocomplete="off" />*@
+                <input id="updatedCellNumber" name="updatedCellNumber" class="form-control" type="number" autocomplete="off" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">CNIC</label>
+                @*pattern="^$|^\d{5}-\d{7}-\d{1}"*@
+                <input id="updatedCnic" name="updatedCnic" type="text" class="form-control" pattern="^$|^\d{13}" autocomplete="off" required placeholder="1234567890000" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Issue Date</label>
+                <input id="updatedIssueDate" name="updatedIssueDate" type="date" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Expiry date</label>
+                <input id="updatedExpiryDate" name="updatedExpiryDate" type="date" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Father Name</label>
+                <input id="updatedFatherName" name="FatherName" type="text" max="25" class="form-control" autocomplete="off" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Father Arabic Name</label>
+                <input id="updatedFatherArabicName" name="updatedFatherArabicName" class="form-control ArabicEntry" dir="rtl" lang="ar" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Qualification</label>
+                <input id="updatedQualification" name="updatedQualification" type="text" max="40" class="form-control" autocomplete="off" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Husband Name</label>
+                <input id="updatedHusbandName" name="updatedHusbandName" type="text" max="25" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Husband Arabic Name</label>
+                <input id="updatedHusbandArabicName" name="updatedHusbandArabicName" class="form-control ArabicEntry" dir="rtl" lang="ar" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Reference</label>
+                <select id="updatedReference" name="updatedReference" class="form-control  DDFilter">
+                    <option value="Self">Self</option>
+                    <option value="Nominated">Nominated</option>
+                    <option value="Agent">Agent</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4 divAgent" style="display:none;">
+            <div class="form-group">
+                <label class="control-label">Agent Name</label>
+                <select id="updatedAgentId" name="updatedAgentId" class="form-control DDFilter" asp-items="ViewBag.AgentId"></select>
+            </div>
+        </div>
+        <div class="col-md-4 divReferenceName">
+            <div class="form-group">
+                <label class="control-label">Nominee Name</label>
+                <input type="text" id="updatedReferenceName" name="updatedReferenceName" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4 divReference" style="display:none;">
+            <div class="form-group">
+                <label class="control-label">Reference Phone</label>
+                <input type="text" id="updatedReferencePhone" name="updatedReferencePhone" class="form-control" />
+            </div>
+        </div>
+
+        <div class="col-md-4" style="display:none;">
+            <div class="form-group">
+                <label class="control-label">Company</label>
+                <input id="updatedCompanyName" name="updatedCompanyName" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+        </div><div class="form-group col-md-4 float-right">
+            <input type="button" value="Update" id="updateInfoCandidate" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
+
+
+
+<script>
+    //getUpdatedData()
+    //function getUpdatedData() {
+    //    var Obj = {id:50986}
+    //    $.ajax({
+    //        type: "GET",
+    //        url: '/CandidateProfile/ForUpdate',
+    //        data: Obj,
+    //        dataType: "json",
+    //        success: function (data) {
+    //            console.log(data);
+    //        },
+    //        error: function (errormsg) {
+    //            console.log(data);
+    //        }
+    //    });
+    //}
+</script>

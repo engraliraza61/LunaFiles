@@ -1,0 +1,235 @@
+﻿@model Luna.Recruitment.VisaProcessing.DTO.WalkInSelection
+
+@{
+    ViewData["Title"] = "Walk In Selection";
+}
+
+<h1>Selection Info</h1>
+@if (ViewBag.StatusMessage != null)
+{
+    <div class="alert alert-info offset-md-4 col-md-4 " role="alert">
+        @ViewBag.StatusMessage
+    </div>
+}
+<hr />
+<form asp-action="WalkInSelection">
+    <div class="row">
+        <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="OEPId" class="control-label">OEP</label>
+                <select asp-for="OEPId" class="form-control DDFilter" asp-items="ViewBag.OEPId"></select>
+                <span asp-validation-for="OEPId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FileType" class="control-label">File Type</label>
+                <select asp-for="FileType" class="form-control DDFilter" asp-items="ViewBag.FileType"></select>
+                <span asp-validation-for="FileType" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label">Sur Name</label>
+                <input type="text" asp-for="FirstName" class="form-control" value="" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label">Given Name</label>
+                <input type="text" asp-for="LastName" class="form-control" value="" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="CNICNumber" class="control-label">CNIC</label>
+                @*pattern="^\d{5}-\d{7}-\d{1}$"*@
+                <input asp-for="CNICNumber" class="form-control" pattern="^\d{13}$" required autocomplete="off" max="13" placeholder="1234567890000" />
+                <span asp-validation-for="CNICNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="IssueDate" class="control-label">Issue Date</label>
+                <input type="date" asp-for="IssueDate" class="form-control" />
+                <span asp-validation-for="IssueDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="ExpiryDate" class="control-label">Expiry Date</label>
+                <input type="date" asp-for="ExpiryDate" class="form-control" />
+                <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Days" class="control-label">Days</label>
+                <input type="number" asp-for="Days" class="form-control" />
+                <span asp-validation-for="Days" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="DateOfBirth" class="control-label">Date Of Birth</label>
+                <input type="date" asp-for="DateOfBirth" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="DomicileCity" class="control-label">Domicile City</label>
+                <select asp-for="DomicileCity" class="form-control DDFilter" asp-items="ViewBag.DomicileCity"></select>
+                <span asp-validation-for="DomicileCity" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Religion" class="control-label">Religion</label>
+                <select asp-for="Religion" class="form-control DDFilter" asp-items="ViewBag.Religion"></select>
+                <span asp-validation-for="Religion" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="MaritalStatus" class="control-label">Marital Status</label>
+                <select asp-for="MaritalStatus" class="form-control DDFilter" asp-items="ViewBag.MaritalStatus"></select>
+                <span asp-validation-for="MaritalStatus" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label">Sex/Gender</label>
+                <select asp-for="Gender" class="form-control DDFilter" asp-items="ViewBag.Gender"></select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="BirthCountryId" class="control-label">Birth Country</label>
+                <select asp-for="BirthCountryId" class="form-control DDFilter" asp-items="ViewBag.BirthCountryId"></select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="BirthCityId" class="control-label">Birth City</label>
+                <select asp-for="BirthCityId" class="form-control DDFilter" asp-items="ViewBag.BirthCityId"></select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="CellNumber" class="control-label">Cell Number</label>
+                <input asp-for="CellNumber" class="form-control" />
+                <span asp-validation-for="CellNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="CellNumber2" class="control-label">Cell Number 2</label>
+                <input asp-for="CellNumber2" class="form-control" />
+                <span asp-validation-for="CellNumber2" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="CellNumber3" class="control-label">Cell Number 3</label>
+                <input asp-for="CellNumber3" class="form-control" />
+                <span asp-validation-for="CellNumber3" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="NationalityCountryId" class="control-label">Nationality</label>
+                <select asp-for="NationalityCountryId" class="form-control DDFilter" asp-items="ViewBag.NationalityCountryId"></select>
+                <span asp-validation-for="NationalityCountryId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="AlternateNationalityCountryId" class="control-label">Alt. Nationality</label>
+                <select asp-for="AlternateNationalityCountryId" class="form-control DDFilter" asp-items="ViewBag.AlternateNationalityCountryId"></select>
+                <span asp-validation-for="AlternateNationalityCountryId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="PermanentAddress" class="control-label">Permanent Address</label>
+                <input asp-for="PermanentAddress" class="form-control" />
+                <span asp-validation-for="PermanentAddress" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="PermanentAddressCity" class="control-label">Permanent Address City</label>
+                <input asp-for="PermanentAddressCity" class="form-control" />
+                <span asp-validation-for="PermanentAddressCity" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="CurrentAddress" class="control-label">Current Address</label>
+                <input asp-for="CurrentAddress" class="form-control" />
+                <span asp-validation-for="CurrentAddress" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="CurrentAddressCity" class="control-label">Current Address City</label>
+                <input asp-for="CurrentAddressCity" class="form-control" />
+                <span asp-validation-for="CurrentAddressCity" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Reference" class="control-label">Reference</label>
+                <input asp-for="Reference" class="form-control" />
+                <span asp-validation-for="Reference" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="JobType_EntitySetupId" class="control-label">Job Type</label>
+                <select asp-for="JobType_EntitySetupId" class="form-control DDFilter" asp-items="ViewBag.JobType_EntitySetupId"></select>
+                <span asp-validation-for="JobType_EntitySetupId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="SponserId" class="control-label">Sponser</label>
+                <select asp-for="SponserId" class="form-control DDFilter" asp-items="ViewBag.SponserId"></select>
+                <span asp-validation-for="SponserId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="SelectionGroup" class="control-label">Selection Group</label>
+                <input asp-for="SelectionGroup" class="form-control" />
+                <span asp-validation-for="SelectionGroup" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="JobOffer" class="control-label">Job Offer</label>
+                <input type="checkbox" asp-for="JobOffer" class="" />
+                <span asp-validation-for="JobOffer" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <a asp-action="Index" class="btn btn-info">Back to List</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

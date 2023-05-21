@@ -1,0 +1,439 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.Models.OepvisaDemand>
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@using Luna.Recruitment.VisaProcessing.Data.DTO
+
+@{
+    ViewData["Title"] = "File Creations";
+}
+<style>
+    a.tooltips {
+        position: relative;
+        display: inline;
+    }
+    .models {
+        border: 5px solid #333333;
+        width: 100%;
+        overflow-x: scroll;
+    }
+    .tooltipTable {
+        border: 5px solid;
+    }
+
+    a.tooltips span {
+        position: absolute;
+        width: auto;
+        color: #000000;
+        background: #ffffff;
+        height: auto;
+        line-height: 30px;
+        text-align: center;
+        visibility: hidden;
+        border-radius: 6px;
+    }
+
+    a.tooltips
+
+    a.tooltips span:after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 35%;
+        margin-left: -8px;
+        width: 0;
+        height: 0;
+        border-top: 8px solid #000000;
+        border-right: 8px solid transparent;
+        border-left: 8px solid transparent;
+    }
+
+    a:hover.tooltips span {
+        visibility: visible;
+        opacity: 0.8;
+        bottom: 30px;
+        left: 50%;
+        margin-left: -76px;
+        z-index: 999;
+    }
+
+    .modal-content {
+        width: 600px
+    }
+</style>
+<h1>File Creations</h1>
+@*@if (User.Identity.IsAuthenticated)
+    {
+        if (User.IsInRole("HR-FileCreation-Create"))
+        {
+            <p>
+                <a class="btn btn-primary" asp-action="Create">Create New</a>
+            </p>
+        }
+    }*@
+<p>
+    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.FileCreation.Create)).Result.Succeeded)
+    {
+        <a class="btn btn-primary" asp-action="Create">Create New</a>
+    }
+
+</p>
+<table class="table applyDataTable" id="FileSelectionTable">
+    <thead>
+        <tr>
+            <th hidden>Code</th>
+            <th>File Number</th>
+            <th>Entry Date</th>
+            <th>Sponser Name</th>
+            <th>Sponser ID</th>
+            <th>Counslate</th>
+            <th>Company Name</th>
+            <th>Client Name</th>
+            <th>Total Visa Qty</th>
+            <th>Visa Number</th>
+            <th>Visa Date</th>
+            <th>Expiry Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td hidden>@Html.DisplayFor(modelItem => item.Code)</td>
+                <td>
+                    <a class="tooltips">
+                        @Html.DisplayFor(modelItem => item.Code)
+                        <span class="tooltipText"></span>
+                    </a>
+                </td>
+                <td>@item.EntryDate.Value.ToString("dd/MM/yyyy")</td>
+                <td>@Html.DisplayFor(modelItem => item.Sponser.Name)</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sponser.Code)
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Counslate.Name)</td>
+                <td>
+                    <a class="tradeSummary">
+                        @Html.DisplayFor(modelItem => item.Sponser.CompanyShortName)
+
+                    </a>
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.ClientName)</td>
+                <td>
+                    @if (item.OepvisaDemandDetail != null && item.OepvisaDemandDetail.Count() > 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.OepvisaDemandDetail.ToList().Sum(t => t.Quantity).Value)
+                    }
+                    else
+                    {
+                        @("0")
+                    }
+                </td>
+                <td>
+
+                    @Html.DisplayFor(modelItem => item.BatchNumber)
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.VisaNumberDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.VisaExpire)</td>
+
+                <td>
+                    @*@if (User.Identity.IsAuthenticated)
+                            {
+                                if (User.IsInRole("HR-FileCreation-Edit"))
+                                {
+                            <a asp-controller="OEPVisaDemand" asp-action="Edit" asp-route-id="@item.Id" class="bi bi-align-bottom"><i class="fas fa-edit" title="Edit"></i></a>
+                                }
+                            }
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                if (User.IsInRole("HR-FileCreation-Delete"))
+                                {
+                        <a asp-controller="OEPVisaDemand" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt" title="Delete"></i></a>
+                                }
+                            }*@
+                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.FileCreation.Edit)).Result.Succeeded)
+                    {
+                        <a asp-controller="OEPVisaDemand" asp-action="Edit" asp-route-id="@item.Id" class="bi bi-align-bottom"><i class="fas fa-edit" title="Edit"></i></a>
+                    }
+
+                    |
+                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.FileCreation.Delete)).Result.Succeeded)
+                    {
+                        <a asp-controller="OEPVisaDemand" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt" title="Delete"></i></a>
+                    }
+
+                    <a asp-controller="Job" style="display:none" asp-action="Index" asp-route-id="@item.Id"><i class="fas fa-briefcase" title="Show Jobs"></i></a>
+                    |
+                    <a asp-controller="Permission" asp-action="Index" asp-route-OepvisaDemandId="@item.Id"><i class="fas fa-question-circle" title="Show Permissions"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="modal fade" id="JobModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Job</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <label for="jobType">Job Type:</label>
+                            <select type="text" class="form-control DDFilter" id="jobType"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="jobType">Job Type:</label>
+                            <select type="text" class="form-control DDFilter" id="jobType"></select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Send message</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="fileSummaryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content models">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    <span id='summaryTitle'></span>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="fileSummaryBody">
+                <table class="table applyDataTable" id="FileSelectionTable">
+                    <thead>
+                        <tr>
+                            <th>File ID</th>
+                            <th>Total</th>
+                            <th>Trade</th>
+                            <th>Medically FIT</th>
+                            <th>Medically Unfit</th>
+                            <th>Medical Under Process</th>
+                            <th>Biometric_M_R_onlineProcess</th>
+                            <th>Pending Documents</th>
+                            <th>Ready for Submission</th>
+                            <th>Submitted for VisaStamping</th>
+                            <th>Visa Stamped</th>
+                            <th>Visa Expired</th>
+                            <th>Deployed</th>
+                            <th>Degree Attestation Under Process</th>
+                            <th>Passport Applied</th>
+                            <th>Passport Returned</th>
+                            <th>Objection</th>
+                            <th>Stopped by Management</th>
+                            <th>Stopped by Company</th>
+                            <th>Under Selection</th>
+                            <th>Demand Required</th>
+                            <th>Under Selection</th>
+                            <th>Visa Cancelled</th>
+                            <th>Wakala Awaited</th>
+                            <th>Protector</th>
+                            <th>No Show</th>
+                            <th>Flight Cancelled</th>
+                            <th>Protector</th>
+                            <th>Ready To Print</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in (IEnumerable<Luna.Recruitment.VisaProcessing.Data.DTO.FileStatusDTO>)ViewBag.StatusSummary)
+                        {
+                            <tr>
+                                <td>@item.FileID</td>
+                                <td>@item.Total</td>
+                                <td>@item.Trade</td>
+                                <td>@item.MedicallyFIT</td>
+                                <td>@item.MedicallyUnfit</td>
+                                <td>@item.MedicalUnderProcess</td>
+                                <td>@item.Biometric_M_R_onlineProcess</td>
+                                <td>@item.PendingDocuments</td>
+                                <td>@item.ReadyforSubmission</td>
+                                <td>@item.SubmittedforVisaStamping</td>
+                                <td>@item.VisaStamped</td>
+                                <td>@item.VisaExpired</td>
+                                <td>@item.Deployed</td>
+                                <td>@item.DegreeAttestationUnderProcess</td>
+                                <td>@item.PassportApplied</td>
+                                <td>@item.PassportReturned</td>
+                                <td>@item.Objection</td>
+                                <td>@item.StoppedbyManagement</td>
+                                <td>@item.StoppedbyCompany</td>
+                                <td>@item.UnderSelection</td>
+                                <td>@item.DemandRequired</td>
+                                <td>@item.VisaCancelled</td>
+                                <td>@item.WakalaAwaited</td>
+                                <td>@item.Protector</td>
+                                <td>@item.NoShow</td>
+                                <td>@item.FlightCancelled</td>
+                                <td>@item.ReadyToPrint</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(document).on("click", ".tooltips", function () {
+            var row = $(this).closest('tr');
+            Id = $(row).find('td').eq(0).html();
+            //alert(Id);
+            data = { 'visaNumber': Id };
+            $.ajax({
+                type: "POST",
+                url: '/OepVisaDemand/GetInformations',
+                data: data,
+                dataType: "json",
+                success: function (data) {
+                             $('#fileSummaryBody').html('');
+                    //if (data.oepvisaDemand.Code == null) {
+                    //    data.oepvisaDemand.Code = "0000"
+                    //}
+                    var table = "<tr><th>File ID</th><th>Total</th><th>Trade</th><th>ArabicName</th><th>Medically FIT</th><th>Medically Unfit</th><th>Medical Under Process</th><th>Biometric_M_R_onlineProcess</th><th>Pending Documents</th><th>Ready for Submission</th><th>Submitted for VisaStamping</th><th>Visa Stamped</th><th>Visa Expired</th><th>Deployed</th><th>Declined</th><th>Degree Attestation Under Process</th><th>Passport Applied</th><th>Passport Returned</th><th>Objection</th><th>Stopped by Management</th><th>Stopped by Company</th><th>Under Selection</th><th>Demand Required</th><th>Visa Cancelled</th><th>Wakala Awaited</th><th>Protector</th><th>No Show</th><th>Flight Cancelled</th><th>Ready To Print</th><th>Available</th></tr >"
+                        /*$(row).find('.tooltipText').append('Trade Name' + '|' + 'Quantity' + '|' + 'Arabic Name'+'</br>')*/;
+                    if (data.length == 0) {
+                        $(row).find('.tooltipText').append("No Data Found");
+                    }
+                    else {
+                        $.each(data, function () {
+                            var htmlA = "<tr><td>" + this.fileID + "</td><td>" + this.total + "</td><td>" + this.trade + "</td><td>" + this.arabicName + "</td><td>" + this.medicallyFIT + "</td><td>" + this.medicallyUnfit + "</td><td>" + this.medicalUnderProcess + "</td><td>" + this.biometric_M_R_onlineProcess + "</td><td> " + this.pendingDocuments + "</td><td>" + this.readyforSubmission + "</td><td> " + this.submittedforVisaStamping + "</td><td>" + this.visaStamped + "</td><td>" + this.visaExpired + "</td><td>" + this.deployed + "</td><td>" + this.declined + "</td><td>" + this.degreeAttestationUnderProcess + "</td><td>" + this.passportApplied + "</td><td>" + this.passportReturned + "</td><td>" + this.objection + "</td><td>" + this.stoppedbyManagement + "</td><td>" + this.stoppedbyCompany + "</td><td>" + this.underSelection + "</td><td>" + this.demandRequired + "</td><td>" + this.visaCancelled + "</td><td>" + this.wakalaAwaited + "</td><td>" + this.protector + "</td><td>" + this.noShow + "</td><td>" + this.flightCancelled + "</td><td>" + this.readyToPrint + "</td><td>" + this.available + "</td></tr>"
+                            table = table + htmlA;
+                        });
+                        var tableA = "<table class='table applyDataTableWithExport4'>" + table + "<table>"
+                        $('#fileSummaryBody').append(tableA + "</br>");
+                        $('#summaryTitle').html(Id + "'s Summary");
+                        $('#fileSummaryModal').modal('show');
+                    }
+
+                },
+                error: function () {
+                    toastr.error('Error occured while saving medical record.', "Error");
+                }
+            });
+            //$.ajax({
+            //    type: "POST",
+            //    url: '/OepVisaDemand/GetInformation',
+            //    data: data,
+            //    dataType: "json",
+            //    success: function (data) {
+            //        $('#fileSummaryBody').html('');
+            //        //if (data.oepvisaDemand.Code == null) {
+            //        //    data.oepvisaDemand.Code = "0000"
+            //        //}
+            //        var table = "<tr><th>Arabic Name<th><th>Name<th><th>Quantity<th><th>Used<th><th>Avalable<th><tr>"
+            //            /*$(row).find('.tooltipText').append('Trade Name' + '|' + 'Quantity' + '|' + 'Arabic Name'+'</br>')*/;
+            //        if (data.length == 0) {
+            //            $(row).find('.tooltipText').append("No Data Found");
+            //        }
+            //        else {
+            //            $.each(data, function () {
+            //                console.log(this.visaQuantity);
+            //                var htmlA = "<tr><td>" + this.arabicName + "<td><td class='tradeSummary'>" + this.trade + "<td><td>" + this.visaQuantity + "<td><td>" + this.used + "<td><td>" + this.available + "<td><tr>"
+            //                table = table + htmlA;
+            //            });
+            //            var tableA = "<table class='table applyDataTable'>" + table + "<table>"
+            //            $('#fileSummaryBody').append(tableA + "</br>");
+            //            $('#summaryTitle').html(Id + "'s Summary");
+            //            $('#fileSummaryModal').modal('show');
+            //        }
+
+
+            //    },
+            //    error: function () {
+            //        toastr.error('Error occured while saving medical record.', "Error");
+            //    }
+            //});
+        });
+        $(document).on("click", ".tradeSummary", function () {
+            var row = $(this).closest('tr');
+            Id = $(row).find('td').eq(0).html();
+            data = { 'visaNumber': Id };
+            $.ajax({
+                type: "POST",
+                url: '/OepVisaDemand/GetSummary',
+                data: data,
+                dataType: "json",
+                success: function (data) {
+                    $('#fileSummaryBody').html('');
+                    //if (data.oepvisaDemand.Code == null) {
+                    //    data.oepvisaDemand.Code = "0000"
+                    //}
+                    var table = "<tr><th>FileNo<th><th>Trade<th><th>Status<th><th>Quantity<th>><tr>"
+                        /*$(row).find('.tooltipText').append('Trade Name' + '|' + 'Quantity' + '|' + 'Arabic Name'+'</br>')*/;
+                    if (data.length == 0) {
+                        var htmlA = "<tr><td>No Data Found</td></tr>"
+                        table = table + htmlA;
+                        var tableA = "<table class='table applyDataTable'>" + table + "<table>"
+                        $('#fileSummaryBody').append(tableA + "</br>");
+                        $('#summaryTitle').html(Id + "'s Summary");
+                        $('#fileSummaryModal').modal('show');
+                    }
+                    else {
+                        $.each(data, function () {
+                            console.log(this.visaQuantity);
+                            var htmlA = "<tr><td>" + this.fileNo + "<td><td class='tradeSummary'>" + this.trade + "<td><td>" + this.visaProcessingStatus + "<td><td>" + this.visaQuantity + "<td><tr>"
+                            table = table + htmlA;
+                        });
+                        var tableA = "<table class='table applyDataTable'>" + table + "<table>"
+                        $('#fileSummaryBody').append(tableA + "</br>");
+                        $('#summaryTitle').html(Id + "'s Summary");
+                        $('#fileSummaryModal').modal('show');
+                    }
+
+
+                },
+                error: function () {
+                    toastr.error('Error occured while saving medical record.', "Error");
+                }
+            });
+        });
+        //$('.displayToolTip').hover(function () {
+        //    var row = $(this).closest('tr');
+        //    Id = $(row).find('td').eq(0).html();
+        //    console.log(Id);
+        //    data = { 'visaNumber': Id };
+        //    $.ajax({
+        //        type: "POST",
+        //        url: '/OepVisaDemand/GetInformation',
+        //        data: data,
+        //        dataType: "json",
+        //        success: function (data) {
+        //            console.log(data.oepvisaDemand.quantity);
+        //            console.log(data.oepvisaDemand.Code);
+        //            if (data.oepvisaDemand.Code == null) {
+        //                data.oepvisaDemand.Code="0000"
+        //            }
+        //            console.log(data.visaTradeEntitySetup.arabicName);
+        //            console.log(data.visaTradeEntitySetup.name);
+        //            response = data.oepvisaDemand.quantity;
+
+        //            $("#tooltip" + data.oepvisaDemand.Code).tooltip('title', response);
+        //            console.log($("#tooltip" + data.oepvisaDemand.Code).val());
+        //        },
+        //        error: function () {
+        //            toastr.error('Error occured while saving medical record.', "Error");
+        //        }
+        //    });
+        //});
+    });
+</script>

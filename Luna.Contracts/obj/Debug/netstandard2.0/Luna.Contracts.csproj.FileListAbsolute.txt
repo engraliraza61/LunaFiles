@@ -1,0 +1,10 @@
+D:\LUNA\LUNA PROD\Code\Luna.Contracts\bin\Debug\netstandard2.0\Luna.Contracts.deps.json
+D:\LUNA\LUNA PROD\Code\Luna.Contracts\bin\Debug\netstandard2.0\Luna.Contracts.dll
+D:\LUNA\LUNA PROD\Code\Luna.Contracts\bin\Debug\netstandard2.0\Luna.Contracts.pdb
+D:\LUNA\LUNA PROD\Code\Luna.Contracts\obj\Debug\netstandard2.0\Luna.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+D:\LUNA\LUNA PROD\Code\Luna.Contracts\obj\Debug\netstandard2.0\Luna.Contracts.AssemblyInfoInputs.cache
+D:\LUNA\LUNA PROD\Code\Luna.Contracts\obj\Debug\netstandard2.0\Luna.Contracts.AssemblyInfo.cs
+D:\LUNA\LUNA PROD\Code\Luna.Contracts\obj\Debug\netstandard2.0\Luna.Contracts.csproj.CoreCompileInputs.cache
+D:\LUNA\LUNA PROD\Code\Luna.Contracts\obj\Debug\netstandard2.0\Luna.Contracts.dll
+D:\LUNA\LUNA PROD\Code\Luna.Contracts\obj\Debug\netstandard2.0\Luna.Contracts.pdb
+D:\LUNA\LUNA PROD\Code\Luna.Contracts\obj\Debug\netstandard2.0\Luna.Contracts.csproj.AssemblyReference.cache

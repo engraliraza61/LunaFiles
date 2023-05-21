@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.DTO.FinalProcessing>
+@{
+    ViewData["Title"] = "ReservationReport";
+}
+
+<h1>ReservationReport</h1>
+
+<form asp-action="ReservationReport" asp-controller="Reports" id="frmENumber">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">File Number</label>
+                <select id="FileNumber" name="FileNumber" class="form-control DDFilter"></select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Passport Receiving Date From</label>
+                <input type="date" id="ProcessingDateFrom" name="ProcessingDateFrom" max="25" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Passport Receiving Date To</label>
+                <input type="date" id="ProcessingDateTo" name="ProcessingDateTo" max="25" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            &nbsp;
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label"></label>
+                <input type="submit" value="Filter" class="btn btn-primary form-control" />
+            </div>
+        </div>
+    </div>
+</form>
+<table class="table table-responsive-md applyDataTableWithExport">
+    <thead>
+        <tr>
+            <th>Sr</th>
+            <th>File ID</th>
+            @*<th>Conslate</th>
+            <th>OEP</th>*@
+            <th>GivenName</th>
+            <th>SurName</th>
+            <th>FatherName</th>
+            <th>DateOfBirth</th>
+            <th>Cnic No</th>
+            <th>Passport #</th>
+            <th>Date Of Issue</th>
+            <th>Date Of Expiry</th>
+            <th>Sector</th>
+            <th>Company</th>
+            <th>Selection Group</th>
+            <th>Visa Prosessing Status</th>
+            @*<th>Status Remarks</th>*@
+            <th>VisaStampingDate</th>
+            <th>VisaExpiryDate</th>
+            <th>Reference</th>
+            @*<th>Vaccine Name</th>
+            <th>Vaccine Dose</th>
+            <th>Vaccine Date>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Sr)</td>
+            <td>@Html.DisplayFor(modelItem => item.FileID)</td>
+            <td>@Html.DisplayFor(modelItem => item.GivenName)</td>
+            <td>@Html.DisplayFor(modelItem => item.SurName)</td>
+            <td>@Html.DisplayFor(modelItem => item.FatherName)</td>
+            <td>@Html.DisplayFor(modelItem => item.DateOfBirth)</td>
+            <td>@Html.DisplayFor(modelItem => item.CnicNo)</td>
+            <td>@Html.DisplayFor(modelItem => item.Passport)</td>
+            <td>@Html.DisplayFor(modelItem => item.DateOfIsse)</td>
+            <td>@Html.DisplayFor(modelItem => item.DateOfExpiry)</td>
+            <td>@Html.DisplayFor(modelItem => item.Sector)</td>
+            <td>@Html.DisplayFor(modelItem => item.Company)</td>
+            <td>@Html.DisplayFor(modelItem => item.SelectionGroup)</td>
+            <td>@Html.DisplayFor(modelItem => item.VisaProcessingStatus)</td>
+            @*<td>@Html.DisplayFor(modelItem => item.StatusRemarks)</td>*@
+            <td>@item.VisaStampingDate.ToString("dd/MM/yyyy")</td>
+            <td>@item.VisaExpiryDate.ToString("dd/MM/yyyy")</td>
+            <td>@Html.DisplayFor(modelItem => item.Reference)</td>
+
+            @*<td>@Html.DisplayFor(modelItem => item.VaccineName)</td>
+        <td>@Html.DisplayFor(modelItem => item.VaccineDose)</td>
+        <td>@Html.DisplayFor(modelItem => item.VaccineDate)</td>*@
+        </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $.getJSON('/CandidateProfile/GetFileNo/', function (data) {
+            $("#FileNumber option").remove();
+            $("#FileNumber").append('<option value=0>--select File No--</option>');
+            $.each(data, function () {
+                $("#FileNumber").append('<option value=' + this.code + '>' + this.code + '</option>');
+            });
+            $("#FileNumber").val();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting FileNo!');
+        });
+    });
+</script>

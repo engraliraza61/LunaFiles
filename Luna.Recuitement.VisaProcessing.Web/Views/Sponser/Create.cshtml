@@ -1,0 +1,132 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.Sponser
+
+@{
+    ViewData["Title"] = "Create Sponser";
+}
+
+<h1>Create Sponser</h1>
+<hr />
+<form asp-action="Create">
+    <div class="row">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Code" class="control-label">Sponser ID</label>
+                <input asp-for="Code" type="number" class="form-control" />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Name Of Sponser</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="ArabicName" class="control-label"></label>
+                <input asp-for="ArabicName" class="form-control ArabicEntry" dir="rtl" lang="ar" />
+                <span asp-validation-for="ArabicName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="CountryId" class="control-label">Country</label>
+                <select asp-for="CountryId" class="form-control DDFilter" asp-items="ViewBag.CountryId"></select>
+            </div>
+        </div>
+        <div class="col-md-6" style="display:none;">
+            <div class="form-group">
+                <label asp-for="StateId" class="control-label">State</label>
+                <select accept-charset="ISO-8859-6" asp-for="StateId" class="form-control DDFilter" asp-items="ViewBag.StateId"></select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="CityId" class="control-label">City</label>
+                <select asp-for="CityId" class="form-control DDFilter" asp-items="ViewBag.CityId"></select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label"></label>
+                @*<input asp-for="Phone" class="form-control" pattern="^\+\d{1}\d{0,1}\d{0,1}-\d{3}-\d{7}$" required autocomplete="off" />*@
+                <input asp-for="Phone" class="form-control" type="number" required autocomplete="off" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="CompanyShortName" class="control-label">Parent Company Name</label>
+                <input asp-for="CompanyShortName" class="form-control" />
+                <span asp-validation-for="CompanyShortName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6" style="display:none;">
+            <div class="form-group">
+                <label asp-for="ProjectName" class="control-label">Project Name</label>
+                <input asp-for="ProjectName" class="form-control" />
+                <span asp-validation-for="ProjectName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group col-md-6 float-right">
+            <a asp-action="Index" class="btn btn-info">Back to List</a>
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+
+
+    </div>
+</form>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script charset="utf-8" type="text/javascript">
+    $(document).ready(function () {
+        $.getJSON('/CandidateProfile/GetCountry/', function (data) {
+            $('#CountryId option').remove();
+            $('#CityId option').remove();
+            $('#CityId').append('<option value="0">-- Select City --</option>'); 
+            $('#CountryId').append('<option value="0">-- Select Country --</option>');
+            $.each(data, function () {
+                //console.log(this.id + " | " + this.name);
+                    $('#CountryId').append('<option value=' + this.id + '>' + this.name+'</option>');
+            });
+            //$('#CountryId').val(1);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting cities!');
+        });
+
+        $('#CountryId').change(function () {
+            //$('#PlaceOfBirthCountryId option').remove(); // Clear State Dropdown
+            $('#CityId option').remove();  // Clear City Dropdown
+            $('#CityId').append('<option value=""> Loading . . . </option>'); // Add Default Value to City Dropdown
+            $.getJSON('/CandidateProfile/GetCityByCountry/")', { CountryId: 1 }, function (data) {
+                $('#CityId option').remove();  // Clear City Dropdown
+                $('#CityId').append('<option value="0">-- Select City --</option>'); // Add Default Value to City Dropdown
+                $.each(data, function () {
+                    $('#CityId').append('<option value=' + this.id + '>' + this.name + '  |  ' + this.arabicName + '</option>');
+                });
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error getting cities!');
+            });
+        });
+        });
+    </script>
+}

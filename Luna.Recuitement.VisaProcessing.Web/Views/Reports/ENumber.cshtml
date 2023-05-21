@@ -1,0 +1,97 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.DTO.ReportDto>
+
+@{
+    ViewData["Title"] = "General Report";
+}
+
+<h1>General Report</h1>
+<form asp-action="ENumber" asp-controller="Reports" id="frmENumber">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">File Number</label>
+                @*<input id="FileNumber" name="FileNumber" max="25" class="form-control" />*@
+                <select id="FileNumber" name="FileNumber" class="form-control">
+                    <option value="0">Show All</option>
+                    <option value="1"> With File Number Only</option>
+                </select>
+            </div>
+        </div>
+        @*<div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Visa Number</label>
+                <input id="VisaNumber" name="VisaNumber" max="25" class="form-control" />
+            </div>
+        </div>*@
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">E-Number</label>
+                @*<input id="ENumber" name="ENumber" max="25" class="form-control" />*@
+                <select id="ENumber" name="ENumber" class="form-control">
+                    <option value="0">Show All</option>
+                    <option value="1"> With E-Number Only</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label"></label>
+                <input type="submit" value="Filter" class="btn btn-primary form-control" />
+            </div>
+        </div>
+    </div>
+</form>
+<table class="table table-responsive-md applyDataTableWithExport">
+    <thead>
+        <tr>
+            <th>File Number</th>
+            <th>Name</th>
+            <th>Father Name</th>
+            <th>Passport</th>
+            <th>Selection Trade</th>
+            <th>ENumber</th>
+            <th>ENumber Date</th>
+            @*<th>Biometric Send</th>*@
+            <th>Biometric Recv</th>
+            @*<th>Medical Online Send</th>*@
+            <th>Medical Online Recv</th>
+            <th>Passport Submit</th>
+            <th>Passport Recv</th>
+            <th>ProtectorDate</th>
+            <th>Deployment Date</th>
+            <th>Status</th>
+            <th>Company</th>
+            <th>Selection Group</th>
+            <th>Ref Contact</th>
+            <th>Remarks</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.FileNumber)</td>
+            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+            <td>@Html.DisplayFor(modelItem => item.FatherName)</td>
+            <td>@Html.DisplayFor(modelItem => item.Passport)</td>
+            <td>@Html.DisplayFor(modelItem => item.Trade)</td>
+            <td>@Html.DisplayFor(modelItem => item.ENumber)</td>
+            <td>@item.ENumberDate</td>
+            @*<td>@item.BiometricSendingDate</td>*@
+            <td>@item.BiometricReceivingDate</td>
+            @*<td>@item.MedicalOnlineSendingDate</td>*@
+            <td>@item.MedicalOnlineReceivingDate</td>
+            <td>@item.PassportSubmissionDate</td>
+            <td>@item.PassportReceivingDate</td>
+            <td>@item.ProtectorDate</td>
+            <td>@item.DeploymentDate</td>
+            <td>@Html.DisplayFor(modelItem => item.Status)</td>
+            <td>@Html.DisplayFor(modelItem => item.Company)</td>
+            <td>@Html.DisplayFor(modelItem => item.Reference)</td>
+            <td>@Html.DisplayFor(modelItem => item.RefContact)</td>
+            <td>@item.StatusRemarks</td>
+
+        </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.Models.FollowUp>
+
+@{
+    ViewData["Title"] = "Index Follow Up";
+}
+
+<h2>@(Convert.ToString(ViewBag.Candidate.FirstName)+ " "+ Convert.ToString(ViewBag.Candidate.LastName))</h2>
+<p>
+    <a asp-action="Create" class="btn btn-primary" asp-route-candidateSelectionDetailId="@ViewBag.CandidateSelectionDetailId">New Follow Up</a> 
+</p>
+<table class="table applyDataTable">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Date</th>
+            <th>Comments</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FollowUpDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comments)
+            </td>
+            <td>
+            <a asp-action="Edit" asp-route-FollowUpId="@item.Id"><i class="fas fa-edit"></i></a> |
+            <a asp-action="Delete" asp-route-FollowUpId="@item.Id"><i class="fas fa-trash"></i></a></td>
+        </tr>
+        }
+    </tbody>
+</table>
+<p>
+    <a asp-action="Index" asp-controller="CandidateSelection" class="btn btn-info">Selection List</a>
+    <a class="btn btn-info" asp-action="Edit" asp-controller="CandidateSelection" asp-route-id="@ViewBag.CandidateSelectionId">Current Selection</a>
+</p>

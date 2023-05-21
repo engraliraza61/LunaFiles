@@ -1,0 +1,561 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.Receipt
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+
+*@
+
+
+
+
+<form asp-action="CreateSelectionCandidate" asp-controller="CandidateSelection" id="selectionCandidateId">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">ReceiptNo</label>
+                <input type="number" id="receiptNoAuto" class="form-control" value="auto" readonly />
+                <span @*asp-validation-for="SponserId"*@ class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Date" class="control-label">Date</label>
+                <input type="date" required class="form-control" id="PaymentDate" />
+                <span @*asp-validation-for="SponserId"*@ class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="ReceiptType" class="control-label">Receipt Type</label>
+                <select class="form-control" id="PaymentCashBankId">
+                    <option value=0>--Select--</option>
+                    <option value="Cash">Cash</option>
+                    <option value="Bank">Bank</option>
+                </select>
+                <span @*asp-validation-for="SelectionGroup"*@ class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="ReceiptType" class="control-label">Select Account</label>
+            <select class="form-control" id="accountPaymentAgent" name="Account">
+            </select>
+        </div>
+        @*<div class="col-md-6 BankAccountId" id="BankAccountId" style="display:none">
+                <div class="form-group">
+                    <label asp-for="BankAccoutNo" class="control-label">Bank Account No</label>
+                    <input asp-for="BankAccoutNo" type="text" id="ReceiptBankAccoutNoId" class="form-control" />
+                    <span asp-for="BankAccoutNo" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6 receiptCheqNo" style="display:none">
+                <div class="form-group">
+                    <label asp-for="CheqNo" class="control-label">Cheq #</label>
+                    <input asp-for="CheqNo" id="receiptCheqNo" type="number" class="form-control" />
+                    <span asp-for="CheqNo" class="text-danger"></span>
+                </div>
+            </div>*@
+        <input hidden value="@ViewBag.agentGLCode" id="paidTo" />
+        <br />
+        @*<select name="cars" id="cars" class="form-control">
+                <optgroup label="Swedish Cars">
+                    <option value="volvo">Volvo</option>
+                    <option value="saab">Saab</option>
+                </optgroup>
+                <optgroup label="German Cars">
+                    <option value="mercedes">Mercedes</option>
+                    <option value="audi">Audi</option>
+                </optgroup>
+            </select>
+            <br/>
+            <select id="allChartOfAccount" class="form-control DDFilter"></select>
+            <br/>*@
+        <input type="checkbox" id="paymentCombinedCheckBox" onclick="combineCheckBox()" />Combined
+    </div>
+</form>
+<a class="btn btn-primary float-right" id="addRowPaymentJV" style="cursor:pointer"><i class="fas fa-plus"></i></a>
+<div class="panel panel-primary">
+    <div class="panel-hea   ding">
+        <h3 class="panel-title">Receipt Voucher List</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table datatableHideFirstThree" width="100%" id="tableReceiptList" style="border:2px solid black">
+            <thead>
+                <tr>
+                    <th>Agent</th>
+                    <th>File No</th>
+                    <th>Passport #</th>
+                    <th>Agent</th>
+                    <th>File No</th>
+                    @*<th>Passport #</th>
+                    <th>Name</th>*@
+                    <th>Discriptions</th>
+                    <th>Check No</th>
+                    <th>Amount</th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tblPaymentListJV">
+                <tr>
+                    <td>
+                        <select class='form-control PaymentAgentsA' id='PaymentAgentsA'></select>
+                    </td>
+                    <td>
+                        <select class='form-control RowReceiptFile DDFilter' id='RowPaymentFile'>
+                        </select>
+                    </td>
+                    <td>
+                        <select class='form-control RowReceiptPassport DDFilter' id='RowReceiptPassport'>
+                        </select>
+                    </td>
+                    <td style="width:20%">
+                        <select class="form-control js-example-basic-singles" style="width: 100%;" tabindex="-1" aria-hidden="true" id="receiptAgentAccount">
+                            <optgroup label="Agent" class='PaymentAgentsA' id='PaymentAgentsA'>
+                            </optgroup>
+                            <optgroup label="Account" class='RowPaymentChartOfAccountA' id='RowPaymentChartOfAccountA'>
+                            </optgroup>
+                        </select>
+                        <span>Passport #</span>
+                        <select style="width:100%" class='form-control DDFilter RowReceiptPassport' id='RowReceiptPassport'>
+                        </select>
+                    </td>
+                    <td style="width:10%">
+                        <select style="width:100%" class='form-control DDFilter RowReceiptFile' id='RowPaymentFile'>
+                        </select>
+                        <span>Name</span>
+                        <input type='text' class='form-control ReceiptCandidateName' id='ReceiptCandidateName' />
+                    </td>
+                    <td style="width:50%">
+                        <input class="form-control" id="receiptDiscription" />
+                    </td>
+                    <td style='width:10%'>
+                        <input type="text" class='form-control PaymentCheckNo' id='ReceiptCheckNo' />
+                    </td>
+                    <td style='width:10%'>
+                        <input type='number' class='form-control ReceiptAmount' id='ReceiptAmount' />
+                    </td>
+                    <td>
+                        <a class='removeReceiptRo' style='float:right'><i class='fas fa-trash'></i></a>
+                    </td>
+                </tr>
+            </tbody>
+            @*<tbody id="tbCandidateList">
+                    @foreach (var item in (List<Luna.Recruitment.VisaProcessing.Data.DTO.ReportDto>)ViewBag.ReceiptProcedureData)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.visaProcessId</td>
+                            <td>@item.CNIC</td>
+                            <td hidden>@item.Id</td>
+                            <td hidden>@item.visaProcessId</td>
+                            <td>@item.CNIC</td>
+                            <td>@item.Passport</td>
+                            <td>@item.Name</td>
+                            <td>@item.TotalReceivable</td>
+                            <td>@item.TotalExpenses</td>
+                            <td>@item.TotalReceived</td>
+                            <td>@item.Balance</td>
+                            <td>
+                                <input type="number" id="amountId" value="0" />
+                            </td>
+                            <td style="display:none">@item.FileNumber</td>
+                            <td style="display:none">@item.Reference</td>
+                        </tr>
+                    }
+                </tbody>*@
+        </table>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group col-md-12">
+        <button class="btn btn-primary float-right" id="btnSavePayment" value="Save">Save</button>
+    </div>
+</div>
+<div id="urlA"></div>
+<script>
+    var combine = false;
+    function combineCheckBox() {
+        var checkBox = document.getElementById("paymentCombinedCheckBox");
+        if (checkBox.checked == true) {
+            combine = true;
+        }
+        else {
+            combine = false;
+        }
+    }
+    $(document).ready(function () {
+        $(".js-example-basic-singles").select2({
+        });
+        
+        $(document).on('change', '.js-example-basic-singles', function () {
+            var label = $(this).find(':selected').closest('optgroup').attr('label');
+            var AgentGLId = $(this).find(':selected').closest('option').attr('value');
+            var row = $(this).closest('tr');
+            if (label != "Agent") {
+                $(row).find('.RowReceiptFile').hide();
+                $(row).find('.RowReceiptPassport').hide();
+                $(row).find('.ReceiptCandidateName').hide();
+                $(row).find('.RowReceiptFile').val(0);
+                $(row).find('.RowReceiptPassport').val(0);
+                $(row).find('.ReceiptCandidateName').val('');
+            }
+            else {
+                $(row).find('.RowReceiptFile').show();
+                $(row).find('.RowReceiptPassport').show();
+                $(row).find('.ReceiptCandidateName').show();
+                $.getJSON('/Receipt/GetFileByAgentId/")', { agentId: AgentGLId }, function (dataA) {
+                    console.log(dataA);
+                    $(row).find("#RowPaymentFile option").remove();
+                    $.each(dataA, function () {
+                        $(row).find("#RowPaymentFile").append('<option value=' + this + '>' + this + '</option>');
+                    });
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error getting cities!');
+                });
+            }
+
+        });
+        $('.PaymentAgentsA').change(function () {
+            var row = $(this).closest('tr');
+            $(row).find('.RowReceiptFile').show();
+            $(row).find('.RowReceiptPassport').show();
+            $(row).find('.ReceiptCandidateName').show();
+        });
+        callSelectBoxA();
+        function callSelectBox() {
+            var row = $('.PaymentAgentsA').closest('tr');
+            $.getJSON('/Agent/GetAgent/', function (data) {
+                $(row).find("#RowPaymentFile").append('<option value=0>--select Agent--</option>');
+                $.each(data, function () {
+                    $(row).find(".RowPaymentFile").append('<option value=' + this.id + '>' + this.name + '</option>');
+                });
+                $(row).find(".RowPaymentFile").val();
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error getting FileNo!');
+            });
+        }
+        function callSelectBoxA() {
+            var row = $('#tblPaymentListJV').last('tr');
+            $.getJSON('/Agent/GetAgent/', function (data) {
+                $.each(data, function () {
+                    console.log(this);
+                    $(row).find(".PaymentAgentsA").append('<option value=' + this.id + '>' + this.name + '</option>');
+                });
+                $(row).find(".PaymentAgentsA").val();
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error getting FileNo!');
+            });
+            $(row).find('#PaymentAgentsA').addClass("form-control DDFilter PaymentAgentsA");
+            $.getJSON('/Receipt/GetChartOfAccountReceipt/', function (data) {
+                $('.RowPaymentChartOfAccountA option').remove();
+                $.each(data.response.data, function (dataA) {
+                    for (var i = 0; i < Object.keys(data).length; i++) {
+                        console.log(this.name);
+                        var AccountValue = this.name;
+                        $('.RowPaymentChartOfAccountA').append('<option value=' + AccountValue + '>' + this.name + '</option>');
+                    }
+                });
+                $('#JVGetChartAccount').val();
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Journal entry api is not live!');
+            });
+        }
+        $(document).on('change', '.PaymentAgentsA', function () {
+            //$('.RowReceiptPassport option').remove();  // Clear City Dropdown// Add Default Value to City Dropdown
+            var row = $(this).closest("tr");
+
+            $.getJSON('/Receipt/GetFileByAgentId/")', { agentId: $(this).val() }, function (dataA) {
+                console.log(dataA);
+                $(row).find("#RowPaymentFile option").remove();
+                $.each(dataA, function () {
+                    $(row).find("#RowPaymentFile").append('<option value=' + this + '>' + this + '</option>');
+                });
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error getting cities!');
+            });
+
+        }).change();
+        $(document).on('change', '#RowPaymentFile', function () {
+            //$('.RowReceiptPassport option').remove();  // Clear City Dropdown// Add Default Value to City Dropdown
+            var row = $(this).closest("tr");
+
+            $.getJSON('/Receipt/GetPassportByFileCode/")', { fileCode: $(this).val() }, function (dataA) {
+                $(row).find("#RowReceiptPassport option").remove();
+                $.each(dataA, function () {
+                    $(row).find("#RowReceiptPassport").append('<option value=' + this + '>' + this + '</option>');
+                });
+
+                if (dataA.length == 1) {
+                    const passport = JSON.stringify(dataA);
+                    const str = passport;
+                    const noSpecialCharacters = str.replace(/[^a-zA-Z0-9 ]/g, '');
+                    $.getJSON('/Receipt/GetCandidateNameByPassportId/")', { passport: noSpecialCharacters }, function (dataA) {
+                        console.log(dataA);
+                        $(row).find("#ReceiptCandidateName").val('');
+                        $(row).find("#ReceiptCandidateName").val(dataA[0]);
+                        $(row).find("#totalReceivable").val(dataA[1]);
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        alert('Error getting cities!');
+                    });
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error getting cities!');
+            });
+
+        }).change();
+        $(document).on('change', '#RowReceiptPassport', function () {
+            //$('.RowReceiptPassport option').remove();  // Clear City Dropdown// Add Default Value to City Dropdown
+            var row = $(this).closest("tr");
+            $.getJSON('/Receipt/GetCandidateNameByPassportId/")', { passport: $(row).find('#RowReceiptPassport').val() }, function (dataA) {
+                console.log(dataA);
+                $(row).find("#ReceiptCandidateName").val('');
+                $(row).find("#ReceiptCandidateName").val(dataA[0]);
+                $(row).find("#totalReceivable").val(dataA[1]);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error getting cities!');
+            });
+
+        }).change();
+        $('#addRowPaymentJV').click(function () {
+          
+            var tr = "<tr><td><select class='form-control js-example-basic-singles' style='width: 100%;' tabindex='-1' aria-hidden='true' id='receiptAgentAccount'><optgroup label='Agent'class='PaymentAgentsA' id='PaymentAgentsA'></optgroup><optgroup label='Account' class='RowPaymentChartOfAccountA' id='RowPaymentChartOfAccountA'></optgroup></select><span>Passport #</span><select class='form-control DDFilter RowReceiptPassport' id='RowReceiptPassport'></select></td><td><select class='form-control DDFilter RowReceiptFile' id='RowPaymentFile'></select><span>Name</span><input type='text' class='form-control ReceiptCandidateName' id='ReceiptCandidateName'/></td><td style=width:60%'><input class='form-control' id='receiptDiscription'/></td><td style='width:10%'><input type='text' class='form-control PaymentCheckNo' id='ReceiptCheckNo' /></td><td style='width:10%'><input type='number' class='form-control' id='ReceiptAmount' /></td><td><a class='removeReceiptRo' style='float:right'><i class='fas fa-trash' ></i ></a ></td></tr>"
+            $('#tblPaymentListJV').append(tr);
+            callSelectBoxA();
+            $(document).on('DOMNodeInserted', '.js-example-basic-singles', function () {
+                $(this).select2();
+            });
+        });
+
+        $(document).on('click', '.removeReceiptRo', function () {
+            $(this).closest('tr').remove();
+        });
+        $("#ReceiptypeId").change(function () {
+            if ($(this).val() == "Bank") {
+                $('.BankAccountId').show();
+                $('.receiptCheqNo').show();
+            }
+            else {
+                $('.BankAccountId').hide();
+                $('.receiptCheqNo').hide();
+            }
+        });
+
+        $('#btnSavePayment').click(function () {
+            if (!$('#PaymentDate').val()) {
+                alert('please enter Date');
+                return false;
+            }
+            var Agent = [];
+            var FileNo = [];
+            var PassportNo = [];
+            var Amount = [];
+            var PaymentDate = [];
+            var receiptType = [];
+            var Accounts = [];
+            var CheckNo = [];
+            var discription = [];
+
+            $("#tblPaymentListJV tr").each(function () {
+                var row = $(this).closest('tr');
+                Agent.push($(row).find('#PaymentAgentsA').val());
+                PaymentDate.push($('#PaymentDate').val());
+                receiptType.push($('#PaymentCashBankId').val());
+                Accounts.push($(row).find('.js-example-basic-singles').find(':selected').closest('option').html());
+                Amount.push($(row).find('#ReceiptAmount').val());
+                PassportNo.push($(row).find('#RowReceiptPassport').val());
+                FileNo.push($(row).find('#RowPaymentFile').val());
+                CheckNo.push($(row).find('#ReceiptCheckNo').val());
+                discription.push($(row).find('#receiptDiscription').val());
+
+                //BankAccountNo.push($(row).find('#PaymentBankAccoutNoId').val());
+                //CheckNo.push($(row).find('#paymentCheqNo').val());
+            });
+
+
+
+            var lstCandidateId = [];
+            var lstVisaProcessId = [];
+            var lstReceiptAmount = [];
+            var table = $('#tableReceiptList').DataTable();
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+
+                lstCandidateId.push(this.data()[0]);
+                console.group("SELECTED Receipt");
+                console.log(lstCandidateId);
+                console.groupEnd();
+            });
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                console.log(this.data());
+                lstVisaProcessId.push(this.data()[1]);
+                console.group("SELECTED Receipt");
+                console.log(lstVisaProcessId);
+                console.groupEnd();
+            });
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                var d = this.data();
+                console.log(d);
+                var cell = table.cell({ row: rowIdx, column: 12 }).node();
+                lstReceiptAmount.push($('input', cell).val());
+                console.group("SELECTED Receipt");
+                console.log(lstReceiptAmount);
+                console.groupEnd();
+            });
+            var ReceiptFileNo = "";
+            var ReceiptReference = "";
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                var d = this.data();
+                console.log(d);
+                ReceiptFileNo = this.data()[13];
+                console.group("SELECTED Receipt");
+                console.log(lstReceiptAmount);
+                console.groupEnd();
+            });
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                var d = this.data();
+                console.log(d);
+                ReceiptReference = this.data()[14];
+                console.group("SELECTED Receipt");
+                console.log(lstReceiptAmount);
+                console.groupEnd();
+            });
+            PaymentDate = $('#PaymentDate').val();
+            ReceiptypeId = $('#PaymentCashBankId').val();
+            ReceiptBankAccoutNo = $('#ReceiptBankAccoutNoId').val();
+            Account_Paid_From = $('#accountPaymentAgent').val();
+            console.log('a');
+            console.log(Agent)
+            console.log(FileNo)
+            console.log(PassportNo)
+            console.log(Amount)
+            console.log(PaymentDate)
+            console.log(Accounts)
+            console.log(CheckNo)
+            console.log(discription)
+            console.log(Account_Paid_From)
+            console.log('z')
+            var data = {
+                "File": FileNo,
+                "Passport": PassportNo,
+                "Agent": Agent,
+                "lstReceiptAmount": Amount,
+                "lstVisaProcessId": lstVisaProcessId,
+                "date": PaymentDate,
+                "receiptType": ReceiptypeId,
+                "bankAccoutNo": ReceiptBankAccoutNo,
+                "account": Accounts,
+                "cheqNo": CheckNo,
+                "discription": discription,
+                "doctype": "Payment Entry", "series": "ACC-PAY-.YYYY.-", "payment_type": "Pay",
+                "Posting_Date": PaymentDate,
+                "Company": "LUNA CORPORATION",
+                //"paid_from": paid_to,
+                //"paid_from": "Debtors - LC",
+                "Account_Currency": "PKR",
+                "paid_from": Account_Paid_From,
+                //"paid_to": "HBL - LC",
+                "paid_to_account_currency": "PKR",
+                "Exchange_Rate": 1.0,
+                "paid_amount": 250.0,
+                "received_amount": 250.0,
+                "target_exchange_rate": 1.0,
+                "party_type": "Supplier",
+                "party": "luna sup",
+                "mode_of_payment": ReceiptypeId,
+                "reference_no": "0832414324324"
+            };
+            if (combine == true) {
+                $.ajax({
+                    type: "POST",
+                    url: '/Receipt/SaveReceiptCombined',
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data.voucherNo);
+                        console.log(data.state);
+                        if (data.voucherNo == null) {
+                            alert(data.response);
+                        }
+                        if (data.voucherNo != null) {
+                           // alert('Payment added successfully');
+                            var Voucher = data.voucherNo;
+                            var html = '<div style="position: fixed;top: 20px;" class="alert alert-primary position-top" role="alert">Receipt Added Successfully with voucher no:<a href="@Configuration.GetSection("ERPSettings")["URL"]/app/payment-entry/' + Voucher + '" target="_blank" class="alert-link">' + Voucher + '</a>->10s</div>';
+                            $('#urlA').html('');
+                            $('#urlA').html(html);
+                            $('#urlA').toast({ delay: 10000 });
+                            $('#urlA').toast('show');
+                            window.location.href = '/Receipt/ReceiptVoucher'
+                            // Show toast
+                        }
+                    },
+                    error: function () {
+                        toastr.error('while occured while saving GL.')
+                    }
+                });
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '/Receipt/SaveReceipt',
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.voucherNo == null) {
+                            alert(data.response);
+                        }
+                        if (data.voucherNo != null) {
+                            //alert('Payment added successfully');
+                            var Voucher = data.voucherNo;
+                            var html = '<div style="position: fixed;top: 20px;" class="alert alert-primary position-top" role="alert">Receipt Added Successfully with voucher no:<a href="@Configuration.GetSection("ERPSettings")["URL"]/app/payment-entry/' + Voucher + '" target="_blank" class="alert-link">' + Voucher + '</a>->10s</div>';
+                            $('#urlA').html('');
+                            $('#urlA').html(html);
+                            $('#urlA').toast({ delay: 10000 });
+                            $('#urlA').toast('show');
+                            $('#PaymentDate').html('');
+                            $('#accountPaymentAgent').html(0);
+                            $('#receiptAgentAccount').html(0);
+                            $('.RowPaymentFile').html(0);
+                            $('.ReceiptCheckNo ').html(0);
+                            $('.receiptDiscription').html(0);
+                            $('.receiptDiscription').html(0);
+                            $('.RowReceiptPassport ').html('');
+                            $('.ReceiptCandidateName').html('');
+                            $('.ReceiptAmount').html('');
+                            window.location.href = '/Receipt/ReceiptVoucher'
+                            // Show toast
+                        }
+                        //window.location.href ='/Receipt/ReceiptVoucher'
+
+                    },
+                    error: function () {
+                        toastr.error('while occured while saving passport.')
+                    }
+                });
+            }
+
+        });
+
+
+
+        $(document).on('change', '#PaymentCashBankId', function () {
+            var row = $(this).closest('tr');
+            if ($(this).val() == "Bank") {
+                $("#accountPaymentAgent option").remove();
+                option = '<option value="0">--select account</option><option value="ABL - LC">ABL - LC</option><option value="ABL 0010001758350040 ZAHID LATIF - LC">ABL 0010001758350040 ZAHID LATIF - LC</option><option value="ABL 0010001760700090 LUNA INT. - LC">ABL 0010001760700090 LUNA INT. - LC</option><option value="ABL 2284-6 - LC">ABL 2284-6 - LC</option><option value="ABL A/C NO.00002406-8 - LC">ABL A/C NO.00002406-8 - LC</option><option value="ABL0010001760700048 SHAHID LATIF - LC">ABL0010001760700048 SHAHID LATIF - LC</option><option value="HBL 0001307900847455 SHAHID LATIF - LC">HBL 0001307900847455 SHAHID LATIF - LC</option><option value="MCB 9004045991000935 ZAHID LATIF - LC">MCB 9004045991000935 ZAHID LATIF - LC</option>'
+                $('#accountPaymentAgent').append(option);
+                $('.PaymentCheckNo').show();
+            }
+            else {
+                $("#accountPaymentAgent option").remove();
+                option = '<option value="0">--select account</option><option value="1110 - Cash - LC">1110 - Cash - LC</option><option value="CASH IN HAND - LC">CASH IN HAND - LC</option>'
+                $('#accountPaymentAgent').append(option);
+                $('.PaymentCheckNo').hide();
+
+            }
+        });
+
+
+    });
+</script>

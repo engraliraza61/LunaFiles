@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.Models.OepvisaDemandDetail>
+
+@{
+    ViewData["Title"] = "Jobs";
+}
+
+<h1>Jobs</h1>
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MinSalary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxSalary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DurationYears)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DurationMonths)
+            </th>
+            @*<th>Action</th>*@
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinSalary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxSalary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DurationYears)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DurationMonths)
+            </td>
+            @*<td>
+            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+        </td>*@
+        </tr>
+}
+    </tbody>
+</table>

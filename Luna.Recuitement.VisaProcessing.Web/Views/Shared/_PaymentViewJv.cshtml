@@ -1,0 +1,211 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.Receipt
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<a class="btn btn-primary float-right" id="addRowPaymentA" style="cursor:pointer"><i class="fas fa-plus"></i></a>
+<div class="panel panel-primary">
+    <div class="panel-body">
+        <table class="table datatableHideFirstThree" id="tablePaymentListA" style="border:2px solid black;">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Bank Account No</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Account</th>
+                    <th>Cheq #</th>
+                    <th>Cheq # Date</th>
+                    <th>Amount</th>
+                    <th>
+                        
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tblPaymentListA">
+                <tr>
+                    <td style='width:20%'>
+                        <input type='date' required class='form-control' id='PaymentDate' />
+                    </td>
+                    <td style='width:20%'>
+                        <select style='width:100%' class='form-control paymentTypeB' id='PaymetTypeId'><option value='Cash'> Cash</option><option value='Bank'>Bank</option></select>
+                    </td>
+                    <td style='width:20%'>
+                        <input asp-for='BankAccoutNo' type='text' id='PaymentBankAccoutNoId' class='form-control paymentHiddenValue' style='display:none' />
+                    </td>
+                    <td style='width:20%'>
+                        <input type='date' required class='form-control' id='PaymentDate' />
+                    </td>
+                    <td style='width:20%'>
+                        <select style='width:100%' class='form-control paymentTypeB' id='PaymetTypeId'><option value='Cash'> Cash</option><option value='Bank'>Bank</option></select>
+                    </td>
+                    <td style='width:20%'>
+                        <select id="accountPayment" class='form-control'>
+                        </select>
+                    </td>
+                    <td style='width:20%'>
+                        <input asp-for='CheqNo' id='paymentCheqNo' type='number' class='form-control paymentHiddenValue' style='display:none' />
+                    </td>
+                    <td style='width:20%'>
+                        <input id='paymentCheqNoDate' type='date' class='form-control paymentHiddenValue' style='display:none' />
+                    </td>
+                    <td style='width:20%'>
+                        <input type='number' id='amountId' class='form-control' value='0' />
+                    </td>
+                    <td>
+                        <a class='removePaymentRow' style='float:right'><i class='fas fa-trash'></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group col-md-12 float-center">
+        <button class="btn btn-primary float-right" id="btnSavePayments" value="Save">Save</button>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#btnSavePayments').click(function () {
+            var lstReceiptAmount = [];
+            var DateB = [];
+            var receiptType = [];
+            var CheckNoDate = [];
+            var CheckNo = [];
+            var Accounts = [];
+            $("#tblPaymentListA tr").each(function () {
+                var row = $(this).closest('tr');
+                lstReceiptAmount.push($(row).find('#amountId').val());
+                DateB.push($(row).find('#PaymentDate').val());
+                receiptType.push($(row).find('#PaymetTypeId').val());
+                CheckNo.push($(row).find('#paymentCheqNo').val());
+                CheckNoDate.push($(row).find('#paymentCheqNoDate').val());
+                Accounts.push($(row).find('#accountPayment').val());
+                
+                //BankAccountNo.push($(row).find('#PaymentBankAccoutNoId').val());
+                //CheckNo.push($(row).find('#paymentCheqNo').val());
+            });
+            console.log(Accounts[0]);
+            var CheckNostatus = true;
+            var CheckNoDateStatus = true;
+            $("#tblPaymentListA tr").each(function () {
+                var row = $(this).closest('tr');
+                var receiptTypeA = $(row).find('#PaymetTypeId').val();
+                var CheckNoA = $(row).find('#paymentCheqNo').val();
+                var CheckNoDateA = $(row).find('#paymentCheqNoDate').val();
+                if (receiptTypeA == 'Bank') {
+                    if (CheckNoA == '') {
+                        CheckNostatus = false
+                    }
+                }
+                if (receiptTypeA == 'Bank') {
+                    if (CheckNoDateA == '') {
+                        CheckNoDateStatus = false;
+                    }
+                }
+
+            });
+            if (DateB.includes("")) {
+                alert('please enter date')
+                return false;
+            }
+            if (CheckNoDateStatus == false) {
+                alert('please enter check No date');
+                return false;
+            }
+            if (CheckNostatus == false) {
+                alert('please enter check No');
+                return false;
+            }
+            if (lstReceiptAmount.includes("0")) {
+                alert('please enter amount')
+                return false;
+            }
+            console.log('ali');
+            console.log(lstReceiptAmount);
+            console.log(DateB);
+            console.log(receiptType);
+            console.log('ali');
+            var dataA = {
+                "lstReceiptAmount": lstReceiptAmount,
+                "DateA": DateB,
+                "receiptType": receiptType,
+                "CheckNoDate": CheckNoDate,
+                "CheckNo": CheckNo,
+                "doctype": "payment Entry", "series": "ACC-PAY-.2022.-", "payment_type": "Pay",
+                "Company": "LUNA CORPORATION",
+                "paid_from": Accounts,
+                "Account_Currency": "PKR",
+                "paid_to": "2110 - Creditors - LC",
+                "paid_to_account_currency": "PKR",
+                "Exchange_Rate": 1.0,
+                "paid_amount": lstReceiptAmount,
+                "received_amount": 1.0,
+                "target_exchange_rate": 1.0,
+                "party_type": "Supplier",
+                "party": "luna sup"
+            };
+            $.ajax({
+                type: "POST",
+                url: '/Receipt/SavePaymentA',
+                data: dataA,
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    if (data.status == true) {
+                        toastr.success('Payment added successfuly.');
+                    }
+                    if (data.status == false) {
+                        toastr.error('Payment not added successfuly.');
+                    }
+                    //alert('success');
+                    //console.log(data);
+                    //toastr.success('payment added successfuly.');
+                    //setTimeout(() => { console.log("redirecting!"); }, 3000);
+                    //window.location.href = "/Receipt/ReceiptVoucher?FileNumber=" + ReceiptFileNo + "&Reference=" + ReceiptReference;
+                },
+                error: function () {
+                    alert('error');
+                    toastr.error('while occured while saving passport.')
+                }
+            });
+        });
+        $('#addRowPaymentA').click(function () {
+            $('#tblPaymentListA').append("<tr><td style='width:20%'><input type='date' required class='form-control' id='PaymentDate' /></td><td style='width:20%'><select style='width:100%' class='form-control paymentTypeB' id='PaymetTypeId'><option value = 'Cash' > Cash</option ><option value='Bank'>Bank</option></select></td><td style='width:20%'><input asp-for='CheqNo' id='paymentCheqNo' type='number'  class='form-control paymentHiddenValue' style='display:none'/></td><td style='width:20%'><input id ='paymentCheqNoDate' type = 'date' class='form-control paymentHiddenValue' style='display:none' /></td ><td style='width:20%'><input required type='number' id='amountId' class='form-control' value='0' /></td><td><a class='removePaymentRow' style='float:right'><i class='fas fa-trash' ></i ></a ></td></tr>");
+        });
+        $(document).on('click', '.removePaymentRow', function () {
+            $(this).closest('tr').remove();
+        });
+        $(document).on('change', 'select.paymentTypeB', function () {
+            var row = $(this).closest('tr');
+
+            if ($(this).val() == "Bank") {
+                $(row).find('.paymentHiddenValue').show();
+                $(row).find('.paymentHiddenValue').show();
+            }
+            else {
+                $(row).find('.paymentHiddenValue').hide();
+                $(row).find('.paymentHiddenValue').hide();
+            }
+        });
+        $(document).on('change', 'select.paymentTypeB', function () {
+            var row = $(this).closest('tr');
+
+            if ($(this).val() == "Bank") {
+                $("#accountPayment option").remove();
+                option = '<option value="0">--select account</option><option value="ABL - LC">ABL - LC</option><option value="ABL 0010001758350040 ZAHID LATIF - LC">ABL 0010001758350040 ZAHID LATIF - LC</option><option value="ABL 0010001760700090 LUNA INT. - LC">ABL 0010001760700090 LUNA INT. - LC</option><option value="ABL 2284-6 - LC">ABL 2284-6 - LC</option><option value="ABL A/C NO.00002406-8 - LC">ABL A/C NO.00002406-8 - LC</option><option value="ABL0010001760700048 SHAHID LATIF - LC">ABL0010001760700048 SHAHID LATIF - LC</option><option value="HBL 0001307900847455 SHAHID LATIF - LC">HBL 0001307900847455 SHAHID LATIF - LC</option><option value="MCB 9004045991000935 ZAHID LATIF - LC">MCB 9004045991000935 ZAHID LATIF - LC</option>'
+                $('#accountPayment').append(option);
+            }
+            else {
+                $("#accountPayment option").remove();
+                option = '<option value="0">--select account</option><option value="1110 - Cash - LC">1110 - Cash - LC</option><option value="1120 - CASH & BANK CONTRA A/C - LC">1120 - CASH & BANK CONTRA A/C - LC</option><option value="CASH IN HAND - LC">CASH IN HAND - LC</option>'
+                $('#accountPayment').append(option);
+
+            }
+        });
+    });
+</script>

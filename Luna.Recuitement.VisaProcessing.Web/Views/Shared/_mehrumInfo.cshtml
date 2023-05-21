@@ -1,0 +1,97 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.Models.Mehrum>
+<div>
+    <a href="#!" class="btn btn-primary float-right" data-toggle="modal" data-target="#mehrumModal">Add</a>
+    <div class="modal fade" id="mehrumModal" tabindex="-1" role="dialog" aria-labelledby="mehrumModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Mehram Detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>First Name</label>
+                                <input type="text" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Last Name</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Arabic Name</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Relationship</label>
+                                <select class="form-control DDFilter" id="Relationship">
+                                    <option selected>Single</option>
+                                    <option>Married</option>
+                                    <option>Divorced</option>
+                                    <option>Separated</option>
+                                    <option>Widowed</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Date Of Birth</label>
+                                <input type="date" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>CNIC</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Gender</label>
+                                <select class="form-control DDFilter">
+                                    <option selected>Male</option>
+                                    <option>Female</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Arabic Name</th>
+            <th>Relationship</th>
+            <th>CNIC</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.FirstName</td>
+            <td>@item.LastName</td>
+            <td>@item.ArabicName</td>
+            <td>@item.Relationship</td>
+            <td>@item.Cnic</td>
+            <td><a href="#"><i class="fas fa-edit"></i></a> </td>
+        </tr>
+        }
+
+
+    </tbody>
+</table>

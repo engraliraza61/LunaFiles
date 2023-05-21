@@ -1,0 +1,387 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.Models.Passport>
+<div>
+    <a href="#!" class="btn btn-primary float-right" data-toggle="modal" onclick="showPassport('N', this);">Add</a>
+    <div class="modal fade" id="passportModal" tabindex="-1" role="dialog" aria-labelledby="passportModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Passport Detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group col-md-6" style="display:none;">
+                            <label>Id</label>
+                            <input type="hidden" id="passportId" class="form-control" />
+                        </div>
+                        <div style="display:none;" class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Given Name</label>
+                                <input id="passportGivenName" type="text" max="25" required class="form-control">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Surname</label>
+                                <input id="passportSurname" type="text" max="25" required class="form-control">
+                            </div>
+                        </div>
+                        <div style="display:none;" class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Place Of Issue</label>
+                                <select class="form-control DDFilter" id="passportPlaceOfIssue">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Passport No.</label>
+                                <input type="text" id="passportNumber" required max="10" class="form-control">
+                            </div>
+                        </div>
+                            <div class="form-row">                                
+                                <div class="form-group col-md-6">
+                                    <label>Issue Date</label>
+                                    <input type="date" required id="passportIssueDate" class="form-control">
+                                    @*<input type="text" class="form-control" id="example">*@
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Expiry Date</label>
+                                    <input type="date" required id="passportExpiryDate" class="form-control">
+                                </div>
+                            </div>
+                            <h5 style="display:none;">Place Of Birth</h5>
+                            <div style="display:none;" class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>Country</label>
+                                    <select class="form-control DDFilter" id="passportBirthCountry">
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>City</label>
+                                    <select class="form-control DDFilter" id="passportBirthCity">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row" style="display:none;">
+                                <div class="form-group col-md-6">
+                                    <label>Previous Nationality</label>
+                                    <select class="form-control DDFilter" id="passportPreviousNationality">
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Previous Passport#</label>
+                                    <input type="text" id="passportPreviousNumber" class="form-control">
+                                </div>
+                            </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="btnSave" onclick="savePassport()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th style="display:none;">Record Id (PK)</th>
+
+            <th style="display:none;">Given Name</th>
+            <th style="display:none;">Surname</th>
+            <th style="display:none;">Issue Place</th>
+            <th>Passport#</th>
+            <th>Issue Date</th>
+            <th>Expiry Date</th>
+            <th style="display:none;">Birth Country</th>
+            <th style="display:none;">Birth City</th>
+            <th style="display:none;">profileId</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="passportDetail">
+        @foreach (var item in Model)
+        {
+        <tr id="@("passportRow" + item.Id)">
+            <td style="display:none;">@item.Id</td>
+
+            <td style="display:none;">@item.FirstName</td>
+            <td style="display:none;">@item.LastName</td>
+            <td style="display:none;">@item.PlaceOfIssueCountryId</td>
+            <td>@item.PassportNo</td>
+            <td>@item.IssueDate.Value.ToString("G")</td>
+            <td>@item.ExpiryDate.Value.ToString("G")</td>
+            <td style="display:none;">@item.PlaceOfBirthCountryId</td>
+            <td style="display:none;">@item.PlaceOfBirthCityId</td>
+            <td style="display:none;">@item.CandidateProfileId</td>
+            <td>
+                <a href="#!" id="showDialogPassport"><i class="fas fa-edit"></i></a>
+                <a href="#!" id="deletePassportRow"><i class="fas fa-trash"></i></a>
+            </td>
+        </tr>
+        }
+
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    function getDateFormat(inputDate) {
+        console.log(inputDate);
+        var day = inputDate.split('/')[0];
+        var month = inputDate.split('/')[1];
+        var year = inputDate.split('/')[2];
+        var monthName = 'Not Working';
+        console.log('Day =>' + day);
+        console.log('Month =>' +month);
+        console.log('Year =>' +year);
+        switch (month)
+        {
+            case '01' || '1':
+                monthName = 'Jan';
+                break;
+            case '02' || '2':
+                monthName = 'Feb';
+                break;
+            case '03' || '3':
+                monthName = 'Mar';
+                break;
+            case '04' || '4':
+                monthName = 'Apr';
+                break;
+            case '05' || '5':
+                monthName = 'May';
+                break;
+            case '06' || '6':
+                monthName = 'Jun';
+                break;
+            case '07' || '7':
+                monthName = 'Jul';
+                break;
+            case '08' || '8':
+                monthName = 'Aug';
+                break;
+            case '09' || '9':
+                monthName = 'Sep';
+                break;
+            case '10':
+                monthName = 'Oct';
+                break;
+            case '11':
+                monthName = 'Nov';
+                break;
+            case '12':
+                monthName = 'Dec';
+                break;
+        }
+        console.log('Final Date : ' + day + '-' + monthName + '-' + year);
+        return day + '-' + monthName + '-' + year;
+    }
+    function showPassport(type, passportRowId) {
+        if (type == "U") {
+            //console.log(type);
+            console.log(passportRowId);
+            $("#passportId").val($("#"+passportRowId).closest('tr').children('td:nth(0)').text());
+            $("#passportGivenName").val($("#" + passportRowId).closest('tr').children('td:nth(1)').text());
+            $("#passportSurname").val($("#" + passportRowId).closest('tr').children('td:nth(2)').text());
+            $("#passportPlaceOfIssue").val($("#" + passportRowId).closest('tr').children('td:nth(3)').text());
+            $("#passportNumber").val($("#" + passportRowId).closest('tr').children('td:nth(4)').text());
+            //document.getElementById("passportIssueDate").valueAsDate = new Date($("#" + passportRowId).closest('tr').children('td:nth(5)').text());
+            //document.getElementById("passportExpiryDate").valueAsDate = new Date($("#" + passportRowId).closest('tr').children('td:nth(6)').text());
+            $("#passportIssueDate").val(getDateFormat($("#" + passportRowId).closest('tr').children('td:nth(5)').text()));
+            $("#passportExpiryDate").val(getDateFormat($("#" + passportRowId).closest('tr').children('td:nth(6)').text()));
+            //$("#passportExpiryDate").val($("#" + passportRowId).closest('tr').children('td:nth(6)').text());
+            $("#passportBirthCountry").val($("#" + passportRowId).closest('tr').children('td:nth(7)').text());
+            $("#passportBirthCity").val($("#" + passportRowId).closest('tr').children('td:nth(8)').text());
+        }
+        else {
+            $("#passportId").val(0);
+            $("#passportGivenName").val("");
+            $("#passportSurname").val("");
+            $("#passportPlaceOfIssue").val("");
+            $("#passportNumber").val("");
+            $("#passportIssueDate").val("");
+            $("#passportExpiryDate").val("");
+            $("#passportBirthCountry").val(1);
+            $("#passportBirthCity").val(1);
+        }
+        $('#passportModal').modal('show');
+    }
+    function savePassport() {
+        debugger;
+        var data = {
+            "id": $("#passportId").val(),
+            "candidateProfileId": $('.pkid').val(),
+            "firstName": $("#passportGivenName").val(),
+            "lastName": $("#passportSurname").val(),
+            "PlaceOfIssueCountryId": $("#passportPlaceOfIssue").val(),
+            "passportNo": $("#passportNumber").val(),
+            "issueDate": $("#passportIssueDate").val(),
+            "expiryDate": $("#passportExpiryDate").val(),
+            "placeOfBirthCountryId": $("#passportBirthCountry").val(),
+            "placeOfBirthCityId": $("#passportBirthCity").val()
+        };
+        console.log(data);
+        //if (!$("#passportGivenName").val()) {
+        //    alert("Given name is mandatory.");
+        //    return false;
+        //}
+        //else if (!$("#passportSurname").val()) {
+        //    alert("Surname is mandatory.");
+        //    return false;
+        //}
+        if (!$("#passportNumber").val()) {
+            alert("Passport number is mandatory.");
+            return false;
+        }
+        else if (!$("#passportIssueDate").val()) {
+            alert("Issue date is mandatory.");
+            return false;
+        }
+        else if (!$("#passportExpiryDate").val()) {
+            alert("Expiry date is mandatory.");
+            return false;
+        }
+        //if (!document.forms['frmpassport'].reportValidity()) {
+        //    if ($("#passportLastName").validity.typeMismatch) {
+        //        $("#passportLastName").setCustomValidity("Last name should contian only characters!");
+        //    }
+        //    return false;
+        //}
+        $.ajax({
+            type: "POST",
+            url: '/CandidateProfile/Updatepassport',
+            data: data,
+            dataType: "json",
+            success: function (data) {
+                if (data.passportExist == "Passport Exist") {
+                    alert("Passport already Exist");
+                }
+                else {
+                    console.log(data.passportExist);
+                    var d = new Date($('#passportIssueDate').val());
+                    var str = moment(d).format('MM/DD/yyyy hh:mm:ss A');
+                    var s = new Date($('#passportExpiryDate').val());
+                    var strA = moment(s).format('MM/DD/yyyy hh:mm:ss A');
+                    toastr.success('passport added successfuly.');
+                    var html = '<tr id="passportRow' + data.id + '">' +
+                        '<td style="display:none;">' + data.id + '</td>' +
+                        '<td style="display:none;">' + $('#passportGivenName').val() + '</td>' +
+                        '<td style="display:none;">' + $('#passportSurname').val() + '</td>' +
+                        '<td style="display:none;">' + $('#passportPlaceOfIssue').val() + '</td>' +
+                        '<td>' + $('#passportNumber').val() + '</td>' +
+                        '<td>' + str + '</td>' +
+                        '<td>' + strA + '</td>' +
+                        '<td style="display:none;">' + $('#passportBirthCountry').val() + '</td>' +
+                        '<td style="display:none;">' + $('#passportBirthCity').val() + '</td>' +
+                        '<td><a href="#" id="showDialogPassport"><i class="fas fa-edit"></i></a><a href="#" id="deletePassportRow" ><i class="fas fa-trash"></i></a></td>' +
+                        '</tr>';
+                    if ($('#passportId').val() == "0") {
+                        $('#passportDetail').append(html);
+                    } else {
+                        //$("#passportRow" + $('#passportId').val()).children('td:nth(1)').text($('#passportGivenName').val());
+                        //$("#passportRow" + $('#passportId').val()).children('td:nth(2)').text($('#passportSurname').val());
+                        //$("#passportRow" + $('#passportId').val()).children('td:nth(3)').text($('#passportPlaceOfIssue').val());
+                        var d = new Date($('#passportIssueDate').val());
+                        var strB = moment(d).format('MM/DD/yyyy hh:mm:ss A');
+                        var s = new Date($('#passportExpiryDate').val());
+                        var strC = moment(s).format('MM/DD/yyyy hh:mm:ss A');
+                        $("#passportRow" + $('#passportId').val()).children('td:nth(4)').text(data.passport);
+                        $("#passportRow" + $('#passportId').val()).children('td:nth(5)').text(strB);
+                        $("#passportRow" + $('#passportId').val()).children('td:nth(6)').text(strC);
+                        //$("#passportRow" + $('#passportId').val()).children('td:nth(7)').text($('#passportBirthCountry').val());
+                        //$("#passportRow" + $('#passportId').val()).children('td:nth(8)').text($('#passportBirthCity').val());
+                    }
+                }
+                
+            },
+            error: function () {
+                console.log(@ViewBag.passportExist)
+                toastr.error('while occured while saving passport.')
+            }
+        });
+        $('#passportModal').modal('hide');
+    }
+    $(document).on("click", '#showDialogPassport', function () {
+        var vaccineId = $(this).closest('tr').find('td').eq(0).html();
+        var passportNumber = $(this).closest('tr').find('td').eq(4).html();
+        var passportIssueDate = $(this).closest('tr').find('td').eq(5).html();
+        var passportExpiryDate = $(this).closest('tr').find('td').eq(6).html();
+        $("#passportId").val(vaccineId);
+        $("#passportNumber").val(passportNumber);
+        //$("#passportIssueDate").val(passportIssueDate);
+        //$("#passportExpiryDate").val(passportExpiryDate);
+        var d = new Date(passportIssueDate);
+        var s = new Date(passportExpiryDate);
+        var yearA = d.getFullYear();
+        var monthA = String(d.getMonth() + 1).padStart(2, '0');
+        var DateA = String(d.getDate()).padStart(2,'0');
+        var datePatternA = yearA + '-' + monthA + '-' + DateA;
+        var yearB = s.getFullYear();
+        var monthB = String(s.getMonth() + 1).padStart(2, '0');
+        var DateB = String(s.getDate()).padStart(2, '0');
+        var datePatternB = yearB + '-' + monthB + '-' + DateB;
+        document.getElementById("passportIssueDate").value = datePatternA;
+        document.getElementById("passportExpiryDate").value = datePatternB;
+        $('#passportModal').modal('show');
+    });
+    $(document).on("click", '#deletePassportRow', function () {
+        var vaccineId = $(this).closest('tr').find('td').eq(0).html();
+        data = { "id": vaccineId };
+        confirmMassage = confirm("Are you sure to delete this passport info?")
+        if (confirmMassage) {
+            if (!vaccineId || vaccineId == "0") {
+                //Remove line from table only.
+                $(this).closest('tr').remove();
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '/CandidateProfile/DeletePassportA',
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        toastr.success('passport info deleted.')
+
+                    },
+                    error: function () {
+                        toastr.error('while occured while deleting vaccine info.')
+                    }
+                });
+            }
+
+        }
+        else {
+            return false;
+        }
+        $(this).closest('tr').remove();
+    });
+    function deletePassport(passportId) {
+        var data = { "Id": passportId};
+        if (confirm("Are you sure to delete this passport info?")) {
+            if (!passportId || passportId=="0") {
+                //Remove line from table only.
+                $("#passportRow" + passportId).remove();
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '/CandidateProfile/DeletePassport',
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        toastr.success('passport deleted.')
+                        $("#passportRow" + passportId).remove();
+                    },
+                    error: function () {
+                        toastr.error('while occured while deleting passport.')
+                    }
+                });
+            }
+        }
+
+        return false;
+    }
+</script>

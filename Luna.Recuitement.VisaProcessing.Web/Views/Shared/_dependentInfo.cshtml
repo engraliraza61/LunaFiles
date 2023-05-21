@@ -1,0 +1,185 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.Models.Dependent>
+
+<div>
+    <a href="#!" class="btn btn-primary float-right" data-toggle="modal" onclick="ShowDepenent('N', this);">Add</a>
+    <div class="modal fade" id="dependentModal" tabindex="-1" role="dialog" aria-labelledby="dependentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Dependent Detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-6" style="display:none;">
+                                <label>Id</label>
+                                <input type="hidden" id="dependentId" class="form-control" />
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>First Name</label>
+                                <input type="text" id="firstName" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Last Name</label>
+                                <input type="text" id="lastName" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Arabic Name</label>
+                                <input type="text" id="arabicName" class="form-control">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Relationship</label>
+                                <select id="relationship" class="form-control DDFilter">
+                                    <option value="1" selected>Spouse</option>
+                                    <option value="2">Father</option>
+                                    <option value="3">Mother</option>
+                                    <option value="4">Brother</option>
+                                    <option value="5">Sister</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Date Of Birth</label>
+                                <input type="date" id="dob" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>CNIC</label>
+                                <input type="text" id="cnic" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Gender</label>
+                                <select id="gender" class="form-control DDFilter">
+                                    <option value="1" selected>Male</option>
+                                    <option value="2">Female</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="btnSave" onclick="saveDependent()">Save</button>
+                </div>
+                <div id="show_stored_data">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th style="display:none;">Record Id (PK)</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Arabic Name</th>
+            <th>Relationship</th>
+            <th>DOB</th>
+            <th>CNIC</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="dependentDetail">
+        @foreach (var item in Model)
+        {
+            <tr id="@("dependentRow"+item.Id)">
+                <td style="display:none;">@item.Id</td>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.ArabicName</td>
+                <td>@item.Relationship</td>
+                <td>@item.Dob</td>
+                <td>@item.Cnic</td>
+                <td><a href="#!" onclick="ShowDepenent('U',this)"><i class="fas fa-edit"></i></a> </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    function ShowDepenent(type, button) {
+        debugger;
+        if (type == "U") {
+            $("#dependentId").val($(button).closest('tr').children('td:nth(0)').text());
+            $("#firstName").val($(button).closest('tr').children('td:nth(1)').text());
+            $("#lastName").val($(button).closest('tr').children('td:nth(2)').text());
+            $("#arabicName").val($(button).closest('tr').children('td:nth(3)').text());
+            $("#relationship").val($(button).closest('tr').children('td:nth(4)').text());
+            document.getElementById("dob").valueAsDate = new Date($(button).closest('tr').children('td:nth(5)').text());
+            $("#cnic").val($(button).closest('tr').children('td:nth(6)').text());
+        }
+        else  {
+            debugger;
+            $("#dependentId").val(0);
+            $("#firstName").val("")
+            $("#lastName").val("");
+            $("#arabicName").val("");
+            $("#relationship").val("");
+            $("#dob").val("")
+            $("#cnic").val("")
+            $("#gender").val(1)
+        }
+        $('#dependentModal').modal('show');
+    }
+    function saveDependent() {
+        debugger;
+        var data = {
+            "id": $("#dependentId").val(),
+            "candidateProfileId": $('.pkid').val(),
+            "firstName": $("#firstName").val(),
+            "lastName": $("#lastName").val(),
+            "arabicName": $("#arabicName").val(),
+            "relationship": $("#relationship").val(),
+            "dob": $("#dob").val(),
+            "cnic": $("#cnic").val(),
+            "gender": $("#gender").val()
+        };
+        $.ajax({
+            type: "POST",
+            url: '/CandidateProfile/UpdateDependent',
+            data: data,
+            dataType: "json",
+            success: function (data) {
+                toastr.success('Dependet added successfuly.')
+                var html = '<tr>' +
+                    '<td style="display:none;">' + data.id + '</td>' +
+                    '<td>' + $('#firstName').val() + '</td>' +
+                    '<td>' + $('#lastName').val() + '</td>' +
+                    '<td>' + $('#arabicName').val() + '</td>' +
+                    '<td>' + $('#relationship').val() + '</td>' +
+                    '<td>' + $('#dob').val() + '</td>' +
+                    '<td>' + $('#cnic').val() + '</td>' +
+                    '<td><a href="#"><i class="fas fa-edit"></i></a></td>' +
+                    '</tr>';
+                if ($('#dependentId').val() == "0")
+                {
+                    $('#dependentDetail').append(html);
+                } else {
+                    $("#dependentRow" + $('#dependentId').val()).children('td:nth(1)').text($('#firstName').val());
+                    $("#dependentRow" + $('#dependentId').val()).children('td:nth(2)').text($('#lastName').val());
+                    $("#dependentRow" + $('#dependentId').val()).children('td:nth(3)').text($('#arabicName').val());
+                    $("#dependentRow" + $('#dependentId').val()).children('td:nth(4)').text($('#relationship option:selected').text());
+                    $("#dependentRow" + $('#dependentId').val()).children('td:nth(5)').text($('#dob').val());
+                    $("#dependentRow" + $('#dependentId').val()).children('td:nth(6)').text($('#cnic').val());                }
+            },
+            error: function () {
+                toastr.error('while occured while saving dependent.')
+            }
+        });
+        return false;
+    }
+</script>
+

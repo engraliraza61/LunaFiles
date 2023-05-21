@@ -1,0 +1,268 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.Receipt
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<form asp-action="CreateSelectionCandidate" asp-controller="CandidateSelection" id="selectionCandidateId">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Date" class="control-label">Date</label>
+                <input type="date" required class="form-control" id="PaymentDate" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="ReceiptType" class="control-label">Receipt Type</label>
+                <select class="form-control" id="PaymetTypeId">
+                    <option value="Cash">Cash</option>
+                    <option value="Bank">Bank</option>
+                </select>
+                <span @*asp-validation-for="SelectionGroup"*@ class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 BankAccountId" id="BankAccountId" style="display:none">
+            <div class="form-group">
+                <label asp-for="BankAccoutNo" class="control-label">Bank Account No</label>
+                <input asp-for="BankAccoutNo" type="text" id="PaymentBankAccoutNoId" class="form-control" />
+                <span asp-for="BankAccoutNo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 receiptCheqNo" style="display:none">
+            <div class="form-group">
+                <label asp-for="CheqNo" class="control-label">Cheq #</label>
+                <input asp-for="CheqNo" id="paymentCheqNo" type="number" class="form-control" />
+                <span asp-for="CheqNo" class="text-danger"></span>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<div class="col-md-4">
+    <select id="paymentGetChartAccount"></select>
+</div>
+
+<div class="panel panel-primary">
+    <div class="panel-hea   ding">
+        <h3 class="panel-title">Receipt Voucher List</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table datatableHideFirstThree" width="100%" id="tablePaymentList" style="border:2px solid black">
+            <thead>
+                <tr>
+                    <th>Candidate id</th>
+                    <th>VisaProcess id</th>
+                    <th>CNIC #</th>
+                    <th hidden>Candidate id</th>
+                    <th hidden>VisaProcess id</th>
+                    <th>Expenses Head</th>
+                    <th>CNIC #</th>
+                    <th>Passport #</th>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th style="display:none">FileNo</th>
+                    <th style="display:none">Reference</th>
+                </tr>
+            </thead>
+            <tbody id="tbCandidateList">
+                @foreach (var item in (List
+                <Luna.Recruitment.VisaProcessing.Data.DTO.ReportDto>
+                    )ViewBag.ReceiptProcedureData)
+                    {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.visaProcessId</td>
+                    <td>@item.CNIC</td>
+                    <td hidden>@item.Id</td>
+                    <td hidden>@item.visaProcessId</td>
+                    <td><select class="form-control DDFilter" id="PaymentExpenses" value="ViewBag.Expences" asp-items="ViewBag.Expences"></select></td>
+                    <td>@item.CNIC</td>
+                    <td>@item.Passport</td>
+                    <td>@item.Name</td>
+                    <td>
+                        <input type="number" id="amountId" value="0" />
+                    </td>
+                    <td style="display:none">@item.FileNumber</td>
+                    <td style="display:none">@item.Reference</td>
+                </tr>
+                    }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group col-md-12 float-center">
+        <button class="btn btn-primary float-right" id="btnSavePayments" value="Save">Save</button>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $("#PaymetTypeId").change(function () {
+            if ($(this).val() == "Bank") {
+                $('.BankAccountId').show();
+                $('.receiptCheqNo').show();
+            }
+            else {
+                $('.BankAccountId').hide();
+                $('.receiptCheqNo').hide();
+
+            }
+        });
+        $('#btnPayment').click(function () {
+            $.ajax({
+                method: "POST",
+                //headers: {
+                //    "Content- Type": "application / json",
+                //    "Accept": "application / json",
+                //    "cache - control": "no - cache",
+                //    "Authorization": "token e8a632cdfdb87b3:6cef059fdba64fe"
+                //},
+                url: "/Receipt/EnterInPayment",
+                data:
+                {
+                    "doctype": "Payment Entry", "series": "ACC-PAY-.YYYY.-", "Payment Type": "Receive",
+                    "Posting Date": "2022-02-14",
+                    "Company": "LUNA CORPORATION",
+                    "Account Paid From": "1310 - Debtors - LC",
+                    "Account Currency": "PKR",
+                    "paid_to": "1110 - Cash - LC",
+                    "paid_to_account_currency": "PKR",
+                    "Exchange Rate": 1.0,
+                    "paid_amount": 250.0,
+                    "received_amount": 250.0,
+                    "target_exchange_rate": 1.0,
+                    "Received Amount (Company Currency)": 250.0,
+                    "party_type": "Customer",
+                    "party": "Luan Cust",
+                    "Mode of Payment": "Cash",
+                    "reference_no": "0832414324324"
+
+                },
+                success: function (data) {
+                    alert("success");
+                    console.log(data);
+                },
+                error: function (errormsg) { prompt("", JSON.stringify(errormsg)) }
+            });
+        });
+        $('#btnSavePayments').click(function () {
+            if (!$('#PaymentDate').val()) {
+                alert('please enter Date');
+                return false;
+            }
+            var lstCandidateId = [];
+            var lstVisaProcessId = [];
+            var lstReceiptAmount = [];
+            var EntitySetupId = [];
+            var table = $('#tablePaymentList').DataTable();
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                console.log(this.data());
+                lstCandidateId.push(this.data()[0]);
+                console.group("SELECTED Receipt");
+                console.log(lstCandidateId);
+                console.groupEnd();
+            });
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                console.log(this.data());
+                lstVisaProcessId.push(this.data()[1]);
+                console.group("SELECTED Receipt");
+                console.log(lstVisaProcessId);
+                console.groupEnd();
+            });
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                var d = this.data();
+                console.log(d);
+                
+                var cell = table.cell({ row: rowIdx, column: 9 }).node();
+                lstReceiptAmount.push($('input', cell).val());
+                console.group("SELECTED Receipt");
+                console.log(lstReceiptAmount);
+                console.groupEnd();
+            });
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                var d = this.data();
+                console.log(d);
+                var cell = table.cell({ row: rowIdx, column: 5 }).node();
+                EntitySetupId.push($('#PaymentExpenses option:selected', cell).val());
+                console.group("SELECTED Receipt");
+                console.log(lstReceiptAmount);
+                console.groupEnd();
+            });
+            var ReceiptFileNo = "";
+            var ReceiptReference = "";
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                var d = this.data();
+                console.log(d);
+                ReceiptFileNo = this.data()[10];
+                console.group("SELECTED Receipt");
+                console.log(lstReceiptAmount);
+                console.groupEnd();
+            });
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                var d = this.data();
+                console.log(d);
+                ReceiptReference = this.data()[11];
+                console.group("SELECTED Receipt");
+                console.log(lstReceiptAmount);
+                console.groupEnd();
+            });
+            PaymentDate = $('#PaymentDate').val();
+            ReceiptypeId = $('#PaymetTypeId').val();
+            BankAccoutNo = $('#PaymentBankAccoutNoId').val();
+            receiptCheqNo = $('#paymentCheqNo').val();
+            var data = {
+                "lstReceipt": lstCandidateId,
+                "lstReceiptAmount": lstReceiptAmount,
+                "lstVisaProcessId": lstVisaProcessId,
+                "EntitySetupId": EntitySetupId,
+                "date": PaymentDate,
+                "receiptType": ReceiptypeId,
+                "bankAccoutNo": BankAccoutNo,
+                "cheqNo": receiptCheqNo,
+                "doctype": "payment Entry", "series": "ACC-PAY-.2022.-", "payment_type": "Pay",
+                "posting_date": PaymentDate,
+                "Company": "LUNA CORPORATION",
+                "paid_from": "1110 - Cash - LC",
+                "Account_Currency": "PKR",
+                "paid_to": "2110 - Creditors - LC",
+                "paid_to_account_currency": "PKR",
+                "Exchange_Rate": 1.0,
+                "paid_amount": 250.0,
+                "received_amount": 1.0,
+                "target_exchange_rate": 1.0,
+                "party_type": "Supplier",
+                "party": "luna sup",
+                "mode_of_payment": "Cash"
+            };
+            $.ajax({
+                type: "POST",
+                url: '/Receipt/SavePayment',
+                data: data,
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == false) {
+                        window.location.href = "/Receipt/ReceiptVoucher?FileNumber=" + ReceiptFileNo + "&Reference=" + ReceiptReference;
+                    }
+                    if (data.status == true) {
+                        toastr.success('payment added successfuly.');
+                        setTimeout(() => { console.log("redirecting!"); }, 5000);
+                        window.location.href = "/Receipt/ReceiptVoucher?FileNumber=" + ReceiptFileNo + "&Reference=" + ReceiptReference;
+                    }
+                    //alert('success');
+                    //console.log(data);
+                    //toastr.success('payment added successfuly.');
+                    //setTimeout(() => { console.log("redirecting!"); }, 3000);
+                    //window.location.href = "/Receipt/ReceiptVoucher?FileNumber=" + ReceiptFileNo + "&Reference=" + ReceiptReference;
+                },
+                error: function () {
+                    alert('error');
+                    toastr.error('while occured while saving passport.')
+                }
+            });
+        });
+
+    });
+</script>

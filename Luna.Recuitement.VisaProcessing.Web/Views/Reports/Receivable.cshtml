@@ -1,0 +1,174 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.DTO.FinalProcessing>
+@{
+    ViewData["Title"] = "Receivable Reports";
+}
+<h1>Receivable Report</h1>
+<form asp-action="Receivable" asp-controller="Reports" id="frmReceivable">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">File Number</label>
+                <select id="ReceivableFileNo" name="FileNumber" class="form-control DDFilter"></select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">ENumber Date From</label>
+                <input type="date" id="ENumberDateFrom" name="EnumberDateFrom" max="25" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">ENumber Date To</label>
+                <input type="date" id="ENumberDateTo" name="ENumberDateTo" max="25" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            &nbsp;
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label"></label>
+                <input type="submit" value="Filter" class="btn btn-primary form-control" />
+            </div>
+        </div>
+    </div>
+</form>
+<table class="table table-responsive-md applyDataTableWithExport" id="ReceivableTable">
+    <thead>
+        <tr>
+            <th>Sr</th>
+            <th>File ID</th>
+            <th>Candidate Name</th>
+            <th>Father Name</th>
+            <th>Passport #</th>
+            <th>Profession</th>
+            <th>Company</th>
+            <th>SelectionGroup</th>
+            <th>Reference</th>
+            <th>E-Number</th>
+            <th>E-Date</th>
+            <th>Total Receivable</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Sr)</td>
+                <td>@Html.DisplayFor(modelItem => item.FileID)</td>
+                <td>@Html.DisplayFor(modelItem => item.NameOfCandidate)</td>
+                <td>@Html.DisplayFor(modelItem => item.FatherName)</td>
+                <td>@Html.DisplayFor(modelItem => item.Passport)</td>
+                <td>@Html.DisplayFor(modelItem => item.Profession)</td>
+                <td>@Html.DisplayFor(modelItem => item.Company)</td>
+                <td>@Html.DisplayFor(modelItem => item.selectiongroup)</td>
+                <td>@Html.DisplayFor(modelItem => item.Reference)</td>
+                <td>@Html.DisplayFor(modelItem => item.ENumber)</td>
+                <td>@item.EDate.ToString("dd/MM/yyyy")</td>
+                <td>@item.TotalReceivable</td>
+                <td>
+                    <input type="number" id="InvoiceAmountId" value="0" />
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@*,(select selectiongroup from [Luna].[dbo].CandidateSelection cs where cs.id=csd.CandidateSelectionId) selectiongroup*@
+<div class="col-md-6">
+    <div class="form-group col-md-12 float-center">
+        <button class="btn btn-primary float-right" id="btnSaveReceivable" value="Save">Save</button>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $.getJSON('/CandidateProfile/GetFileNo/', function (data) {
+            $("#ReceivableFileNo option").remove();
+            $("#ReceivableFileNo").append('<option value=0>--select File No--</option>');
+            $.each(data, function () {
+                $("#ReceivableFileNo").append('<option value=' + this.code + '>' + this.code + '</option>');
+            });
+            $("#ReceivableFileNo").val();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting FileNo!');
+        });
+        $("#frmReceivable").submit(function () {
+            if (!$('#ReceivableFileNo').val()) {
+                alert('please select file no');
+                return false;
+            }
+        });
+        $('#btnSaveReceivable').click(function () {
+            var lstCandidateId = [];
+            var lstVisaProcessId = [];
+            var lstReceiptAmount = [];
+            var EntitySetupId = [];
+            var table = $('#ReceivableTable').DataTable();
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                console.log(this.data());
+                lstCandidateId.push(this.data()[0]);
+                console.group("SELECTED Receipt");
+                console.log(lstCandidateId);
+                console.groupEnd();
+            });
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                console.log(this.data());
+                lstVisaProcessId.push(this.data()[1]);
+                console.group("SELECTED Receipt");
+                console.log(lstVisaProcessId);
+                console.groupEnd();
+            });
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                var d = this.data();
+                console.log(d);
+                var cell = table.cell({ row: rowIdx, column: 13 }).node();
+                lstReceiptAmount.push($('input', cell).val());
+                console.group("SELECTED Receipt");
+                console.groupEnd();
+            });
+            var ReceiptFileNo = "";
+            var ReceiptReference = "";
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                var d = this.data();
+                console.log(d);
+                ReceiptFileNo = this.data()[3];
+                console.group("SELECTED Receipt");
+                console.groupEnd();
+            });
+            var data = {
+                "lstReceipt": lstCandidateId,
+                "lstReceiptAmount": lstReceiptAmount,
+                "lstVisaProcessId": lstVisaProcessId,
+            };
+            $.ajax({
+                type: "POST",
+                url: '/Receipt/SaveInvoice',
+                data: data,
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == false) {
+                        alert("error");
+                    }
+                    if (data.status == true) {
+                        toastr.success('Receivable added successfuly.');
+                        setTimeout(() => { console.log("redirecting!"); }, 5000);
+                        window.location.href = "/Reports/Receivable?FileNumber=" + ReceiptFileNo;
+                    }
+                    //alert('success');
+                    //console.log(data);
+                    //toastr.success('payment added successfuly.');
+                    //setTimeout(() => { console.log("redirecting!"); }, 3000);
+                    //window.location.href = "/Receipt/ReceiptVoucher?FileNumber=" + ReceiptFileNo + "&Reference=" + ReceiptReference;
+                },
+                error: function () {
+                    alert('error');
+                    toastr.error('while occured while saving passport.')
+                }
+            });
+        });
+    });
+</script>
+
+

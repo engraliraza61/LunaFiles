@@ -1,0 +1,309 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.CandidatejobDetail
+
+@{
+    ViewData["Title"] = "Job Detail";
+}
+
+<h1>Job Detail</h1>
+<hr />
+<form asp-controller="CandidateSelection" asp-action="JobDetail" id="jobFormSb">
+    <div class="row">
+        <div class="col-md-4">
+            <input type="hidden" id="visaCode" value="@ViewBag.FileNumber" />
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" value="@ViewBag.candidateSelectionId" />
+            <input type="hidden" asp-for="CandidateSelectionDetailId" />
+            <input type="hidden" id="candidateSelectionUrlId" value="@ViewBag.candidateSelectionDetailId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DurationYears" class="control-label">Duration (Years)</label>
+                <input type="number" asp-for="DurationYears" class="form-control" />
+                <span asp-validation-for="DurationYears" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="DurationMonths" class="control-label">Duration (Months)</label>
+                <input type="number" asp-for="DurationMonths" class="form-control" />
+                <span asp-validation-for="DurationMonths" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="DutyHours" class="control-label">Duty Hours</label>
+                <select asp-for="DutyHours" class="form-control DDFilter">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+
+                </select>
+                <span asp-validation-for="DutyHours" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Currency" class="control-label">Currency</label>
+                <select asp-for="Currency" class="form-control DDFilter">
+                    <option value="PKR">PKR</option>
+                    <option value="SAR">SAR</option>
+                    <option value="RON">RON</option>
+                </select>
+                <span asp-validation-for="Currency" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Salary" class="control-label">Salary</label>
+                <input asp-for="Salary" step="0.1" class="form-control" />
+                <span asp-validation-for="Salary" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="SelectionTradeEntitySetupId" class="control-label">Selection Trade</label>
+                <select asp-for="SelectionTradeEntitySetupId" class="form-control DDFilter" asp-items="ViewBag.SelectionTradeEntitySetupId"></select>
+                <span asp-validation-for="SelectionTradeEntitySetupId" class="text-danger"></span>
+                <span id="lblVisaQuantitya" class="text-danger"></span>
+                <span id="lblVisaQuantitys" class="text-danger"></span>
+                <span id="lblExpiryDayss" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4" style="display:none;">
+            <div class="form-group">
+                <label asp-for="Reference" class="control-label">Reference</label>
+                <select asp-for="Reference" class="form-control DDFilter">
+                    <option value="Self">Self</option>
+                    <option value="Nominated">Nominated</option>
+                    <option value="Agent">Agent</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4" style="display:none;">
+            <div class="form-group">
+                <label asp-for="ReferenceName" class="control-label">Reference Name</label>
+                <input type="text" asp-for="ReferenceName" class="form-control" />
+                <span asp-validation-for="ReferenceName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4" style="display:none;">
+            <div class="form-group">
+                <label asp-for="ReferencePhone" class="control-label">Reference Phone</label>
+                <input type="text" asp-for="ReferencePhone" class="form-control" />
+                <span asp-validation-for="ReferencePhone" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group">
+                <input type="checkbox" asp-for="IsAccommodation" />
+                <label>Accommodation</label>
+                <span asp-validation-for="IsAccommodation" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="form-group">
+                <input asp-for="AccommodationDetail" class="form-control" />
+                <span asp-validation-for="AccommodationDetail" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group">
+                <input type="checkbox" asp-for="IsMedical" />
+                <label>Medical</label>
+                <span asp-validation-for="IsMedical" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="form-group">
+                <input asp-for="MedicalDetail" class="form-control" />
+                <span asp-validation-for="MedicalDetail" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <input type="checkbox" asp-for="IsTransport" />
+                <label>Transport</label>
+                <span asp-validation-for="IsTransport" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="form-group">
+                <input asp-for="TransportDetail" class="form-control" />
+                <span asp-validation-for="TransportDetail" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group">
+                <input type="checkbox" asp-for="IsAirTicket" />
+                <label>Air Ticket</label>
+                <span asp-validation-for="IsAirTicket" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="form-group">
+                <input asp-for="AirTicketDetail" class="form-control" />
+                <span asp-validation-for="AirTicketDetail" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <input type="checkbox" asp-for="IsOvertime" />
+                <label>Overtime</label>
+                <span asp-validation-for="IsOvertime" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="form-group">
+                <input asp-for="OvertimeDetail" class="form-control" />
+                <span asp-validation-for="OvertimeDetail" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <input type="checkbox" asp-for="IsFood" />
+                <label>Food</label>
+                <span asp-validation-for="IsFood" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="form-group">
+                <input asp-for="FoodDetail" class="form-control" />
+                <span asp-validation-for="FoodDetail" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <input type="checkbox" asp-for="IsOthers" />
+                <label>Others</label>
+                <span asp-validation-for="IsOthers" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="form-group">
+                <input asp-for="OthersDetail" class="form-control" />
+                <span asp-validation-for="OthersDetail" class="text-danger"></span>
+            </div>
+        </div>
+        @*<div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Accommodation" class="control-label"></label>
+                <input type="text" asp-for="Accommodation" class="form-control" />
+                <span asp-validation-for="Accommodation" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Medical" class="control-label"></label>
+                <input type="text" asp-for="Medical" class="form-control" />
+                <span asp-validation-for="Medical" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Transport" class="control-label"></label>
+                <input type="text" asp-for="Transport" class="form-control" />
+                <span asp-validation-for="Transport" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="AirTicket" class="control-label">Air Ticket</label>
+                <input type="text" asp-for="AirTicket" class="form-control" />
+                <span asp-validation-for="AirTicket" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Overtime" class="control-label">Overtime</label>
+                <input type="text" asp-for="Overtime" class="form-control" />
+                <span asp-validation-for="Overtime" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Food" class="control-label">Food</label>
+                <input type="text" asp-for="Food" class="form-control" />
+                <span asp-validation-for="Food" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Others" class="control-label">Others</label>
+                <input type="text" asp-for="Others" class="form-control" />
+                <span asp-validation-for="Others" class="text-danger"></span>
+            </div>
+        </div>*@
+        <div class="col-md-12">
+            <div class="form-group col-md-12 float-right">
+                &nbsp; &nbsp;
+                <a asp-action="Index" class="btn btn-info float-right">Back to List</a> &nbsp; &nbsp;
+                <input type="submit" value="Save" class="btn btn-primary float-right" /> &nbsp; &nbsp;
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    $(document).ready(function () {
+        var balance;
+        $('#SelectionTradeEntitySetupId').change(function () {
+            $.getJSON('/OEPVisaDemand/GetSelectedCandidate/', { selectionDetailId: @ViewBag.candidateSelectionId, visaTradeEntitySetupId: $('#SelectionTradeEntitySetupId').val() }, function (data) {
+                console.log(data);
+                balance;
+                $("#lblVisaQuantitya").text("Total Quantity: " + data.totalQuantity);
+                $("#lblVisaQuantitys").text("Selection LIMIT: " + data.selectionLimit);
+                $("#lblExpiryDayss").text("Selected Candidate: " + data.selectedCandidate);
+                balance = data.selectionLimit;
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error getting available visa quantity!');
+            });
+        });
+        $('#jobFormSb').submit(function () {
+            console.log($("#visaCode").val());
+            if ($("#visaCode").val() != '0000') {
+                if (balance == 0) {
+                    alert('selection trade limit is 0');
+                    return false;
+                }
+                if (balance < 0) {
+                    alert('selection trade in negative')
+                    return false;
+                }
+                if (balance == null) {
+                    return true;
+                }
+            }
+            else {
+                return true;
+            }
+        });
+    });
+</script>

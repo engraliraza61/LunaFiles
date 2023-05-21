@@ -1,0 +1,369 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.CandidateProfile
+
+@{
+    ViewData["Title"] = "Details Candidate";
+}
+
+<h1>Candidate Details</h1>
+
+<div class="accordion" id="accordionExample">
+    <div class="card">
+        <a data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" href="#!">
+            <div class="card-header" id="headingTwo">
+                <i class="fas fa-arrow-down"></i>   &nbsp;&nbsp;&nbsp; Basic Info
+            </div>
+        </a>
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+                <div><a href="#!" class="btn btn-primary float-right">Add</a></div>
+                <form asp-action="Create">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Title" class="control-label"></label>
+                                <div class="form-group">
+                                    <label asp-for="Title" class="control-label"></label>
+                                    <select asp-for="Title" class="form-control DDFilter">
+                                        <option value="Mr.">Mr.</option>
+                                        <option value="Mrs.">Mrs.</option>
+                                        <option value="Miss.">Miss.</option>
+                                        <option value="Dr.">Dr.</option>
+                                        <option value="Prof.">Prof.</option>
+                                    </select>
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label class="control-label"></label>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="FirstName" class="control-label">First Name</label>
+                                <input asp-for="FirstName"  pattern="[a-zA-Z]*" oninvalid="setCustomValidity('Please enter on alphabets only. ')"  min="1" max="25" required class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="LastName" class="control-label">Last Name</label>
+                                <input asp-for="LastName"  pattern="[a-zA-Z]*" oninvalid="setCustomValidity('Please enter on alphabets only. ')"  min="1" max="25" required class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="ArabicName" class="control-label">Arabic Name</label>
+                                <input asp-for="ArabicName" class="form-control ArabicEntry" dir="rtl" lang="ar" />
+                                <span asp-validation-for="ArabicName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="DateOfBirth" class="control-label">DOB</label>
+                                <input asp-for="DateOfBirth" type="date" class="form-control" />
+                                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="PlaceOfBirthCountryId" class="control-label">Birth Country</label>
+                                <select asp-for="PlaceOfBirthCountryId" class="form-control DDFilter" asp-items="ViewBag.PlaceOfBirthCountryId"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="PlaceOfBirthCityId" class="control-label">Birth City</label>
+                                <select asp-for="PlaceOfBirthCityId" class="form-control DDFilter" asp-items="ViewBag.PlaceOfBirthCityId"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="PreviousNationalityCountryId" class="control-label">Previous Nationality</label>
+                                <select asp-for="PreviousNationalityCountryId" class="form-control DDFilter" asp-items="ViewBag.PreviousNationalityCountryId"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="MaritalStatus" class="control-label">Marital Status</label>
+                                <input asp-for="MaritalStatus" class="form-control" />
+                                <span asp-validation-for="MaritalStatus" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Gender" class="control-label">Gender</label>
+                                <input asp-for="Gender" class="form-control" />
+                                <span asp-validation-for="Gender" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Religion" class="control-label">Religion</label>
+                                <input asp-for="Religion" class="form-control" />
+                                <span asp-validation-for="Religion" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Sect" class="control-label">Sect</label>
+                                <input asp-for="Sect" class="form-control" />
+                                <span asp-validation-for="Sect" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="HomeAddress" class="control-label">Home Addres</label>
+                                <input asp-for="HomeAddress" class="form-control" />
+                                <span asp-validation-for="HomeAddress" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="PermanentAddress" class="control-label">Parmanent Address</label>
+                                <input asp-for="PermanentAddress" class="form-control" />
+                                <span asp-validation-for="PermanentAddress" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="PhoneNumber" class="control-label">Phone</label>
+                                <input asp-for="PhoneNumber" class="form-control" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="BusinessAddress" class="control-label">Business Address</label>
+                                <input asp-for="BusinessAddress" class="form-control" />
+                                <span asp-validation-for="BusinessAddress" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="BusinessPhone" class="control-label">Business Phone</label>
+                                <input asp-for="BusinessPhone" class="form-control" />
+                                <span asp-validation-for="BusinessPhone" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Domicile" class="control-label">Domicile</label>
+                                <input asp-for="Domicile" class="form-control" />
+                                <span asp-validation-for="Domicile" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Email" class="control-label">Email</label>
+                                <input asp-for="Email" type="email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="CellNumber" class="control-label">Cell</label>
+                                <input asp-for="CellNumber" class="form-control" />
+                                <span asp-validation-for="CellNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Cnic" class="control-label">CNIC</label>
+                                <input asp-for="Cnic" class="form-control" />
+                                <span asp-validation-for="Cnic" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="FatherName" class="control-label">Father Name</label>
+                                <input asp-for="FatherName"  pattern="[a-zA-Z]*" oninvalid="setCustomValidity('Please enter on alphabets only. ')"  min="1" max="25" required class="form-control" />
+                                <span asp-validation-for="FatherName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="FatherArabicName" class="control-label">Father Name (Arabic)</label>
+                                <input asp-for="FatherArabicName" class="form-control ArabicEntry" dir="rtl" lang="ar" />
+                                <span asp-validation-for="FatherArabicName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Qualification" class="control-label">Qualification</label>
+                                <input asp-for="Qualification"  pattern="[a-zA-Z]*" oninvalid="setCustomValidity('Please enter on alphabets only. ')" required class="form-control" />
+                                <span asp-validation-for="Qualification" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="HusbandName" class="control-label">Husband Name</label>
+                                <input asp-for="HusbandName" class="form-control" />
+                                <span asp-validation-for="HusbandName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="HusbandArabicName" class="control-label">Husband Name (Arabic)</label>
+                                <input asp-for="HusbandArabicName" class="form-control" />
+                                <span asp-validation-for="HusbandArabicName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Reference" class="control-label">Reference</label>
+                                <input asp-for="Reference" class="form-control" />
+                                <span asp-validation-for="Reference" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="CompanyName" class="control-label">Company</label>
+                                <input asp-for="CompanyName" class="form-control" />
+                                <span asp-validation-for="CompanyName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input  type="hidden" class="form-check-input" asp-for="IsDeleted" /> 
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group col-md-6 float-right">
+                                <a asp-action="Index" class="btn btn-info">Back to List</a>
+                                <input type="submit" value="Create" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <a data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" href="#!">
+            <div class="card-header" id="headingTwo">
+                <i class="fas fa-arrow-down"></i>   &nbsp;&nbsp;&nbsp; Passport
+            </div>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+            <div class="card-body">
+                <div><a href="#!" class="btn btn-primary float-right">Add</a></div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Passport#</th>
+                            <th>Issue Place</th>
+                            <th>Issue Date</th>
+                            <th>Expiry Date</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>123</td>
+                            <td>Pakistan</td>
+                            <td>01/01/2021</td>
+                            <td>02/02/2021</td>
+                            <td><a href="#"><i class="fas fa-edit"></i></a> </td>
+                        </tr>
+                        <tr>
+                            <td>123</td>
+                            <td>Pakistan</td>
+                            <td>01/01/2021</td>
+                            <td>02/02/2021</td>
+                            <td><a href="#"><i class="fas fa-edit"></i> </ahref="#"></td>
+                        </tr>
+                        <tr>
+                            <td>123</td>
+                            <td>Pakistan</td>
+                            <td>01/01/2021</td>
+                            <td>02/02/2021</td>
+                            <td><a href="#"><i class="fas fa-edit"></i> </a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <a data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree" href="#!">
+            <div class="card-header" id="headingThree">
+                <i class="fas fa-arrow-down"></i>   &nbsp;&nbsp;&nbsp; Visa Job
+            </div>
+        </a>
+        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+            <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <a data-toggle="collapse" data-target="#collapseMedical" aria-expanded="true" aria-controls="collapseMedical" href="#!">
+            <div class="card-header" id="headingMedical">
+                <i class="fas fa-arrow-down"></i>   &nbsp;&nbsp;&nbsp; Medical
+            </div>
+        </a>
+        <div id="collapseMedical" class="collapse" aria-labelledby="headingMedical" data-parent="#accordionExample">
+            <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <a data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour" href="#!">
+            <div class="card-header" id="headingFour">
+                <i class="fas fa-arrow-down"></i>   &nbsp;&nbsp;&nbsp; E-Number
+            </div>
+        </a>
+        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+            <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <a data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive" href="#!">
+            <div class="card-header" id="headingFive">
+                <i class="fas fa-arrow-down"></i>   &nbsp;&nbsp;&nbsp; Dependents
+            </div>
+        </a>
+        <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample">
+            <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <a data-toggle="collapse" data-target="#collapseSix" aria-expanded="true" aria-controls="collapseSix" href="#!">
+            <div class="card-header" id="headingSix">
+                <i class="fas fa-arrow-down"></i>   &nbsp;&nbsp;&nbsp; Benefits
+            </div>
+        </a>
+        <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordionExample">
+            <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <a data-toggle="collapse" data-target="#collapseSeven" aria-expanded="true" aria-controls="collapseSeven" href="#!">
+            <div class="card-header" id="headingSeven">
+                <i class="fas fa-arrow-down"></i>   &nbsp;&nbsp;&nbsp; Travel Info
+            </div>
+        </a>
+        <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordionExample">
+            <div class="card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+            </div>
+        </div>
+    </div>
+</div>

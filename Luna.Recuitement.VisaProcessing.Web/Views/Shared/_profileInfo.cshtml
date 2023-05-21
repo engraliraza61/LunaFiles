@@ -1,0 +1,315 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.CandidateProfile
+
+<form asp-action="Edit" id="frmCP">
+    <div class="row">
+        <div class="col-md-6">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" class="pkid" />
+            <input type="hidden" asp-for="AgentId" id="agentIdOnCandidate" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <select asp-for="Title" class="form-control DDFilter">
+                    <option value="Mr.">Mr.</option>
+                    <option value="Mrs.">Mrs.</option>
+                    <option value="Miss.">Miss.</option>
+                    <option value="Dr.">Dr.</option>
+                    <option value="Prof.">Prof.</option>
+                </select>
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label"></label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label">Given Name</label>
+                <input asp-for="FirstName" max="25" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label">Surname</label>
+                <input asp-for="LastName" max="25" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="ArabicName" class="control-label">Arabic Name</label>
+                <input asp-for="ArabicName" class="form-control ArabicEntry" dir="rtl" lang="ar" />
+                <span asp-validation-for="ArabicName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="DateOfBirth" class="control-label">Date Of Birth</label>
+                <input asp-for="DateOfBirth" type="date" id="profileEditDate" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="PlaceOfBirthCountryId" class="control-label">Birth Country</label>
+                <select asp-for="PlaceOfBirthCountryId" class="form-control DDFilter" asp-items="ViewBag.PlaceOfBirthCountryId"></select>
+                <span asp-validation-for="PlaceOfBirthCountryId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="PlaceOfBirthCityId" class="control-label">Birth City</label>
+                <select asp-for="PlaceOfBirthCityId" class="form-control DDFilter" asp-items="ViewBag.PlaceOfBirthCityId"></select>
+                <span asp-validation-for="PlaceOfBirthCityId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="PreviousNationalityCountryId" class="control-label">Previous Nationality</label>
+                <select asp-for="PreviousNationalityCountryId" class="form-control DDFilter" asp-items="ViewBag.PreviousNationalityCountryId"></select>
+                <span asp-validation-for="PreviousNationalityCountryId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="MaritalStatus" class="control-label">Marital Status</label>
+                <select asp-for="MaritalStatus" class="form-control DDFilter">
+                    <option value="Single">Single</option>
+                    <option value="Married">Married</option>
+                    <option value="Widowed">Widowed</option>
+                </select>                <span asp-validation-for="MaritalStatus" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label">Gender</label>
+                <select asp-for="Gender" class="form-control DDFilter">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Religion" class="control-label">Religion</label>
+                <select asp-for="Religion" class="form-control DDFilter">
+                    <option value="Islam" selected="selected">Islam</option>
+                    <option value="Agnostic">Agnostic</option>
+                    <option value="Atheist">Atheist</option>
+                    <option value="Bahai">Bahai</option>
+                    <option value="Buddhism">Buddhism</option>
+                    <option value="Christianity">Christianity</option>
+                    <option value="Hinduism">Hinduism</option>
+                    <option value="Islam">Islam</option>
+                    <option value="Jainism">Jainism</option>
+                    <option value="Judaism">Judaism</option>
+                    <option value="Secular">Secular</option>
+                    <option value="Sikhism">Sikhism</option>
+                    <option value="Spiritism">Spiritism</option>
+                    <option value="Zoroastrianism">Zoroastrianism</option>
+                    <option value="Other">Other</option>
+                </select>
+                <span asp-validation-for="Religion" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Sect" class="control-label">Sect</label>
+                <select asp-for="Sect" class="form-control DDFilter">
+                    <option value="N/A" selected="selected">N/A</option>
+                    <option value="Sunni">Sunni</option>
+                    <option value="Shia">Shia</option>
+                </select>                <span asp-validation-for="Sect" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="HomeAddress" class="control-label">Home Address</label>
+                <input asp-for="HomeAddress" class="form-control" />
+                <span asp-validation-for="HomeAddress" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="PermanentAddress" class="control-label">Permanent Address</label>
+                <input asp-for="PermanentAddress" class="form-control" />
+                <span asp-validation-for="PermanentAddress" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label">Phone</label>
+                @*<input asp-for="PhoneNumber" class="form-control" pattern="^$|^\+\d{1}\d{0,1}\d{0,1}-\d{2,3}-\d{7}" autocomplete="off" />*@
+                <input asp-for="PhoneNumber" class="form-control" type="number" autocomplete="off" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="BusinessAddress" class="control-label">Business Address</label>
+                <input asp-for="BusinessAddress" class="form-control" />
+                <span asp-validation-for="BusinessAddress" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="BusinessPhone" class="control-label">Business Phone</label>
+                @*<input asp-for="BusinessPhone" class="form-control" pattern="^$|^\+\d{1}\d{0,1}\d{0,1}-\d{2}\d{0,1}-\d{7}" autocomplete="off" />*@
+                <input asp-for="BusinessPhone" class="form-control" type="number" autocomplete="off" />
+                <span asp-validation-for="BusinessPhone" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Domicile" class="control-label">Domicile</label>
+                <select asp-for="Domicile" class="form-control DDFilter">
+                    <option value="Lahore" selected="selected">Lahore</option>
+                    <option value="Rawalpindi">Rawalpindi</option>
+                    <option value="Islamabad">Islamabad</option>
+                    <option value="Peshawar">Peshawar</option>
+                </select>
+                <span asp-validation-for="Domicile" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">Email</label>
+                <input asp-for="Email" type="email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="CellNumber" class="control-label">Cell</label>
+                @*<input asp-for="CellNumber" class="form-control" pattern="^$|^\+\d{1}\d{0,1}\d{0,1}-\d{2}\d{0,1}-\d{7}" autocomplete="off" />*@
+                <input asp-for="CellNumber" class="form-control" type="number" autocomplete="off" />
+                <span asp-validation-for="CellNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Cnic" class="control-label">CNIC</label>
+                @*pattern="^$|^\d{5}-\d{7}-\d{1}"*@
+                <input asp-for="Cnic" type="text" class="form-control" pattern="^$|^\d{13}" autocomplete="off" required placeholder="1234567890000" />
+                <span asp-validation-for="Cnic" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="IssueDate" class="control-label">Issue Date</label>
+                <input asp-for="IssueDate" type="date" class="form-control" />
+                <span asp-validation-for="IssueDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="ExpiryDate" class="control-label">Expiry date</label>
+                <input asp-for="ExpiryDate" type="date" class="form-control" />
+                <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="FatherName" class="control-label">Father Name</label>
+                <input asp-for="FatherName" type="text" max="25" class="form-control" autocomplete="off" />
+                <span asp-validation-for="FatherName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="FatherArabicName" class="control-label">Father Arabic Name</label>
+                <input asp-for="FatherArabicName" class="form-control ArabicEntry" dir="rtl" lang="ar" />
+                <span asp-validation-for="FatherArabicName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Qualification" class="control-label">Qualification</label>
+                <input asp-for="Qualification" type="text" max="40" class="form-control" autocomplete="off" />
+                <span asp-validation-for="Qualification" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="HusbandName" class="control-label">Husband Name</label>
+                <input asp-for="HusbandName" type="text" max="25" class="form-control" />
+                <span asp-validation-for="HusbandName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="HusbandArabicName" class="control-label">Husband Arabic Name</label>
+                <input asp-for="HusbandArabicName" class="form-control ArabicEntry" dir="rtl" lang="ar" /> 
+                <span asp-validation-for="HusbandArabicName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Reference" class="control-label">Reference</label>
+                <select asp-for="Reference" class="form-control DDFilter">
+                    <option value="Self">Self</option>
+                    <option value="Nominated">Nominated</option>
+                    <option value="Agent">Agent</option>
+                </select>
+                <span asp-validation-for="Reference" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 divAgent" style="display:none;">
+            <div class="form-group">
+                <label asp-for="AgentId" class="control-label">Agent Name</label>
+                <select asp-for="AgentId" id="agentOnCandidate"  class="form-control DDFilter" ></select>
+            </div>
+        </div>
+        <div class="col-md-6 divReferenceName">
+            <div class="form-group">
+                <label asp-for="ReferenceName" class="control-label">Nominee Name</label>
+                <input type="text" asp-for="ReferenceName" class="form-control" />
+                <span asp-validation-for="ReferenceName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 divReference" style="display:none;">
+            <div class="form-group">
+                <label asp-for="ReferencePhone" class="control-label">Reference Phone</label>
+                <input type="text" asp-for="ReferencePhone" class="form-control" />
+                <span asp-validation-for="ReferencePhone" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-md-6" style="display:none;">
+            <div class="form-group">
+                <label asp-for="CompanyName" class="control-label">Company</label>
+                <input asp-for="CompanyName" class="form-control" />
+                <span asp-validation-for="CompanyName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input type="hidden" class="form-check-input" asp-for="IsActive" />
+                </label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input type="hidden" class="form-check-input" asp-for="IsDeleted" />
+                </label>
+            </div>
+        </div>
+        <div class="col-md-6"></div>
+        <div class="col-md-6">
+        </div><div class="form-group col-md-6 float-right">
+            <a asp-action="Index" class="btn btn-info">Back to List</a>
+            <input type="submit" value="Update" class="btn btn-primary" />
+        </div>
+    </div>
+</form>

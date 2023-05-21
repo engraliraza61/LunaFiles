@@ -1,0 +1,13 @@
+D:\LUNA\LUNA PROD\Code\Luna.LoggerService\bin\Release\netstandard2.0\Luna.LoggerService.deps.json
+D:\LUNA\LUNA PROD\Code\Luna.LoggerService\bin\Release\netstandard2.0\Luna.LoggerService.dll
+D:\LUNA\LUNA PROD\Code\Luna.LoggerService\bin\Release\netstandard2.0\Luna.LoggerService.pdb
+D:\LUNA\LUNA PROD\Code\Luna.LoggerService\bin\Release\netstandard2.0\Luna.Contracts.dll
+D:\LUNA\LUNA PROD\Code\Luna.LoggerService\bin\Release\netstandard2.0\Luna.Contracts.pdb
+D:\LUNA\LUNA PROD\Code\Luna.LoggerService\obj\Release\netstandard2.0\Luna.LoggerService.csproj.AssemblyReference.cache
+D:\LUNA\LUNA PROD\Code\Luna.LoggerService\obj\Release\netstandard2.0\Luna.LoggerService.GeneratedMSBuildEditorConfig.editorconfig
+D:\LUNA\LUNA PROD\Code\Luna.LoggerService\obj\Release\netstandard2.0\Luna.LoggerService.AssemblyInfoInputs.cache
+D:\LUNA\LUNA PROD\Code\Luna.LoggerService\obj\Release\netstandard2.0\Luna.LoggerService.AssemblyInfo.cs
+D:\LUNA\LUNA PROD\Code\Luna.LoggerService\obj\Release\netstandard2.0\Luna.LoggerService.csproj.CoreCompileInputs.cache
+D:\LUNA\LUNA PROD\Code\Luna.LoggerService\obj\Release\netstandard2.0\Luna.LoggerService.csproj.CopyComplete
+D:\LUNA\LUNA PROD\Code\Luna.LoggerService\obj\Release\netstandard2.0\Luna.LoggerService.dll
+D:\LUNA\LUNA PROD\Code\Luna.LoggerService\obj\Release\netstandard2.0\Luna.LoggerService.pdb

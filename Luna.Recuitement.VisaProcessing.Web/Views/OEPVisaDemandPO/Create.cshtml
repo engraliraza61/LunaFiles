@@ -1,0 +1,353 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.OepvisaDemandPo
+
+@{
+    ViewData["Title"] = "Create Purchase Order";
+}
+
+<h1>Create Purchase Order</h1>
+<hr />
+<form asp-action="Create">
+    <div class="row" style="border:2px solid gray">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="Oepid" class="control-label">OEP</label>
+                <select asp-for="Oepid" class="form-control DDFilter" asp-items="ViewBag.Oepid"></select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="VisaType" class="control-label">Visa Type</label>
+                <select asp-for="VisaType" class="form-control DDFilter" asp-items="ViewBag.VisaType"></select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="CountryId" class="control-label">Country</label>
+                <select asp-for="CountryId" class="form-control DDFilter" asp-items="ViewBag.CountryId"></select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="Mode" class="control-label">Mode</label>
+                <select asp-for="Mode" class="form-control DDFilter" asp-items="ViewBag.Modes"></select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="CounslateId" class="control-label">Counslate</label>
+                <select asp-for="CounslateId" class="form-control DDFilter" asp-items="ViewBag.CounslateId"></select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="SponserId" class="control-label">Sponser</label>
+                <select asp-for="SponserId" class="form-control DDFilter" asp-items="ViewBag.SponserId"></select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="SponserGroup" class="control-label">Sponser Group</label>
+                <input type="text" asp-for="SponserGroup" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="BatchNumber" class="control-label">Visa Number</label>
+                <input type="number" required asp-for="BatchNumber" class="form-control" />
+                <span asp-validation-for="BatchNumber" class="text-danger"></span>
+            </div>
+        </div>
+        @*<div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="ExpiryDays" class="control-label">Expiry Days</label>
+                <input type="number" asp-for="ExpiryDays" class="form-control" />
+            </div>
+        </div>*@
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="VisaNumberDate" class="control-label">Visa Date</label>
+                <input asp-for="VisaNumberDate" required type="date" class="form-control" />
+                <span asp-validation-for="VisaNumberDate" class="text-danger"></span>
+            </div>
+        </div>
+        @*<div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="EntryDate" class="control-label">Entry Date</label>
+                <input asp-for="EntryDate" required type="date" class="form-control" />
+                <span asp-validation-for="EntryDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Code" class="control-label">File Number</label>
+                <input type="number" readonly asp-for="Code" class="form-control" />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="FileType" class="control-label">File Type</label>
+                <select asp-for="FileType" class="form-control DDFilter" asp-items="ViewBag.FileType"></select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="ClientName" class="control-label">Client Name</label>
+                <input type="text" asp-for="ClientName" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="ClientPhone" class="control-label">Client Contact</label>
+                <input type="text" asp-for="ClientPhone" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="AbroadClientName" class="control-label">Abroad Client Name</label>
+                <input type="text" asp-for="AbroadClientName" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="AbroadClientPhone" class="control-label">Abroad Client Contact</label>
+                <input type="text" asp-for="AbroadClientPhone" class="form-control" />
+            </div>
+        </div>*@
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="Quantity" class="control-label">Quantity</label>
+                <input asp-for="Quantity" required class="form-control DDFilter" readonly />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+        </div>
+        <br/>
+        @*<div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="ClientId" class="control-label">Client</label>
+                    <select asp-for="ClientId" class="form-control DDFilter" asp-items="ViewBag.ClientId"></select>
+                </div>
+            </div>*@
+        @*<div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="OepvisaDemandStatusEntitySetupId" class="control-label">Status</label>
+                    <select asp-for="OepvisaDemandStatusEntitySetupId" class="form-control DDFilter" asp-items="ViewBag.OepvisaDemandStatusEntitySetupId"></select>
+                </div>
+            </div>*@
+        @*<div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="SponserGlcode" class="control-label">Sponser GL Code</label>
+                <input type="text" asp-for="SponserGlcode" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="PurchaseGlcode" class="control-label">Purchase GL Code</label>
+                <input type="text" asp-for="PurchaseGlcode" class="form-control" />
+            </div>
+        </div>*@
+
+        @*@<div class="col-md-3">
+                <div class="form-group form-check">
+                    <br />
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" id="IsActive" name="IsActive" /> IsActive
+                    </label> &nbsp;&nbsp;&nbsp;&nbsp;
+                    <label class="form-check-label">
+                        <input type="hidden" class="form-check-input" id="IsDeleted" name="IsDeleted" /> Delete?
+                    </label>
+                </div>
+            </div>*@
+        <div class="form-group col-md-6">
+            <a asp-action="Index" class="btn btn-info">Back to List</a>
+            <input type="submit" value="Create" class="btn btn-primary" onclick="Save();" />
+        </div>
+    </div>
+
+   
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        //$.getJSON('/CandidateProfile/GetCountry/', function (data) {
+        //    $('#CountryId option').remove();
+        //    $('#CountryId').append('<option value="0">-- Select Country --</option>');
+        //    console.log(data);
+        //    $.each(data, function () {
+        //        console.log(this.id + " | " + this.name);
+        //        $('#CountryId').append('<option value=' + this.id + '>' + this.name + '</option>');
+        //    });
+        //}).fail(function (jqXHR, textStatus, errorThrown) {
+        //    alert('Error getting countries!');
+        //});
+        function AddDemandDetailRow() {
+            var visaTrade = $('#ddVisaTrade').val();
+            var quantity = $('#txtQuantity').val();
+            var salary = $('#txtSalary').val();
+            var duration = $('#txtDuration').val();
+            var airTicket = $('#cbAirTicket').prop("checked") == true ? 'Yes' : 'No';
+            var accommodation = $('#cbAccommodation').prop("checked") == true ? 'Yes' : 'No';
+            var medical = $('#cbMedical').prop("checked") == true ? 'Yes' : 'No';
+            var transport = $('#cbTransport').prop("checked") == true ? 'Yes' : 'No';
+            var overtime = $('#cbOvertime').prop("checked") == true ? 'Yes' : 'No';
+            var food = $('#cbFood').prop("checked") == true ? 'Yes' : 'No';
+            var other = $('#cbOther').prop("checked") == true ? 'Yes' : 'No';
+            var html = '<tr>';
+            var html = html + '<td style="display:none;">-1</td>';
+            var html = html + '<td>' + visaTrade + '</td>';
+            var html = html + '<td>' + quantity + '</td>';
+            var html = html + '<td>' + salary + '</td>';
+            var html = html + '<td>' + duration + '</td>';
+            var html = html + '<td>' + airTicket + '</td>';
+            var html = html + '<td>' + accommodation + '</td>';
+            var html = html + '<td>' + medical + '</td>';
+            var html = html + '<td>' + transport + '</td>';
+            var html = html + '<td>' + overtime + '</td>';
+            var html = html + '<td>' + food + '</td>';
+            var html = html + '<td>' + other + '</td>';
+            var html = html + '<td><a href="#!" class="btnDelete" onclick="DeleteDemandDetail()"> | <i class="fas fa-trash" title="Delete"></i></a></td>';
+            var html = html + '<tr>';
+            $("#tbDemandDetail").append(html);
+            var detail = [{
+                "JobTypeEntitySetupId": $('#ddVisaTrade').val(),
+                "Quantity": $('#txtQuantity').val(),
+                "MinSalary": $('#txtSalary').val(),
+                "ContractDuration": $('#txtDuration').val(),
+                "IsAirTicket": $('#cbAirTicket').prop("checked"),
+                "IsAccommodation": $('#cbAccommodation').prop("checked"),
+                "IsMedical": $('#cbMedical').prop("checked"),
+                "IsTransport": $('#cbTransport').prop("checked"),
+                "IsOvertime": $('#cbOvertime').prop("checked"),
+                "IsFood": $('#cbFood').prop("checked"),
+                "IsOther": $('#cbOther').prop("checked")
+            }];
+            console.log(detail);
+        }
+        //<a href="#!" onclick="EditDemandDetail()"><i class="fas fa-edit" title="Edit"></i></a>
+        function DeleteDemandDetail() {
+            if (confirm("Are you sure to delete this row?")) {
+                $("#tblDemandDetail").on('click', '.btnDelete', function () {
+                    $(this).closest('tr').remove();
+                });
+            }
+        }
+        function Save() {
+            var demand = {
+                "id": 0,
+                "code": $("#Code").val(),
+                "batchNumber": $("#BatchNumber").val(),
+                "visaNumberDate": null,
+                "entryDate": null,
+                "quantity": $("#Quantity").val(),
+                "issueDate": null,
+                "expiryDate": null,
+                "receivingDate": null,
+                "counslateId": $("CounslateId").val(),
+                "oepvisaDemandStatusEntitySetupId": null,
+                "isActive": true,
+                "isDeleted": false,
+                "oepid": $("#Oepid").val(),
+                "sponserId": $("#SponserId").val(),
+                "countryId": $("#CountryId").val(),
+                "clientId": null,
+                "clientName": $("#ClientName").val(),
+                "clientPhone": $("#ClientPhone").val(),
+                "abroadClientName": $("#AbroadClientName").val(),
+                "abroadClientPhone": $("#AbroadClientPhone").val(),
+                "visaNumberExpiryDate": null,
+                "sponserGlcode": $("#SponserGlcode").val(),
+                "purchaseGlcode": $("#PurchasedGlcode").val(),
+                "expiryDays": $("#ExpiryDays").val(),
+                "fileType": $("#FileType").val(),
+                "visaType": $("#VisaType").val(),
+                "sponserGroup": $("#SponserGroup").val()
+            };
+            var detail = [{
+                "JobTypeEntitySetupId": $('#ddVisaTrade').val(),
+                "Quantity": $('#txtQuantity').val(),
+                "MinSalary": $('#txtSalary').val(),
+                "ContractDuration": $('#txtDuration').val(),
+                "IsAirTicket": $('#cbAirTicket').prop("checked"),
+                "IsAccommodation": $('#cbAccommodation').prop("checked"),
+                "IsMedical": $('#cbMedical').prop("checked"),
+                "IsTransport": $('#cbTransport').prop("checked"),
+                "IsOvertime": $('#cbOvertime').prop("checked"),
+                "IsFood": $('#cbFood').prop("checked"),
+                "IsOther": $('#cbOther').prop("checked")
+            }];
+
+            $.ajax({
+                url: '/OEPVisaDemand/AddDemand',
+                data: { "demand": demand, "detail": detail },
+                type: 'POST',
+                contentType: 'application/json;',
+                dataType: 'json',
+                success: function (result) {
+
+                    if (result.Success == "1") {
+                        //window.location.href = "/Sales/index";
+                        alert("Record saved successfully.");
+                    }
+                    else {
+                        alert(result.ex);
+                    }
+                }
+            });
+        }
+        function EditDemandDetail() {
+            var row = $("#tblDemandDetail tr")
+            var id;
+            var visaTradeValue;
+            var quantityValue;
+            var salaryValue;
+            var durationValue;
+            var airTicketValue;
+            row.click(function () {
+                id = $(this).find('td').eq(0).html();
+                visaTradeValue = $(this).find('td').eq(1).html();
+                quantityValue = $(this).find('td').eq(2).html();
+                salaryValue = $(this).find('td').eq(3).html();
+                durationValue = $(this).find('td').eq(4).html();
+                airTicketValue = $(this).find('td').eq(5).html() == 'Yes' ? true : false;
+                accommodationValue = $(this).find('td').eq(6).html() == 'Yes' ? true : false;
+                medicalValue = $(this).find('td').eq(7).html() == 'Yes' ? true : false;
+                transportValue = $(this).find('td').eq(8).html() == 'Yes' ? true : false;
+                overtimeValue = $(this).find('td').eq(9).html() == 'Yes' ? true : false;
+                foodValue = $(this).find('td').eq(10).html() == 'Yes' ? true : false;
+                otherValue = $(this).find('td').eq(11).html() == 'Yes' ? true : false;
+            });
+            $('#id').text(visaTradeValue);
+            $('#ddVisaTrade').val(visaTradeValue);
+            $('#txtQuantity').val(quantityValue);
+            $('#txtSalary').val(salaryValue);
+            $('#txtDuration').val(durationValue);
+            $('#cbAirTicket').prop('checked', airTicketValue);
+            $('#cbAccommodation').prop('checked', accommodationValue);
+            $('#cbMedical').prop('checked', medicalValue);
+            $('#cbTransport').prop('checked', transportValue);
+            $('#cbOvertime').prop('checked', overtimeValue);
+            $('#cbFood').prop('checked', foodValue);
+            $('#cbOther').prop('checked', otherValue);
+
+        }
+
+        $('#CountryId').change(function () {
+            //$('#PlaceOfBirthCountryId option').remove(); // Clear State Dropdown
+            $('#CounslateId option').remove();  // Clear City Dropdown
+            $('#CounslateId').append('<option value=""> Loading . . . </option>');
+            $.getJSON('/Counslate/GetCounslateByCountry/")', { CountryId: $('#CountryId').val() }, function (data) {
+                $('#CounslateId option').remove();  // Clear City Dropdown
+                $('#CounslateId').append('<option value="">-- Select Counslate --</option>'); // Add Default Value to Counslate Dropdown
+                $.each(data, function () {
+                    $('#CounslateId').append('<option value=' + this.id + '>' + this.name + '</option>');
+                });
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error getting Counslates!');
+            });
+        });
+    </script>
+}
+
+

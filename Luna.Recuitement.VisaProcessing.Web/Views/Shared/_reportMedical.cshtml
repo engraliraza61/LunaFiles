@@ -1,0 +1,287 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.DTO.ReportDto>
+
+
+
+    <table class="table table-responsive-md applyDataTableWithExport6" width="100%" id="datatableMedical">
+        <thead>
+            <tr>
+                <th style="display:none">id</th>
+                <th style="display:none">VisaProcessId</th>
+                <th>File Number</th>
+                <th>Name</th>
+                <th>Passport</th>
+                <th>Trade</th>
+                @*<th>ENumber</th>
+                <th>ENumber Date</th>
+                <th>Biometric Send</th>
+                <th>Biometric Recv</th>*@
+                <th>Medical Online Send</th>
+                <th>Medical Online Recv</th>
+                <th>Remarks</th>
+                <th>Action</th>
+                @*<th>Passport Submit</th>
+                    <th>Passport Recv</th>
+                    <th>Company</th>
+                    <th>Reference#</th>
+                    <th>Status</th>
+                    <th>Remarks</th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td class="CandidateId" style="display:none">
+                    <span>@item.Id</span>
+                    @*<input type="text" value="@item.FileNumber" style="display:none" />*@
+                </td>
+                <td class="visaProcessId" style="display:none">
+                    <span>@item.visaProcessId</span>
+                    @*<input type="text" value="@item.FileNumber" style="display:none" />*@
+                </td>
+                <td class="FileNumber">
+                    <span>@item.FileNumber</span>
+                    @*<input type="text" value="@item.FileNumber" style="display:none" />*@
+                </td>
+                <td class="Name">
+                    @*<span>@item.Name</span>*@
+                    <a id="updatedInfoMedical" style="cursor:pointer">@item.Name</a>
+                    @*<input type="text" value="@item.Name" style="display:none" />*@
+                </td>
+                <td class="Passport">
+                    <span>@item.Passport</span>
+                    @*<input type="text" value="@item.Passport" style="display:none" />*@
+                </td>
+                <td class="Trade">
+                    <span>@item.Trade</span>
+                    @*<input type="text" value="@item.Trade" style="display:none" />*@
+                </td>
+                <!--<td class="ENumber">
+        <span>item.ENumber</span>-->
+                @*<input type="text" value="@item.ENumber" style="display:none" />*@
+                <!--</td>
+    <td class="ENumberDate">
+        <span>item.ENumberDate</span>-->
+                @*<input type="date" value="@item.ENumberDate" style="display:none" />*@
+                <!--</td>
+    <td class="BiometricSendingDate">
+        <span>item.BiometricSendingDate</span>-->
+                @*<input type="text" value="@item.BiometricSendingDate" style="display:none" />*@
+                <!--</td>
+    <td class="BiometricReceivingDate">
+        <span>item.BiometricReceivingDate</span>-->
+                @*<input type="date" value="@item.BiometricReceivingDate" style="display:none" />*@
+                <!--</td>-->
+
+                <td class="MedicalOnlineSendingDate">
+                    <span>@item.MedicalOnlineSendingDate</span>
+                    <input type="date" aria-required="true" value="@item.MedicalOnlineSendingDate" style="display:none" />
+                </td>
+                <td class="MedicalOnlineReceivingDate">
+                    <span>@item.MedicalOnlineReceivingDate</span>
+                    <input type="date"  aria-required="true" value="@item.MedicalOnlineReceivingDate" style="display:none" />
+                </td>
+                <td class="PassportSubmissionDate">
+                    <textarea id="medicalRemarks"></textarea>
+                </td>
+                <td>
+                    <a class="btnEdit" href="javascript:;">Edit</a>
+                    <a class="btnUpdateMedical" href="javascript:;" style="display:none">Update</a>
+                    <a class="btnCancel" href="javascript:;" style="display:none">Cancel</a>
+                    @*<a class="btnDelete" href="javascript:;">Delete</a>*@
+                </td>
+                @*<td>@item.PassportSubmissionDate</td>
+        <td>@item.PassportReceivingDate</td>
+        <td>@Html.DisplayFor(modelItem => item.Company)</td>
+        <td>@Html.DisplayFor(modelItem => item.Reference)</td>
+        <td>@Html.DisplayFor(modelItem => item.Status)</td>
+        <td>@item.StatusRemarks</td>*@
+
+            </tr>
+            }
+        </tbody>
+    </table>
+@*<partial name="candidateLinks"/>*@
+
+<script type="text/javascript">
+
+    $("body").on("click", "#updatedInfoMedical", function () {
+        var row = $(this).closest("tr");
+        Id = row.find(".CandidateId").find("span").html();
+        var Obj = { id: Id };
+        updatedCandidateInfo(Obj);
+    });
+    $('#updateInfoCandidate').click(function () {
+
+        if (!$('#updatedPlaceOfBirthCountryId').val() || $('#updatedPlaceOfBirthCountryId').val() == 0) {
+            alert("Please select a country.");
+            return false;
+        }
+        if (!$('#updatedPlaceOfBirthCityId').val() || $('#updatedPlaceOfBirthCityId').val() == 0) {
+            alert("Please select a city.");
+            return false;
+        }
+        if (!$('#updatedDateOfBirth').val()) {
+            alert("Please enter a date of birth.");
+            return false;
+        }
+        updateCandidateInfo();
+    });
+        function AppendRowAfterInsertRecord(row, MedicalOnlineReceivingDate, MedicalOnlineReceivingDate) {
+
+            $(".MedicalOnlineSendingDate", row).find("span").html(MedicalOnlineSendingDate);
+            $(".MedicalOnlineSendingDate", row).find("input").val(MedicalOnlineSendingDate);
+            $(".MedicalOnlineReceivingDate", row).find("span").html(BiometricReceivingDate);
+            $(".MedicalOnlineReceivingDate", row).find("input").val(BiometricReceivingDate);
+            debugger;
+            row.find(".btnEdit").show();
+            row.find(".btnDelete").show();
+            $("#datatableMedical").append(row);
+        };
+
+    //Edit event handler.
+    $("body").on("click", "#datatableMedical .btnEdit", function () {
+        //debugger;
+        var row = $(this).closest("tr");
+        $("td", row).each(function () {
+            if ($(this).find("input").length > 0) {
+                $(this).find("input").show();
+                $(this).find("span").hide();
+            }
+        });
+        if (row.find(".MedicalOnlineSendingDate").find("span").html()) {
+            row.find(".MedicalOnlineSendingDate").find('span').show();
+            row.find(".MedicalOnlineSendingDate").find('input').hide();
+        }
+        else {
+            row.find(".MedicalOnlineReceivingDate").find('span').show();
+            row.find(".MedicalOnlineReceivingDate").find('input').hide();
+        }
+        row.find(".btnUpdateMedical").show();
+        row.find(".btnCancel").show();
+        row.find(".btnDelete").hide();
+        $(this).hide();
+    });
+
+    //Update event handler.
+    $("body").on("click", "#datatableMedical .btnUpdateMedical", function () {
+        var row = $(this).closest("tr");
+        //if (row.find(".MedicalOnlineSendingDate").find("input").val().length == 0 ||
+        //    row.find(".MedicalOnlineReceivingDate").find("input").val().length == 0 ||
+        //    !(row.find("#medicalRemarks").val())) {
+        //    alert('please fill the field');
+        //    return false;
+        //}
+        $("td", row).each(function () {
+            if ($(this).find("input").length > 0) {
+                var span = $(this).find("span");
+                var input = $(this).find("input");
+                span.html(input.val());
+                span.show();
+                input.hide();
+            }
+        });
+        row.find(".btnEdit").show();
+        row.find(".btnDelete").show();
+        row.find(".btnCancel").hide();
+        $(this).hide();
+        
+        var Obj = {
+            medicalRemarks: row.find("#medicalRemarks").val(),
+            MedicalOnlineSendingDate: row.find(".MedicalOnlineSendingDate").find("span").html(),
+            Id: row.find(".visaProcessId").find("span").html(),
+            MedicalOnlineReceivingDate: row.find(".MedicalOnlineReceivingDate").find("span").html(),
+        };
+        //if (!patientObj.Id || patientObj.Id <= 0) {
+        //    alert(Id);
+        //    alert("Invalid Id!");
+        //    return false;
+        //}
+        FileNumber = row.find(".FileNumber").find("span").html();
+        $.ajax({
+            type: "POST",
+            url: '/Reports/UpdateMedicalTab',
+            data: Obj,
+            dataType: "json",
+            success: function (data) {
+                toastr.success('Record update successfully.', "Alert");
+                window.location.href = '/Reports/TabReportForReloading?FileNumber=' + FileNumber;
+                //$.ajax({
+                //    type: "GET",
+                //    url: '/Reports/TabReport',
+                //    data: { FileNumber: row.find(".FileNumber").find("span").html() },
+                //    dataType: "json",
+                //    success: function (data) {
+                //        //('#datatable')
+                //    },
+                //    error: function (errormsg) {
+                //        toastr.success('Record update successfully.', "Alert");
+                //    }
+                //});
+            },
+            error: function (errormsg) {
+                alert('Error');
+            }
+        });
+        $(this).closest('tr').remove();
+
+
+        ////$.ajax({
+        //    type: "POST",
+        //    data: JSON.stringify(Obj),
+        //    url: '/Reports/UpdateVisaProcess',
+        //    contentType: 'application/json',
+        //    dataType: 'json',
+        //    success: function (result) {
+        //        ClearAllInput();
+        //    },
+        //    error: function (errormessage) {
+        //        alert(errormessage.responseText);
+        //    }
+        //    error: function (errormsg) {
+        //        prompt("", JSON.stringify(errormsg))
+        //    }
+        //});
+    });
+
+    //Cancel event handler.
+    $("body").on("click", "#datatableMedical .btnCancel", function () {
+        var row = $(this).closest("tr");
+        $("td", row).each(function () {
+            if ($(this).find("input").length > 0) {
+                var span = $(this).find("span");
+                var input = $(this).find("input");
+                input.val(span.html());
+                span.show();
+                input.hide();
+            }
+        });
+        row.find(".btnEdit").show();
+        row.find(".btnDelete").show();
+        row.find(".btnUpdateMedical").hide();
+        $(this).hide();
+    });
+
+        ////Delete event handler.
+        //$("body").on("click", "#datatable .btnDelete", function () {
+        //    if (confirm("Do you want to delete this row?")) {
+        //        var row = $(this).closest("tr");
+        //        var FileNumber = row.find("span").html();
+        //        $.ajax({
+        //            url: "/Reports/DeletePatient?FileNumber=" + FileNumber,
+        //            type: "POST",
+        //            contentType: "application/json;charset=UTF-8",
+        //            dataType: "json",
+        //            success: function (response) {
+        //                if ($("#datatable tr").length > 2) {
+        //                    row.remove();
+        //                } else {
+        //                    row.find(".btnEdit").hide();
+        //                    row.find(".btnDelete").hide();
+        //                    row.find("span").html(' ');
+        //                }
+        //            }
+        //        });
+        //    }
+        //});
+    </script>

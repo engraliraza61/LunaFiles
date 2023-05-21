@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    @*<h1 class="display-4">@ViewBag.dataALI</h1>*@
+    <p style="display:none"><a href="#">Luna Corporations</a>.</p>
+    <input style="display:none" type="button" name="name" value="Upload Document" onclick="opedUploadDocuments();" />
+    <div id="lastBarcode"></div>
+</div>
+<!--if (User.Identity.IsAuthenticated)
+{
+    if (User.IsInRole("Administrator"))
+    {
+        //<div class="text-center">
+            <h1 class="display-4">Welcome</h1>
+            <h1 class="display-4">ViewBag.dataALI</h1>
+            <!--<p style="display:none"><a href="#">Luna Corporations</a>.</p>
+            <input style="display:none" type="button" name="name" value="Upload Document" onclick="opedUploadDocuments();" />
+            <div id="lastBarcode"></div>
+        </div>
+    }
+}-->
+
+
+<partial name="_documentUploadPopup" />
+<script>
+    var barcode = "";
+    var interval;
+    document.addEventListener('keydown', function (evt) {
+        if (interval)
+            clearInterval(interval);
+        if (evt.code == 'Enter') {
+            if (barcode)
+                handleBarcode(barcode);
+            barcode = "";
+            return;
+        }
+        if (evt.key != 'Shift')
+            barcode += evt.key
+        interval = setInterval(() => barcode = '', 20);
+    });
+            function handleBarcode(scanned_barcode) {
+                document.querySelector('#lastBarcode').innerHTML = scanned_barcode;
+            }
+    $(document).ready(function () {
+        sessionStorage.setItem("newTabUrl","@ViewBag.dataALI" );
+    });
+</script>

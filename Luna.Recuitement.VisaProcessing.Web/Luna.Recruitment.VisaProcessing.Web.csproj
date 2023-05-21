@@ -1,0 +1,228 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-Luna.Recuitement.VisaProcessing.Web-D8CB78C2-E3C2-47B1-BC1D-B0FE48D1832E</UserSecretsId>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.cs" />
+    <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.Designer.cs" />
+    <Compile Remove="Data\Migrations\ApplicationDbContextModelSnapshot.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Shared\_nomineeInfoModal.cshtml" />
+    <Content Remove="Views\Shared\_passportInfoModal.cshtml" />
+    <Content Remove="Views\Shared\_profileInfoModal.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Views\CandidateProfile\Create.cshtml~RF3f0ed4d1.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="wwwroot\documents\files\APIResponse_fd857a0b-d35a-4358-9d34-b02fa37ba345.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Agent\Create.cshtml" />
+    <None Include="Views\Agent\Delete.cshtml" />
+    <None Include="Views\Agent\Details.cshtml" />
+    <None Include="Views\Agent\Edit.cshtml" />
+    <None Include="Views\Agent\Index.cshtml" />
+    <None Include="Views\CandidateProfile\Create.cshtml" />
+    <None Include="Views\CandidateProfile\Delete.cshtml" />
+    <None Include="Views\CandidateProfile\Details.cshtml" />
+    <None Include="Views\CandidateProfile\Edit.cshtml" />
+    <None Include="Views\CandidateProfile\Index.cshtml" />
+    <None Include="Views\CandidateProfile\Profile.cshtml" />
+    <None Include="Views\Counslate\Create.cshtml" />
+    <None Include="Views\Counslate\Delete.cshtml" />
+    <None Include="Views\Counslate\Details.cshtml" />
+    <None Include="Views\Counslate\Edit.cshtml" />
+    <None Include="Views\Counslate\Index.cshtml" />
+    <None Include="Views\EntitySetup\Create.cshtml" />
+    <None Include="Views\EntitySetup\Delete.cshtml" />
+    <None Include="Views\EntitySetup\Details.cshtml" />
+    <None Include="Views\EntitySetup\Edit.cshtml" />
+    <None Include="Views\EntitySetup\Index.cshtml" />
+    <None Include="Views\OEP\Create.cshtml" />
+    <None Include="Views\OEP\Delete.cshtml" />
+    <None Include="Views\OEP\Details.cshtml" />
+    <None Include="Views\OEP\Edit.cshtml" />
+    <None Include="Views\OEP\Index.cshtml" />
+    <None Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Shared\_CandidateLinks.cshtml" />
+    <None Include="Views\Shared\_dependentInfo.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Shared\_LoginPartial.cshtml" />
+    <None Include="Views\Shared\_mehrumInfo.cshtml" />
+    <None Include="Views\Shared\_nomineeInfoModal.cshtml" />
+    <None Include="Views\Shared\_nomineeInfo.cshtml" />
+    <None Include="Views\Shared\_passportInfoModal.cshtml" />
+    <None Include="Views\Shared\_passportInfo.cshtml" />
+    <None Include="Views\Shared\_profileInfoModal.cshtml" />
+    <None Include="Views\Shared\_profileInfo.cshtml" />
+    <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="wwwroot\documents\Agreement.pdf" />
+    <None Include="wwwroot\documents\AgreementLI.pdf" />
+    <None Include="wwwroot\documents\Agreement_1.pdf" />
+    <None Include="wwwroot\documents\ChallanForm.pdf" />
+    <None Include="wwwroot\documents\ChallanFormLI.pdf" />
+    <None Include="wwwroot\documents\Contract.pdf" />
+    <None Include="wwwroot\documents\ContractLI.pdf" />
+    <None Include="wwwroot\documents\DemandLetter.pdf" />
+    <None Include="wwwroot\documents\DemandLetter2.pdf" />
+    <None Include="wwwroot\documents\DemandLetterLI.pdf" />
+    <None Include="wwwroot\documents\documents.zip" />
+    <None Include="wwwroot\documents\files\AIOU_X_SF_STD_INV_ab09d7c5-deb5-4157-9d00-47ab387d90cb.pdf" />
+    <None Include="wwwroot\documents\files\App_68a193f8-f1e6-46d5-a568-23c5bfa7df50.config" />
+    <None Include="wwwroot\documents\files\Fri Dec 10 2021 170129 GMT0500 %28Pakistan Standard Time%29_666278d2-a550-428f-a342-b22236de4840.pdf" />
+    <None Include="wwwroot\documents\files\Fri Dec 10 2021 172441 GMT0500 %28Pakistan Standard Time%29_10321cf9-3fcb-46b3-b137-9efcba4bac4f.pdf" />
+    <None Include="wwwroot\documents\files\Fri Dec 10 2021 172441 GMT0500 %28Pakistan Standard Time%29_1918e283-1e77-42e6-abd9-82b4aca5e43c.pdf" />
+    <None Include="wwwroot\documents\files\Fri Dec 10 2021 172441 GMT0500 %28Pakistan Standard Time%29_29b5d7e8-400c-4faf-91cd-6393428eebbf.pdf" />
+    <None Include="wwwroot\documents\files\Fri Dec 10 2021 172441 GMT0500 %28Pakistan Standard Time%29_451fbb97-557d-4693-94ab-5b88a5f69b33.pdf" />
+    <None Include="wwwroot\documents\files\Fri Dec 10 2021 172441 GMT0500 %28Pakistan Standard Time%29_58d9f463-8770-4d0e-8458-c5ca9ac283cc.pdf" />
+    <None Include="wwwroot\documents\files\Fri Dec 10 2021 172441 GMT0500 %28Pakistan Standard Time%29_d4e01f1c-b8a4-467f-88f3-7901548e3065.pdf" />
+    <None Include="wwwroot\documents\files\Fri Dec 10 2021 175826 GMT0500 %28Pakistan Standard Time%29_5c52fbe1-40ce-42a6-933d-0eb6d715ea2b.pdf" />
+    <None Include="wwwroot\documents\files\Fri Dec 10 2021 175826 GMT0500 %28Pakistan Standard Time%29_8b62c289-5b0e-48aa-b839-ea2e87190f7f.pdf" />
+    <None Include="wwwroot\documents\files\Fri Dec 10 2021 175826 GMT0500 %28Pakistan Standard Time%29_a8c81af8-7301-4bae-be7b-18757964a249.pdf" />
+    <None Include="wwwroot\documents\files\Fri Dec 10 2021 175826 GMT0500 %28Pakistan Standard Time%29_aa1ad663-2b1d-499e-b34a-978491cd8f9c.pdf" />
+    <None Include="wwwroot\documents\files\Registration_11142021235652_4c66bef6-41ee-494e-8643-f4cdcdf8428f.pdf" />
+    <None Include="wwwroot\documents\files\Sat Dec 11 2021 200310 GMT0500 %28Pakistan Standard Time%29_2a2c38b9-eb95-4627-adb3-8c9dbe5d1892.pdf" />
+    <None Include="wwwroot\documents\files\Sat Dec 11 2021 200310 GMT0500 %28Pakistan Standard Time%29_394b3aff-00e6-44c4-b506-564389c7c9e7.pdf" />
+    <None Include="wwwroot\documents\files\Sat Dec 11 2021 200310 GMT0500 %28Pakistan Standard Time%29_4aa3a790-0ebc-40ab-9041-69a699558364.pdf" />
+    <None Include="wwwroot\documents\files\Sat Dec 11 2021 200310 GMT0500 %28Pakistan Standard Time%29_60a79756-13ae-441c-96c7-a2fc05bc677d.pdf" />
+    <None Include="wwwroot\documents\files\Sat Dec 11 2021 200310 GMT0500 %28Pakistan Standard Time%29_74f793cd-d35b-49cc-8d4c-aa4ff71026c2.pdf" />
+    <None Include="wwwroot\documents\files\Sat Dec 11 2021 200310 GMT0500 %28Pakistan Standard Time%29_88d1e09d-6643-444a-99cb-56027b7fd5ec.pdf" />
+    <None Include="wwwroot\documents\files\Sat Dec 11 2021 200310 GMT0500 %28Pakistan Standard Time%29_9378c5d9-841c-40c4-96e2-370ab0428ad5.pdf" />
+    <None Include="wwwroot\documents\files\Sat Dec 11 2021 200310 GMT0500 %28Pakistan Standard Time%29_9378c5d9-841c-40c4-96e2-370ab0428ad5_a90b8ab6-a2ef-460a-bd94-51baa779b7bc.pdf" />
+    <None Include="wwwroot\documents\files\Sat Dec 11 2021 200310 GMT0500 %28Pakistan Standard Time%29_dd715ecd-2159-4352-b31a-4d2841bc2a58.pdf" />
+    <None Include="wwwroot\documents\files\Sat Dec 11 2021 200310 GMT0500 %28Pakistan Standard Time%29_e4ecea35-99a9-4912-83a4-a8170cca555b.pdf" />
+    <None Include="wwwroot\documents\FinalPermission.pdf" />
+    <None Include="wwwroot\documents\FinalPermission2.pdf" />
+    <None Include="wwwroot\documents\FinalPermissionLI.pdf" />
+    <None Include="wwwroot\documents\FinalPermission_O.pdf" />
+    <None Include="wwwroot\documents\Form7.pdf" />
+    <None Include="wwwroot\documents\Form7LI.pdf" />
+    <None Include="wwwroot\documents\NBPSlip.pdf" />
+    <None Include="wwwroot\documents\NBPSlipLI.pdf" />
+    <None Include="wwwroot\documents\Registration.pdf" />
+    <None Include="wwwroot\documents\Registrationtempalte.pdf" />
+    <None Include="wwwroot\documents\Registration_1.pdf" />
+    <None Include="wwwroot\documents\Registration_Format.pdf" />
+    <None Include="wwwroot\documents\Registration_origi.pdf" />
+    <None Include="wwwroot\documents\Undertaking1.pdf" />
+    <None Include="wwwroot\documents\Undertaking1LI.pdf" />
+    <None Include="wwwroot\documents\Undertaking2.pdf" />
+    <None Include="wwwroot\documents\Undertaking2LI.pdf" />
+    <None Include="wwwroot\documents\Undertaking3 - Copy.pdf" />
+    <None Include="wwwroot\documents\Undertaking3.pdf" />
+    <None Include="wwwroot\documents\Undertaking3LI.pdf" />
+    <None Include="wwwroot\documents\VisaFormIsb.docx" />
+    <None Include="wwwroot\documents\VisaFormIsb.pdf" />
+    <None Include="wwwroot\documents\VisaFormIsbLI.pdf" />
+    <None Include="wwwroot\documents\VisaFormKhi.pdf" />
+    <None Include="wwwroot\documents\VisaFormKhiLI.pdf" />
+    <None Include="wwwroot\documents\VisaFormKhi_Copy.pdf" />
+    <None Include="wwwroot\fontawesome\js\all.js" />
+    <None Include="wwwroot\fontawesome\js\all.min.js" />
+    <None Include="wwwroot\fontawesome\js\brands.js" />
+    <None Include="wwwroot\fontawesome\js\brands.min.js" />
+    <None Include="wwwroot\fontawesome\js\conflict-detection.js" />
+    <None Include="wwwroot\fontawesome\js\conflict-detection.min.js" />
+    <None Include="wwwroot\fontawesome\js\fontawesome.js" />
+    <None Include="wwwroot\fontawesome\js\fontawesome.min.js" />
+    <None Include="wwwroot\fontawesome\js\regular.js" />
+    <None Include="wwwroot\fontawesome\js\regular.min.js" />
+    <None Include="wwwroot\fontawesome\js\solid.js" />
+    <None Include="wwwroot\fontawesome\js\solid.min.js" />
+    <None Include="wwwroot\fontawesome\js\v4-shims.js" />
+    <None Include="wwwroot\fontawesome\js\v4-shims.min.js" />
+    <None Include="wwwroot\js\bootstrap-datetimepicker.min.js" />
+    <None Include="wwwroot\js\buttons.html5.min.js" />
+    <None Include="wwwroot\js\buttons.print.min.js" />
+    <None Include="wwwroot\js\dataTables.buttons.min.js" />
+    <None Include="wwwroot\js\dataTables.fixedHeader.min.js" />
+    <None Include="wwwroot\js\jquery.dataTables.min.js" />
+    <None Include="wwwroot\js\jszip.min.js" />
+    <None Include="wwwroot\js\moment.min.js" />
+    <None Include="wwwroot\js\pdfmake.min.js" />
+    <None Include="wwwroot\js\select2.min.js" />
+    <None Include="wwwroot\js\site.js" />
+    <None Include="wwwroot\js\toastr.min.js" />
+    <None Include="wwwroot\js\vfs_fonts.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\LICENSE" />
+    <None Include="wwwroot\lib\jquery-ajax-unobtrusive\gulpfile.js" />
+    <None Include="wwwroot\lib\jquery-ajax-unobtrusive\jquery.unobtrusive-ajax.js" />
+    <None Include="wwwroot\lib\jquery-ajax-unobtrusive\jquery.unobtrusive-ajax.min.js" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\LICENSE.md" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EPPlus" Version="5.8.5" />
+    <PackageReference Include="Grpc.Core" Version="2.43.0" />
+    <PackageReference Include="iTextSharp" Version="5.5.13.3" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Cors" Version="5.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.21" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+    <PackageReference Include="Nancy" Version="2.0.0" />
+    <PackageReference Include="NLog" Version="4.7.9" />
+    <PackageReference Include="SendGrid" Version="9.27.0" />
+    <PackageReference Include="System.Collections" Version="4.3.0" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+    <PackageReference Include="System.Net.Requests" Version="4.3.0" />
+    <PackageReference Include="Twilio" Version="5.72.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Luna.LoggerService\Luna.LoggerService.csproj" />
+    <ProjectReference Include="..\Luna.Recruitment.VisaProcessing.Data\Luna.Recruitment.VisaProcessing.Data.csproj" />
+    <ProjectReference Include="..\Luna.Recruitment.VisaProcessing.DTO\Luna.Recruitment.VisaProcessing.DTO.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
+    <Folder Include="wwwroot\documents\Excel\" />
+  </ItemGroup>
+
+</Project>

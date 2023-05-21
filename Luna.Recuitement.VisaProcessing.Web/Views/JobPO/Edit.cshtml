@@ -1,0 +1,165 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.OepvisaDemandPodetail
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit Job</h1>
+<hr />
+<form asp-action="Edit">
+    <div class="row">
+                <div class="col-md-2">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="OepvisaDemandPoid" class="control-label">Demand</label>
+                        <select asp-for="OepvisaDemandPoid" class="form-control DDFilter" asp-items="ViewBag.OepvisaDemandPoId"></select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="JobTypeEntitySetupId" class="control-label">Job Type</label>
+                        <select asp-for="JobTypeEntitySetupId" class="form-control DDFilter" asp-items="ViewBag.JobTypeEntitySetupId"></select>
+                    </div>
+                </div>
+            </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label asp-for="Quantity" class="control-label"></label>
+                        <input asp-for="Quantity" class="form-control" />
+                        <span asp-validation-for="Quantity" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label asp-for="DurationYears" class="control-label"> Duration (Years)</label>
+                        <input asp-for="DurationYears" class="form-control" />
+                        <span asp-validation-for="DurationYears" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label asp-for="MinSalary" class="control-label">Min Salary</label>
+                        <input asp-for="MinSalary" class="form-control" />
+                        <span asp-validation-for="MinSalary" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label asp-for="MaxSalary" class="control-label">Max Salary</label>
+                        <input asp-for="MaxSalary" class="form-control" />
+                        <span asp-validation-for="MaxSalary" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <input type="checkbox" asp-for="IsAccommodation" />
+                    <label>Accommodation</label>
+                    <span asp-validation-for="IsAccommodation" class="text-danger"></span>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <input asp-for="AccommodationDetail" class="form-control" />
+                        <span asp-validation-for="AccommodationDetail" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <input type="checkbox" asp-for="IsMedical" />
+                        <label>Medical</label>
+                        <span asp-validation-for="IsMedical" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <input asp-for="MedicalDetail" class="form-control" />
+                        <span asp-validation-for="MedicalDetail" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <input type="checkbox" asp-for="IsTransport" />
+                        <label>Transport</label>
+                        <span asp-validation-for="IsTransport" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <input asp-for="TransportDetail" class="form-control" />
+                        <span asp-validation-for="TransportDetail" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-2-md-2">
+                    <div class="form-group">
+                        <input type="checkbox" asp-for="IsAirTicket" />
+                        <label>Air Ticket</label>
+                        <span asp-validation-for="IsAirTicket" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <input asp-for="AirTicketDetail" class="form-control" />
+                        <span asp-validation-for="AirTicketDetail" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-2-md-2">
+                    <div class="form-group">
+                        <input type="checkbox" asp-for="IsOverTime" />
+                        <label>Over Time</label>
+                        <span asp-validation-for="IsOverTime" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <input asp-for="OverTimeDetail" class="form-control" />
+                        <span asp-validation-for="OverTimeDetail" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <input type="checkbox" asp-for="IsFood" />
+                        <label>Food</label>
+                        <span asp-validation-for="IsFood" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md2">
+                    <div class="form-group">
+                        <input asp-for="FoodDetail" class="form-control" />
+                        <span asp-validation-for="FoodDetail" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <input type="checkbox" asp-for="IsOthers" />
+                        <label>Others</label>
+                        <span asp-validation-for="IsOthers" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <input asp-for="OthersDetail" class="form-control" />
+                        <span asp-validation-for="OthersDetail" class="text-danger"></span>
+                    </div>
+                </div>
+           
+            @*@<div class="form-row align-items-center">
+                <div class="col-md-6">
+                    <div class="form-group form-check">
+                        <br />
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="IsActive" name="IsActive" /> 
+                        </label> &nbsp;&nbsp;&nbsp;&nbsp;
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" id="IsDeleted" name="IsDeleted" /> 
+                        </label>
+                    </div>
+                </div>
+            </div>*@
+            <div class="form-group col-md-6 float-right">
+                <a asp-action="Index"  asp-route-Id="@Model.OepvisaDemandPoid"} class="btn btn-info">Back to List</a>
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

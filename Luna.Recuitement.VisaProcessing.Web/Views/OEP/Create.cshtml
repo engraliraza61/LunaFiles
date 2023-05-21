@@ -1,0 +1,93 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.Oep
+
+@{
+    ViewData["Title"] = "Create OEP";
+}
+
+<h1>Create OEP</h1>
+
+<hr />
+    <form asp-action="Create">
+        <div class="row">
+            <div class="col-md-6">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Code" class="control-label"></label>
+                    <input asp-for="Code" class="form-control" />
+                    <span asp-validation-for="Code" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control"/>
+                    <span asp-validation-for="Name" class="text-danger" ></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="ArabicName" class="control-label"></label>
+                    <input asp-for="ArabicName" class="form-control ArabicEntry"   dir="rtl" lang="ar"/>
+                    <span asp-validation-for="ArabicName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label"></label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Phone" class="control-label"></label>
+                    <input asp-for="Phone" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="CountryId" class="control-label">Country</label>
+                    <select asp-for="CountryId" class="form-control DDFilter" asp-items="ViewBag.CountryId"></select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="StateId" class="control-label">State</label>
+                    <select asp-for="StateId" class="form-control DDFilter" asp-items="ViewBag.StateId"></select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="CityId" class="control-label">City</label>
+                    <select asp-for="CityId" class="form-control DDFilter" asp-items="ViewBag.CityId"></select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input type="hidden" class="form-check-input" asp-for="IsDeleted" />
+                    </label>
+                </div>
+            </div>
+            <div class="form-group col-md-6 float-right">
+                <a asp-action="Index" class="btn btn-info">Back to List</a>
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            </div>
+</form>
+
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

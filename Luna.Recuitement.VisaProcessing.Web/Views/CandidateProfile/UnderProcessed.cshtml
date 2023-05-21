@@ -1,0 +1,736 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.Models.CandidateProfile>
+@using Luna.Recruitment.VisaProcessing.Data.DTO
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@{
+    ViewData["Title"] = "Underprocessed Candidate";
+    @ViewBag.jobselectionPresent;
+    List<long?> candidateSelectIonId = ViewBag.visaPreocess;
+
+}
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.UnderProcessedCandidate.View)).Result.Succeeded)
+{
+    <h1>UnderProcessed Candidate</h1>
+    @*@if (User.Identity.IsAuthenticated)
+        {
+            if (User.IsInRole("Processing-Candidate-New"))
+            {
+                <p>
+                    <a asp-action="Create" class="btn btn-primary">Create New</a>
+                </p>
+            }
+        }*@
+    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.UnderProcessedCandidate.Create)).Result.Succeeded)
+    {
+        <p>
+            <a asp-action="Create" class="btn btn-primary" target="_blank">Create New</a>
+        </p>
+    }
+
+    <table class="table applyDataTable">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Father Name</th>
+                <th>Date Of Birth</th>
+                <th>Religion</th>
+                <th>Cell</th>
+                <th>CNIC</th>
+                <th>Passport</th>
+                @*<th>Created By</th>
+                    <th>Created Date</th>
+                    <th>Modified By</th>
+                    <th>Modified Date</th>*@
+                <th>Selection</th>
+                @*@if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("Administrator"))
+                        {*@
+                <th></th>
+                @*}
+                    }*@
+            </tr>
+        </thead>
+        <tbody id="tbdDocumentUploadA">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <span id="underProcessedCandidateId">@Html.DisplayFor(modelItem => item.Id)</span>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FatherName)
+                    </td>
+                    <td>@item.DateOfBirth.Value.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Religion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CellNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cnic)
+                    </td>
+                    <td>
+                        @if (item.Passport != null && item.Passport.Count > 0)
+                        {
+                            @Html.DisplayFor(modelItem => item.Passport.FirstOrDefault().PassportNo)
+                        }
+                        else
+                        {
+                            @("Not Found")
+                        }
+                    </td>
+                    @*<td>
+                            @item.CreatedBy
+                        </td>
+                        <td>
+                            @item.CreatedDate
+                        </td>
+                        <td>
+                            @item.ModifiedBy
+                        </td>
+                        <td>
+                            @item.ModifiedDate
+                        </td>*@
+                    <td>
+                        @{ if (candidateSelectIonId.Contains(item.CandidateSelectionDetail.Select(c => c.Id).FirstOrDefault()))
+                            {
+                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.UnderProcessedCandidate.selectionGroup)).Result.Succeeded)
+                                {
+                                    <a asp-controller="CandidateSelection" target="_blank" asp-action="ShowSelection" asp-route-candidateProfileId="@item.Id">
+                                        @item.CandidateSelectionDetail.FirstOrDefault().CandidateSelection.SelectionGroup
+                                    </a>
+                                }
+                                @(" | ")
+                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.UnderProcessedCandidate.visaProcess)).Result.Succeeded)
+                                {
+                                    <a asp-controller="CandidateSelection" target="_blank" asp-action="ShowVisaProcess" asp-route-candidateProfileId="@item.Id" asp-route-calledFrom="@ViewBag.ActionName" target="_blank">
+                                        Visa Process
+                                    </a>
+                                }
+                                @(" | ")
+                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.UnderProcessedCandidate.QuickEdit)).Result.Succeeded)
+                                {
+                                    <a href="#!" id="quickEdit">
+                                        Quick Edit
+                                    </a>
+                                }
+                            }
+                            else
+                            {
+                                @if ((AuthorizationService.AuthorizeAsync(User, Permissions.UnderProcessedCandidate.QuickEdit)).Result.Succeeded)
+                                {
+                                    <a href="#!" id="AddSelection">Quick Add</a>
+                                }
+                            }
+                        }
+                    </td>
+                    @*@if (User.Identity.IsAuthenticated)
+                        {
+                            if (User.IsInRole("Administrator"))
+                            {*@
+                    <div>
+                    <td>
+                        @*@if (User.Identity.IsAuthenticated)
+                            {
+                                if (User.IsInRole("Processing-Candidate-Delete"))
+                                {
+                                    <a asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt"></i></a>
+                                }
+                            }
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                if (User.IsInRole("Processing-Candidate-Edit"))
+                                {
+                                    <a asp-action="Profile" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
+                                }
+                            }*@
+                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.UnderProcessedCandidate.Delete)).Result.Succeeded)
+                        {
+
+                            <a asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt"></i></a>
+                        }
+                        |
+                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.UnderProcessedCandidate.Edit)).Result.Succeeded)
+                        {
+
+                            <a asp-action="Profile" target="_blank" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
+                        }
+
+                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.UnderProcessedCandidate.FollowUpHistory)).Result.Succeeded)
+                        {
+                            <a asp-controller="FollowUp" asp-action="forCandidateId" asp-route-candidateProfileId="@item.Id" id="chkSelection"><i class="fas fa-flag" title="Show Follow Up History"></i></a>
+                        }
+                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.UnderProcessedCandidate.SMS)).Result.Succeeded)
+                        {
+
+                            <a id="sendSMS"><i style="color:blue" class="fas fa-sms" title="SMS"></i></a>
+                        }
+                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.UnderProcessedCandidate.Email)).Result.Succeeded)
+                        {
+
+                            <a id="sendEmail"><i style="color:blue" class="fas fa-envelope" title="Email"></i></a>
+                            <br />
+                        }
+                        
+                    </td></div>
+                </tr>
+            }
+            @*}
+                }*@
+        </tbody>
+    </table>
+    <div class="modal fade " id="AddSelectionModal" tabindex="-1" role="dialog" aria-labelledby="docUploadModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editaddselection"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="AddSelectionId">
+                        <div class="row" hidden>
+                            <div class="col-md-6">
+                                <input name="CandidateProfileId" id="PofileIdA" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Selection For</label>
+                                    <select id="SeleectionId" name="CandidateSelectionId" class="form-control DDFilter"></select>
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Sponsor</label>
+                                    <select id="SponsorId" name="SponserId" class="form-control DDFilter"></select>
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span>FirstName</span>
+                                <input type="text" id="firstNameId" class="form-control" readonly />
+                            </div>
+                            <div class="col-md-6">
+                                <span>lastName</span>
+                                <input type="text" class="form-control" id="lastNameId" readonly />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span>FileNo</span>
+                                <select id="FileNoId" name="OepvisaDemandId" class="form-control DDFilter"></select>
+                            </div>
+                            <div class="col-md-6">
+                                <span>Trade</span>
+                                <select id="TradeId" name="VisaTradeEntitySetupId" class="form-control DDFilter"></select>
+                                <span id="lblVisaQuantity" class="text-danger"></span>
+                                <span id="lblExpiryDays" class="text-danger"></span>
+                                <span id="selectionConsumedIdA" class="text-danger"></span>
+                                <span id="selectionQtyIdA" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <span>Status</span>
+                                <select id="StatusId" name="StatusEntitySetupId" class="form-control DDFilter"></select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            &nbsp;
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12 float-right">
+                                <button type="button" id="addEditBtn" style="align-content:center" class="btn btn-primary"></button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="show_stored_data">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade " id="SendSMSModal" tabindex="-1" role="dialog" aria-labelledby="docUploadModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Send SMS</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="sendSMS">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-header bg-primary text-white">
+                                            <i class="fa fa-sms"></i> Send SMS
+                                        </div>
+                                        <div class="card-body">
+                                            <form asp-action="SMS" asp-controller="Home" method="post">
+                                                <div class="form-group">
+                                                    <label for="name">Phone Number</label>
+                                                    @*<input type="text" asp-for="PhoneNumber" class="form-control" pattern="^\d{1}\d{0,1}\d{0,1}\d{2}\d{0,1}\d{7}" placeholder="923xxxxxxxxx" required>*@
+                                                    <input name="PhoneNumber" id="candidatePhoneNo" class="form-control" type="number" placeholder="923xxxxxxxxx" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="message">Message</label>
+                                                    <textarea class="form-control" name="Message" rows="6" required></textarea>
+                                                </div>
+                                                <div class="mx-auto">
+                                                    <button type="submit" class="btn btn-primary text-right">Submit</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="show_stored_data">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade " id="SendEmailModal" tabindex="-1" role="dialog" aria-labelledby="docUploadModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Send Email</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-header bg-primary text-white">
+                                            <i class="fa fa-envelope"></i> Send Email
+                                        </div>
+                                        <div class="card-body">
+                                            <form asp-action="SendEmail" method="post" enctype="multipart/form-data" asp-controller="AppUser">
+                                                <span>Email To</span><br />
+                                                <div class="row">
+                                                    <div class="col-md">
+                                                        <input type="text" id="emailTO" name="EmailToAddress" class="form-control" />
+                                                    </div>
+                                                </div>
+                                                <span>Email Subject</span><br />
+                                                <div class="row">
+
+                                                    <div class="col-md">
+                                                        <input type="text" name="emailSubject" class="form-control" />
+                                                    </div>
+                                                </div>
+                                                <span>Attach required File</span><br />
+                                                <div class="row">
+
+                                                    <div class="col-md">
+                                                        <input type="file" name="File" id="listFiles" class="form-control" />
+                                                    </div>
+                                                </div>
+                                                <span>Body</span><br />
+                                                <div class="row">
+
+                                                    <div class="col-md">
+                                                        <textarea name="emailBody" class="form-control"></textarea>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <button class="btn btn-success" type="submit">send Email</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="show_stored_data">
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<script>
+    $(document).on('click', '#quickEdit', function () {
+        var updateRow = $(this).closest('tr');
+        Id = $(updateRow).find('#underProcessedCandidateId').html();
+        $('#editaddselection').text('Edit Selection');
+        $('#addEditBtn').text('Edit');
+        $('#PofileIdA').val(Id);
+        $("#SeleectionId option").remove();
+        $("#FileNoId option").remove();
+        $("#TradeId option").remove();
+        $("#StatusId option").remove();
+        $("#lblVisaQuantity").text("");
+        var updateRow = $(this).closest('tr');
+        $.ajax({
+            type: "POST",
+            url: '/CandidateSelection/ForEditSelection',
+            data: { "id": Id },
+            dataType: "json",
+            success: function (data) {
+                $("#SeleectionId option").remove();
+                $("#FileNoId option").remove();
+                $("#TradeId option").remove();
+                $("#StatusId option").remove();
+                console.log(data);
+                var fileTrade;
+                var tradeIds;
+                $.each(data.selectionId, function () {
+                    if (this.selected == true) {
+                        $("#SeleectionId").append('<option value="' + this.value + '" selected="' + this.selected + '">' + this.text + '</option>');
+                    }
+                    $("#SeleectionId").append('<option value="' + this.value + '">' + this.text + '</option>');
+                });
+                //var country = document.getElementById("SeleectionId");
+                //console.log(country.options[SeleectionId.options.selectedIndex].selected);
+                //country.options[SeleectionId.options.selectedIndex].selected = true;
+                $.each(data.visaDemand, function () {
+                    if (this.selected == true) {
+                        fileTrade = this.value;
+                        $("#FileNoId").append('<option value="' + this.value + '" selected="' + this.selected + '">' + this.text + '</option>');
+                    }
+                    $("#FileNoId").append('<option value="' + this.value + '">' + this.text + '</option>');
+                });
+                $.each(data.EntitySetupName, function () {
+                    if (this.selected == true) {
+                        $("#TradeId").append('<option value="' + this.value + '" selected="' + this.selected + '">' + this.text + '</option>');
+                    }
+                    $("#TradeId").append('<option value="' + this.value + '">' + this.text + '</option>');
+                });
+                $.each(data.status, function () {
+                    console.log(data.status);
+                    if (this.selected == true) {
+                        $("#StatusId").append('<option value="' + this.value + '" selected="' + this.selected + '">' + this.text + '</option>');
+                    }
+                    $("#StatusId").append('<option value="' + this.value + '">' + this.text + '</option>');
+                });
+                var visaTradeEntitySetupIdA;
+                var ids;
+                $.getJSON('/OEPVisaDemand/GetJobsByDemandId/")', { oepVisaDemandId: fileTrade }, function (data) {
+                    $('#TradeId option').remove();
+                    $('#TradeId').append('<option value="0" selected>-- Select Visa Trade --</option>');
+                    $.each(data, function () {
+                        $('#TradeId').append('<option selected="true" value=' + this.id + '>' + this.name + '</b></option>');
+                        ids = $("#TradeId option:selected").val();
+                        console.log('id' + ids);
+                        visaTradeEntitySetupIdA = ids;
+                    });
+                    console.log('id' + visaTradeEntitySetupIdA);
+
+                    console.log('selection' + $("#SeleectionId option:selected").val());
+
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error getting visa trades!');
+                });
+                alert($("#SeleectionId option:selected").val());
+                $.getJSON('/CandidateProfile/GetSponsor/', { selectionId: $("#SeleectionId option:selected").val() }, function (data) {
+                    console.log('ali');
+                    console.log(data);
+                    $("#SponsorId option").remove();
+                    $("#SponsorId").append('<option value=0>--select Selection--</option>');
+                    $.each(data.candidateSelection, function () {
+                        $("#SponsorId").append('<option value=' + this.id + '>' + this.name + '</option>');
+                    });
+                    $("#SponsorId").val(data.sponsorId);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error getting Selection!');
+                });
+                var expiryDay;
+                $.getJSON('/OEPVisaDemand/VisaQuantity/', { oepVisaDemandId: fileTrade, visaTradeEntitySetupId: visaTradeEntitySetupIdA }, function (data) {
+                    console.log(data);
+                    balance;
+                    expiryDay;
+                    $("#lblVisaQuantity").text("VISA TRADE LIMIT: " + data.balance);
+                    $("#lblExpiryDays").text("Expiry Date: " + data.expiryDay);
+                    balance = data.balance;
+                    expiryDay = data.expiryDay;
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error getting available visa quantity!');
+                });
+                tradeIds = $("#TradeId option:selected").val();
+                console.log('is' + tradeIds);
+                $('#firstNameId').val(data.firstName);
+                $('#lastNameId').val(data.lastName);
+                $('#lblVisaQuantity').text('');
+                $('#lblExpiryDays').text('');
+                $('#selectionConsumedIdA').text('');
+                $('#selectionQtyIdA').text('');
+                $('#AddSelectionModal').modal('show');
+
+            },
+            error: function (errormsg) {
+                prompt("", JSON.stringify(errormsg))
+            }
+        });
+    });
+    $(document).ready(function () {
+        $(document).on('click', '#sendSMS', function () {
+            $('#SendSMSModal').modal('show');
+        });
+        $(document).on('click', '#sendEmail', function () {
+            $('#SendEmailModal').modal('show');
+        });
+    });
+    function callModal() {
+        $('#modalBody').append("<form asp-action='AddSelectionAndFile' asp-controller='CandidateSelection' id='AddSelectionId'> <div class='row'> <div class='col-md-12'> <span>Selection</span> <br/> <select name='CandidateSelectionId' class='form-control DDFilter' asp-items='ViewBag.selectionId'></select> </div><div class='col-md-12' hidden> <span>ProfileId</span> <input id='PofileId' name='candidateProfileId' class='form-control'/> </div></div><div class='row'> <div class='col-md-6'> <span>FirstName</span> <input type='text' id='firstNameId' class='form-control' readonly/> </div><div class='col-md-6'> <span>lastName</span> <input type='text' class='form-control' id='lastNameId' readonly/> </div></div><div class='row'> <div class='col-md-6'> <span>FileNo</span> <select asp-items='ViewBag.oepVisaDemandId' name='OepvisaDemandId' class='form-control DDFilter'></select> </div><div class='col-md-6'> <span>Trade</span> <select asp-items='ViewBag.entitySetupId' name='VisaTradeEntitySetupId' class='form-control DDFilter'></select> <span id='lblVisaQuantity' class='text-danger'></span> </div><div class='col-md-6'> <span>Status</span> <select id='StatusId' name='StatusRemarks' class='form-control DDFilter'></select> </div></div><div class='row'> &nbsp; </div><div class='row'> <div class='form-group col-md-12 float-right'> <button type='submit' style='align-content:center' class='btn btn-primary'>Add</button> <button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button> </div></div></form>")
+        $('#EditSelectionModal').modal('show');
+    }
+    $("#AddSelectionId").submit(function () {
+        if (balance == 0) {
+            alert("visa limit is 0");
+            return false;
+        }
+        if (!$("#TradeId").val()) {
+            alert('please select visa trade');
+            return false;
+        }
+    });
+    var balance=null;
+    $('#TradeId').change(function () {
+        $.getJSON('/OEPVisaDemand/VisaQuantity/', { oepVisaDemandId: $('#FileNoId').val(), visaTradeEntitySetupId: $('#TradeId').val() }, function (data) {
+            //console.log(data);
+            balance;
+            $("#lblVisaQuantity").text("VISA TRADE LIMIT: " + data.balance);
+            balance = data.balance;
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting available visa quantity!');
+        });
+        $.getJSON('/CandidateSelection/SelectionQuantityA/', { sponsorId: $("#SeleectionId option:selected").val() }, function (data) {
+            console.log(data);
+            $("#selectionQtyIdA").text("Candidate(s) Selected: " + data.selectionQtyCount[0].selectionTradeCount);
+            /*$("#selectionConsumedIdA").text("Selection Trade Limit: " + data.selectionQty[0].selectionQty);*/
+            selectionConsumed = data.selectionQty[0].selectionQty.selectionQty  ;
+            selectionQty = data.selectionQtyCount[0].selectionTradeCount
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting available visa quantity!');
+        });
+        tradeIds = $("#TradeId option:selected").val();
+        console.log('is' + tradeIds);
+        var dataB = { oepVisaDemandId: $('#FileNoId').val(), visaTradeEntitySetupId: tradeIds }
+        $.getJSON('/OEPVisaDemand/VisaQuantity/', dataB, function (data) {
+            //console.log(data);
+            balance;
+            $("#lblVisaQuantity").text("VISA TRADE LIMIT: " + data.balance);
+            balance = data.balance;
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting available visa quantity!');
+        });
+    });
+    $('#FileNoId').change(function () {
+        $('#TradeId option').remove();
+        $('#TradeId').append('<option value=""> Loading . . . </option>');
+        $.getJSON('/OEPVisaDemand/GetJobsByDemandId/")', { oepVisaDemandId: $('#FileNoId').val() }, function (data) {
+            $('#TradeId option').remove();
+            $('#TradeId').append('<option value="0" selected>-- Select Visa Trade --</option>');
+            $.each(data, function () {
+                $('#TradeId').append('<option value=' + this.id + '>' + this.name + '</b></option>');
+            });
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting visa trades!');
+        });
+    });
+    $(document).on('click', '#AddSelection', function () {
+        $('#addEditBtn').text('Add');
+        $('#editaddselection').text('Add Selection');
+        $("#FileNoId option").remove();
+        $("#TradeId option").remove();
+        $("#SeleectionId option").remove();
+        $("#StatusId option").remove();
+        $.getJSON('/CandidateProfile/GetSelectionWithSelectionId/', { id: $(this).closest('tr').find('#underProcessedCandidateId').html() }, function (data) {
+            console.log(data);
+            $("#SeleectionId option").remove();
+            $("#SeleectionId").append('<option value=0>--select Selection--</option>');
+            $.each(data.candidateSelection, function () {
+                $("#SeleectionId").append('<option value=' + this.id + '>' + this.selectionGroup + '</option>');
+            });
+            $("#SeleectionId").val(data.selectForId);
+            alert(data.selectForId)
+            $.getJSON('/CandidateProfile/GetSponsor/', { selectionId: data.selectForId }, function (data) {
+                $("#SponsorId option").remove();
+                $("#SponsorId").append('<option value=0>--select Selection--</option>');
+                $.each(data.candidateSelection, function () {
+                    $("#SponsorId").append('<option value=' + this.id + '>' + this.name + '</option>');
+                });
+                $("#SponsorId").val(data.sponsorId);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error getting Selection!');
+            });
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting Selection!');
+        });
+        $.getJSON('/CandidateProfile/GetFileNo/', function (data) {
+            $("#FileNoId option").remove();
+            $("#FileNoId").append('<option value=0>--select Selection--</option>');
+            $.each(data, function () {
+                $("#FileNoId").append('<option value=' + this.id + '>' + this.code + '</option>');
+            });
+            $("#SeleectionId").val();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting Medical center!');
+        });
+     
+        $.getJSON('/OEPVisaDemand/GetEntityType/")', function (data) {
+            $('#StatusId option').remove();
+            $('#StatusId').append('<option value="0" selected>-- Select Visa Trade --</option>');
+            $.each(data, function () {
+                $('#StatusId').append('<option value=' + this.id + '>' + this.name + '</b></option>');
+            });
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting visa trades!');
+        });
+        var updateRow = $(this).closest('tr');
+        Id = $(updateRow).find('#underProcessedCandidateId').html();
+        firstName = $(updateRow).find('td').eq(1).html();
+        lastName = $(updateRow).find('td').eq(2).html();
+        $('#PofileIdA').val(Id);
+        $('#firstNameId').val(firstName.trim());
+        $('#lastNameId').val(lastName.trim());
+        $('#AddSelectionModal').modal('show');
+    });
+    
+    
+
+    //$('#AddSelectionId').click(function () {
+    //    ProfileId = $('#PofileId').val();
+    //    SelectionId=$('#SeleectionId').val();
+    //    fileId=$('#FileNoId').val();
+    //    TradeId = $('#TradeId').val();
+    //    var jsonObj = { 'candidateProfileId': ProfileId, 'candidateSelectionId': SelectionId, 'OepvisaDemandId': fileId, 'VisaTradeEntitySetupId': TradeId };
+    //    $.ajax({
+    //        type: "POST",
+    //        url: '/CandidateSelection/AddSelectionAndFile',
+    //        data: jsonObj,
+    //        dataType: "json",
+    //        success: function (data) {
+    //            toastr.success('Record update successfully.', "Alert");
+    //        },
+    //        error: function (errormsg) {
+    //            prompt("", JSON.stringify(errormsg))
+
+    //        }
+    //    });
+    //});
+    $.getJSON('/CandidateProfile/GetSelection/', function (data) {
+        $("#SeleectionId option").remove();
+        $("#SeleectionId").append('<option value=0>--select Selection--</option>');
+        $.each(data, function () {
+            $("#SeleectionId").append('<option value=' + this.id + '>' + this.selectionGroup + '</option>');
+        });
+        $("#SeleectionId").val();
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        alert('Error getting Selection!');
+    });
+
+    $.getJSON('/CandidateProfile/GetFileNo/', function (data) {
+        $("#FileNoId option").remove();
+        $("#FileNoId").append('<option value=0>--select Selection--</option>');
+        $.each(data, function () {
+            $("#FileNoId").append('<option value=' + this.id + '>' + this.code + '</option>');
+        });
+        
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        alert('Error getting Medical center!');
+    });
+    $('#FileNoId').change(function () {
+        $('#TradeId option').remove();
+        $('#TradeId').append('<option value=""> Loading . . . </option>');
+        $.getJSON('/OEPVisaDemand/GetJobsByDemandId/")', { oepVisaDemandId: $('#FileNoId').val() }, function (data) {
+            $('#TradeId option').remove();
+            $('#TradeId').append('<option value="0" selected>-- Select Visa Trade --</option>');
+            $.each(data, function () {
+                $('#TradeId').append('<option value=' + this.id + '>' + this.name + '</b></option>');
+            });
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting visa trades!');
+        });
+    });
+    $.getJSON('/OEPVisaDemand/GetEntityType/")', function (data) {
+        $('#StatusId option').remove();
+        $('#StatusId').append('<option value="0" selected>-- Select Visa Trade --</option>');
+        $.each(data, function () {
+            $('#StatusId').append('<option value=' + this.id + '>' + this.name + '</b></option>');
+        });
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        alert('Error getting visa trades!');
+    });
+    var Row;
+    $(document).ready(function () {
+        $(document).on('click','#toUploadPage',function () {
+            var Row = $(this).closest('tr');
+            var Cnic = $(Row).find('td').eq(6).html();
+            Cnic = $.trim(Cnic);
+            var passport = $(Row).find('td').eq(7).html();
+            passport = $.trim(passport);
+            $.ajax({
+            type: "GET",
+            url: '@Url.Action("ShowDocument", "CandidateDocument")',
+                data: { "Cnic": Cnic, "passportNumber": passport },
+                dataType: "json",
+                success: function (data, status) {
+                    return View("Upload", candidate);
+                },
+                error: function (errormsg) {
+                    prompt("", JSON.stringify(errormsg))
+                }
+            });
+        });
+    });
+    $('#addEditBtn').click(function () {
+        CandidateProfileId = $('#PofileIdA').val();
+        CandidateSelectionId = $('#SeleectionId').val();
+        SponserId = $('#SponsorId').val();
+        OepvisaDemandId = $('#FileNoId').val();
+        VisaTradeEntitySetupId = $('#TradeId').val();
+        StatusEntitySetupId = $('#StatusId').val();
+        data = { CandidateProfileId: CandidateProfileId, CandidateSelectionId: CandidateSelectionId, SponsorId:SponserId, OepvisaDemandId:OepvisaDemandId, VisaTradeEntitySetupId:VisaTradeEntitySetupId, StatusEntitySetupId:StatusEntitySetupId }
+        $.ajax({
+            type: "POST",
+            url: '/CandidateSelection/AddSelectionAndFile',
+            data: data,
+            dataType: "json",
+            success: function (data) {
+                toastr.success('candidate selected successfuly.');
+                $('#AddSelectionModal').modal('hide');
+            },
+            error: function () {
+                window.location = '/CandidateProfile/UnderProcessed'
+            }
+        });
+    });
+</script>

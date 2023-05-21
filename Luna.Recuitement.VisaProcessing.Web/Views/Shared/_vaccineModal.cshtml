@@ -1,0 +1,181 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+<div>
+    <a href="#!" class="btn btn-primary float-right" data-toggle="modal" onclick="showVaccine('N',this)" ;>Add</a>
+    <div class="modal fade" id="vaccineModal" tabindex="-1" role="dialog" aria-labelledby="vaccineModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Vaccine Detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-6" style="display:none;">
+                                <label>Id</label>
+                                <input type="hidden" id="vaccineId" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label>Type</label>
+                                <select id="vaccineType" class="form-control DDFilter"></select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Variant</label>
+                                <select id="vaccineVariant" class="form-control DDFilter"></select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Dose</label>
+                                <select id="vaccineDose" class="form-control DDFilter">
+                                    <option value="First" selected>First</option>
+                                    <option value="Second">Second</option>
+                                    <option value="Booster">Booster</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Date</label>
+                                <input type="date" id="vaccineDate" required class="form-control" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Validity</label>
+                                <input type="date" id="vaccineValidity" required class="form-control">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closeVaccineModal" class="btn btn-secondary">Close</button>
+                    <button type="button" class="btn btn-success" id="VaccinebtnSave" onclick="saveVaccine()">Save</button>
+                </div>
+                <div id="show_stored_data">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th style="display:none;">Record Id (PK)</th>
+            <th>Type</th>
+            <th>Variant</th>
+            <th>Dose</th>
+            <th>Date</th>
+            <th>Validity</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="vaccineDetail">
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    //function showVaccine(type,button) {
+    //    if (type == "U") {
+    //        $("#vaccineId").val($(button).closest('tr').children('td:nth(0)').text());
+    //        $("#vaccineType").val($(button).closest('tr').children('td:nth(1)').text());
+    //        $("#vaccineVariant").val($(button).closest('tr').children('td:nth(2)').text());
+    //        $("#vaccineDose").val($(button).closest('tr').children('td:nth(3)').text());
+    //        document.getElementById("VaccineDate").valueAsDate = new Date($(button).closest('tr').children('td:nth(4)').text());
+    //        document.getElementById("VaccineValidity").valueAsDate = new Date($(button).closest('tr').children('td:nth(5)').text());
+    //    }
+    //    else //(type == "N") {
+    //    {
+    //        debugger;
+    //        $("#vaccineId").val(0);
+    //        $("#vaccineType").val("0")
+    //        $("#vaccineVariant").val("0");
+    //        $("#vaccineDose").val("First");
+    //        $("#vaccineDate").val("");
+    //        $("#vaccineValidity").val("");
+    //    }
+    //    $('#vaccineModal').modal('show');
+    //}
+    //function saveVaccine() {
+    //    var data = {
+    //        "id": $("#vaccineId").val(),
+    //        "candidateProfileId": $(".pkid").val(),
+    //        "vaccineType": $("#sponserId").val(),
+    //        "vaccineVariant": $("#vaccineCenterName").val(),
+    //        "vaccineDose": $("#ghccodeNo").val(),
+    //        "vaccineDate": $("#dateExamined").val(),
+    //        "vaccineValidity": $("#reportExpiryDate").val()
+    //    };
+    //    //if (!$("#dateExamined").val()) {
+    //    //    alert("Date Examined is mandatory.");
+    //    //    return false;
+    //    //}
+    //    //if (!$("#reportExpiryDate").val()) {
+    //    //    alert("Expiry Date is mandatory.");
+    //    //    return false;
+    //    //}
+    //    $.ajax({
+    //        type: "POST",
+    //        url: '/CandidateProfile/UpdateVaccine',
+    //        data: data,
+    //        dataType: "json",
+
+    //        success: function (data) {
+    //            toastr.success('vaccine record saved successfully.', "Alert")
+    //            var html = '<tr>' +
+    //                '<td style="display:none;">' + data.id + '</td>' +
+    //                '<td>' + $('#vaccineType').val() + '</td>' +
+    //                '<td>' + $('#vaccineVariant').val() + '</td>' +
+    //                '<td>' + $('#vaccineDose').val() + '</td>' +
+    //                '<td>' + $('#vaccineDate').val() + '</td>' +
+    //                '<td>' + $('#vaccineValidity').val() + '</td>' +
+    //                '<td><a href="#!"  onclick="ShowDialog(\'U\',this);"><i class="fas fa-edit"></i></a><a href="#" onclick="deleteVaccine(' + data.id +')"><i class="fas fa-trash"></i></a></td>' +
+    //                '</tr>';
+    //            if ($('#vaccineId').val() == "0") {
+    //                $('#vaccineDetail').append(html);
+    //            } else {
+    //                //$("#vaccineRow" + $('#vaccineId').val()).children('td:nth(2)').text($('#sponserId option:selected').text());
+    //                $("#vaccineRow" + $('#vaccineId').val()).children('td:nth(1)').text($('#vaccineType').val());
+    //                $("#vaccineRow" + $('#vaccineId').val()).children('td:nth(2)').text($('#vaccineVariant').val());
+    //                $("#vaccineRow" + $('#vaccineId').val()).children('td:nth(3)').text($('#vaccineDose').val());
+    //                $("#vaccineRow" + $('#vaccineId').val()).children('td:nth(4)').text($('#vaccineDate').val());
+    //                $("#vaccineRow" + $('#vaccineId').val()).children('td:nth(5)').text($('#vaccineValidity').val());
+    //            }
+    //        },
+    //        error: function () {
+    //            toastr.error('Error occured while saving vaccine record.', "Error")
+    //        }
+    //    });
+
+    //    return false;
+    //}
+    //function deleteVaccine(vaccineId) {
+    //    var data = { "Id": vaccineId };
+    //    if (confirm("Are you sure to delete this vaccine info?")) {
+    //        if (!vaccineId || vaccineId == "0") {
+    //            //Remove line from table only.
+    //            $("#vaccineRow" + vaccineId).remove();
+    //        }
+    //        else {
+    //            $.ajax({
+    //                type: "POST",
+    //                url: '/CandidateProfile/DeleteVaccine',
+    //                data: data,
+    //                dataType: "json",
+    //                success: function (data) {
+    //                    toastr.success('vaccine info deleted.')
+    //                    $("#vaccineRow" + vaccineId).remove();
+    //                },
+    //                error: function () {
+    //                    toastr.error('while occured while deleting vaccine info.')
+    //                }
+    //            });
+    //        }
+    //    }
+    //    return false;
+    //}
+</script>
+

@@ -1,0 +1,301 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.Models.CandidateSelection>
+@using Luna.Recruitment.VisaProcessing.Data.DTO
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@{
+    ViewData["Title"] = "Selection";
+}
+<h5 style="color:red;">@Convert.ToString(ViewBag.DeleteMessage)</h5>
+<h1>Selection List</h1>
+@*@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Users.Create)).Result.Succeeded)
+    {
+        <p>
+            <a asp-action="Create" class="btn btn-primary">New Selection</a>
+        </p>
+    }*@
+@*@if (User.Identity.IsAuthenticated)
+    {
+        if (User.IsInRole("Selection-Selection-Create"))
+        {
+            <p>
+                <a asp-action="Create" class="btn btn-primary">New Selection</a>
+            </p>
+        }
+    }*@
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Selection.Create)).Result.Succeeded)
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">New Selection</a>
+    </p>
+}
+<table class="table applyDataTable">
+    <thead>
+        <tr>
+            <th hidden>Id</th>
+            <th>Selection Date</th>
+            <th>Sponser</th>
+            <th>Group</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td hidden>
+                    @item.Id
+                </td>
+                <td>
+                    @item.SelectionDate.ToString("dd/MM/yyyy")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sponser.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SelectionGroup)
+                </td>
+                <td>
+                    @*@if (User.Identity.IsAuthenticated)
+                        {
+                            if (User.IsInRole("Selection-Selection-Edit"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
+                            }
+                        }
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (User.IsInRole("Selection-Selection-Delete"))
+                            {
+                                <a asp-action="DeleteSelection" asp-route-id="@item.Id"><i class="fas fa-trash-alt"></i></a>
+                            }
+                        }*@
+                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Selection.Edit)).Result.Succeeded)
+                    {
+                        <a asp-action="Edit" target="_blank" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
+                    }|
+                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Selection.Delete)).Result.Succeeded)
+                    {
+                        <a asp-action="DeleteSelection" asp-route-id="@item.Id"><i class="fas fa-trash-alt"></i></a>
+                    }
+                        <a id="addQtySelections" style="cursor:pointer"><i class="fa fa-plus" title="Define Selection Trade Limit"></i></a>
+                    <br />
+                    @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Selection.ActivateDeactivteSelection)).Result.Succeeded)
+                    {
+                        @if (item.Deactivate != true)
+                        {
+                            <a onclick="return confirm('Are you sure you want to deactivate this Selection Group?')" asp-action="DeactivateSelectionGroup" asp-route-id="@item.Id">Deactivate</a>
+                        }
+                        else
+                        {
+                            <a onclick="return confirm('Are you sure you want to Activate this Selection Group?')" asp-action="DeactivateSelectionGroup" asp-route-id="@item.Id">Activate</a>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<div class="modal fade " id="AddQtyModal" tabindex="-1" role="dialog" aria-labelledby="docUploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Quantity</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-6" hidden>
+                    <span>Id</span>
+                    <input type="text" id="selectionQtyId" class="form-control" readonly />
+                </div>
+                <div class="col-md-6" hidden>
+                    <span>CandidateSelectionId</span>
+                    <input type="text" id="CandidateSelectionId" class="form-control" readonly />
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">SelectionTrade</label>
+                                <select id="SelectionTradeId" class="form-control DDFilter"></select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span>Add Quantity</span>
+                    <input type="number" class="form-control" id="QtyId" />
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12 float-right">
+                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Selection.AddQuantity)).Result.Succeeded)
+                        {
+                            <button type="button" id="addQty" style="align-content:center" class="btn btn-primary">Add</button>
+                        }
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                <br />
+                <table class="table table-striped" id="datatables" width="100%">
+                    <thead>
+                        <tr>
+                            <th hidden>Id</th>
+                            <th>SelectionTrade</th>
+                            <th>SelectionQty</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="selectionQtyTable">
+                        @*@foreach (var item in (List<Luna.Recruitment.VisaProcessing.Data.Models.SelectionQtyDetail>)ViewBag.QtyList)
+                            {
+                                <tr>
+                                    <td hidden>
+                                        @item.Id
+                                    </td>
+                                    <td>
+                                        @item.CandidateSelection.SelectionGroup
+                                    </td>
+                                    <td>
+                                        @item.SelectionQty
+                                    </td>
+                                    <td>
+                                        <a id="editQty"><i class="fas fa-edit"></i></a> |
+                                        <a id="deleteQty"><i class="fas fa-trash-alt"></i></a>
+
+                                    </td>
+                                </tr>
+                            }*@
+                    </tbody>
+                </table>
+            </div>
+            <div id="show_stored_data">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        function addQtyTable(id) {
+            $.ajax({
+                type: "POST",
+                url: '/CandidateSelection/ForSelectionQtyList',
+                data: { 'CandidateSelectionId': id },
+                dataType: "json",
+                success: function (data) {
+                    //console.log(data);
+                    const table = $("#datatables").DataTable();
+                    table.clear().draw();
+                    $.each(data, function (dataA) {
+                        console.log(this);
+                        const tr = $('<tr><td hidden>' + this.id + '</td><td>' + this.entitySetup.name + '</td><td>' + this.selectionQty + '</td><td><a id="editQty" class="editDeleteQuantity"><i class="fas fa-edit"></i></a> |<a id="deleteQty" class="editDeleteQuantity"><i class="fas fa-trash-alt"></i></a></td></tr>')
+                        table.row.add(tr[0]).draw();
+                    });
+                },
+                error: function (errormsg) {
+                    prompt("", JSON.stringify(errormsg))
+                }
+            });
+        }
+        $(document).on('click', '#addQtySelections', function () {
+            $("#SelectionTradeId").val($('#SelectionTradeId option').eq(0).val());
+            $('#QtyId').val('');
+            $('#selectionQtyTable').html('');
+            var updateRow = $(this).closest('tr');
+            Id = $(updateRow).find('td').eq(0).html();
+            $('#CandidateSelectionId').val(Id);
+            addQtyTable(Id);
+            $('#AddQtyModal').modal('show');
+        });
+        $(document).on('click', '#deleteQty', function () {
+            var updateRow = $(this).closest('tr');
+            Id = $(updateRow).find('td').eq(0).html();
+            Id = Id.replace(' ', '');
+            dataQty = { 'id': Id };
+            $.ajax({
+                type: "POST",
+                url: '/CandidateSelection/DeleteQtyDetail',
+                data: dataQty,
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    if (data.status == true) {
+                        alert('qty delete successfully');
+                        addQtyTable($('#CandidateSelectionId').val());
+                    }
+                },
+                error: function (errormsg) {
+                    prompt("", JSON.stringify(errormsg))
+                }
+            });
+
+        });
+        $(document).on('click', '#editQty', function () {
+            var updateRow = $(this).closest('tr');
+            Id = $(updateRow).find('td').eq(0).html();
+            Id = Id.replace(' ', '');
+            dataQty = { 'id': Id };
+            $.ajax({
+                type: "POST",
+                url: '/CandidateSelection/ForEditQty',
+                data: dataQty,
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    $('#SelectionTradeId option[value=' + data.visaTrade + ']').attr('selected', 'selected');
+                    //$("#SelectionTradeId").val($('#SelectionTradeId option').eq(data.visaTrade).val());
+                    $('#QtyId').val(data.qty);
+                    $('#selectionQtyId').val(data.id);
+                },
+                error: function (errormsg) {
+                    prompt("", JSON.stringify(errormsg))
+                }
+            });
+
+        });
+        $.getJSON('/OEPVisaDemand/GetEntityTypeForQty/")', function (data) {
+            $('#SelectionTradeId option').remove();
+            $('#SelectionTradeId').append('<option value="0" selected>-- Select Trade --</option>');
+            $.each(data, function () {
+                $('#SelectionTradeId').append('<option value=' + this.id + '>' + this.name + '</b></option>');
+            });
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting visa trades!');
+        });
+        $('#addQty').click(function () {
+            CandidateSelectionId = $('#CandidateSelectionId').val();
+            selectionQtyId = $('#selectionQtyId').val();
+            selectionTradeId = $('#SelectionTradeId').val();
+            Qty = $('#QtyId').val();
+            dataA = { 'id': selectionQtyId, 'CandidateSelectionId': CandidateSelectionId, 'EntitySetupId': selectionTradeId, 'SelectionQty': Qty };
+            $.ajax({
+                type: "POST",
+                url: '/CandidateSelection/AddQtyDetail',
+                data: dataA,
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    if (data.status == true) {
+                        alert('qty add successfully');
+                        addQtyTable($('#CandidateSelectionId').val());
+                        $('#QtyId').val('');
+                        $('#SelectionTradeId').val(0);
+                        //$('#AddQtyModal').modal('hide');
+                        //window.location.href = "/CandidateSelection/"
+
+                    }
+                },
+                error: function (errormsg) {
+                    prompt("", JSON.stringify(errormsg))
+                }
+            });
+        });
+
+    });
+</script>

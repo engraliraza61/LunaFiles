@@ -1,0 +1,445 @@
+﻿@model Luna.Recruitment.VisaProcessing.Data.Models.Receipt
+@{
+    ViewData["Title"] = "File Receipt,Payment JV";
+}
+
+<h1>File Receipt,Payment JV</h1>
+
+<span id="btnResult"></span>
+<form asp-action="ReceiptVoucher" asp-controller="Receipt" id="selectionCandidateId">
+    <div class="row" id="ReceiptVoucherForm">
+        <div class="col-md-6">
+            <label @*asp-for="PlaceOfInterview"*@ class="control-label">Select </label>
+            <select class="form-control DDFilter" name="ReceiptFileAgent" id="ReceiptFileAgent">
+                <option value=0>--Select Agent--</option>
+                <option value=1>File</option>
+                <option value=2>Agent</option>
+            </select>
+            <span @*asp-validation-for="SelectionGroup"*@ class="text-danger"></span>
+        </div>
+        <!--<div class="col-md-6">
+        <div class="form-group">
+            <label-->
+        @*asp-for="PlaceOfInterview"*@
+        <!--class="control-label">File No</label>
+    <select class="form-control DDFilter" name="FileNumber" id="ReceiptFileNo">
+        <option value="0">--Select File No--</option>
+    </select>
+    <span-->
+        @*asp-validation-for="SelectionGroup"*@
+        <!--class="text-danger"></span>
+        </div>
+    </div>-->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label @*asp-for="PlaceOfInterview"*@ class="control-label">Agent</label>
+                <select class="form-control DDFilter" name="ReceiptAgent" id="ReceiptAgent">
+                    <option value="0">--Select FileAgent--</option>
+                </select>
+                <span @*asp-validation-for="SelectionGroup"*@ class="text-danger"></span>
+            </div>
+        </div>
+        <!--<div class="col-md-6">
+        <div class="form-group">
+            <label-->
+        @*asp-for="ListFile"*@ 
+        <!--class="control-label">Reference</label>
+    <select class="form-control" name="Reference" id="ReceiptReference">
+        <option value="Self">Self</option>
+        <option value="Nominated">Nominated</option>
+        <option value="Agent">Agent</option>
+    </select>
+    <span-->
+        @*asp-validation-for="SelectionGroup"*@
+        <!--class="text-danger"></span>
+        </div>
+    </div>-->
+        <div class="col-md-6">
+            <div class="form-group col-md-12 float-center">
+                <input type="submit" value="Filter" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-start-tab" data-toggle="tab" href="#nav-start" role="tab" aria-controls="nav-start" aria-selected="false">Receipt</a>
+        <a class="nav-item nav-link" id="nav-payment-tab" data-toggle="tab" href="#nav-payment" role="tab" aria-controls="nav-payment" aria-selected="false">Payment</a>
+        <a class="nav-item nav-link " id="nav-biometricD-tab" data-toggle="tab" href="#nav-biometricD" role="tab" aria-controls="nav-biometricD" aria-selected="false">Receivable</a>
+        <a class="nav-item nav-link" id="nav-biometric-tab" data-toggle="tab" href="#nav-biometric" role="tab" aria-controls="nav-biometric" aria-selected="false">Additional Expenses</a>
+        <a class="nav-item nav-link" id="nav-biometricA-tab" data-toggle="tab" href="#nav-biometricA" role="tab" aria-controls="nav-biometricA" aria-selected="false">Journal Voucher</a>
+
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active"  id="nav-start" role="tabpanel" aria-labelledby="nav-start-tab">
+        <partial name="_ReceiptView" />
+    </div>
+     <div class="tab-pane fade"  id="nav-payment" role="tabpanel" aria-labelledby="nav-payment-tab">
+        <partial name="_PayView" />
+    </div>
+    <div class="tab-pane fade" id="nav-biometricD" role="tabpanel" aria-labelledby="nav-biometricD-tab">
+        <partial name="_InvoiceView" />
+    </div>
+    <div class="tab-pane fade" id="nav-biometric" role="tabpanel" aria-labelledby="nav-biometric-tab">
+        <partial name="_PaymentView" />
+    </div>
+
+    <div class="tab-pane fade" id="nav-biometricA" role="tabpanel" aria-labelledby="nav-biometricA-tab">
+        <partial name="_JvView" />
+    </div>
+
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#ReceiptVoucherForm').hide();
+        //$('#nav-tab a').each(function () {
+        //    alert('ali');
+        //    if ($(this).attr("aria-selected") === "true") {
+        //        alert('ali');
+        //    }
+        //});
+        //$('#btnAli').click(function () {
+        //    alert('ali');
+        //    $.getJSON("https://saqib.erpnext.com/api/method/login?usr=saqibmumtaz@gmail.com&pwd=S@qib1978",
+        //        function (data) {
+        //            alert(data);
+        //        });
+        //});
+        
+
+        function makeRequest(method, url, data) {
+            return new Promise(function (resolve, reject) {
+                var xhr = new XMLHttpRequest();
+                xhr.open(method, url);
+                xhr.onload = function () {
+                    if (this.status >= 200 && this.status < 300) {
+                        resolve(xhr.response);
+                    } else {
+                        reject({
+                            status: this.status,
+                            statusText: xhr.statusText
+                        });
+                    }
+                };
+                xhr.onerror = function () {
+                    reject({
+                        status: this.status,
+                        statusText: xhr.statusText
+                    });
+                };
+                if (method == "POST" && data) {
+                    xhr.send(data);
+                } else {
+                    xhr.send();
+                }
+            });
+        }
+        var SessionId = [];
+        var full_name = "";
+        var sid = "";
+        var system_user = "";
+        var user_id = "";
+        var user_image = "";
+        let sendReq = (ev) => {
+            let url = 'http://saqib.erpnext.com/api/resource/Payment%20Entry';
+            let token = JSON.parse(sessionStorage.getItem('MyUniqueUserToken'));
+
+            let h = new Headers();
+            h.append('Authorization', 'Bearer' + token);
+
+            let req = new Request(url, {
+                method: 'POST',
+                mode: 'cors',
+                headers: h
+            });
+            fetch(req)
+                .then(resp => resp.json())
+                .then(data => {
+                    console.log(data[0]);
+                })
+                .catch(err => {
+                    console.error(err.message);
+                });
+        };
+       
+       
+        $('#btnOut').click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Receipt/GetLogOut",
+                data: { "usr": "", "pwd": "" },
+                dataType: "json",
+                success: function (data) {
+                    //alert("success");
+                    console.log(data.message);
+                    $('#btnResultOut').html(data.message);
+                },
+                error: function () {
+                    alert("error");
+                }
+            });
+        });
+    });
+
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+<!--<form asp-action="ReceiptVoucher" asp-controller="Receipt" id="selectionCandidateId">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label-->
+@*asp-for="PlaceOfInterview"*@
+<!--class="control-label">File No</label>
+<select class="form-control DDFilter" name="FileNumber" id="ReceiptFileNo">
+    <option value="0">--Select File No--</option>
+</select>
+<span-->
+@*asp-validation-for="SelectionGroup"*@
+<!--class="text-danger"></span>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group">
+        <label-->
+@*asp-for="ListFile"*@
+<!--class="control-label">Reference</label>
+<select class="form-control" name="Reference">
+    <option value="Self">Self</option>
+    <option value="Nominated">Nominated</option>
+    <option value="Agent">Agent</option>
+</select>
+<span-->
+@*asp-validation-for="SelectionGroup"*@
+<!--class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group col-md-12 float-center">
+                <input type="submit" value="Filter" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+<hr />
+<form asp-action="CreateSelectionCandidate" asp-controller="CandidateSelection" id="selectionCandidateId">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Date" class="control-label">Date</label>
+                <input type="date" required class="form-control" id="ReceiptDate" />
+                <span-->
+@*asp-validation-for="SponserId"*@
+<!--class="text-danger"></span>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group">
+        <label asp-for="ReceiptType" class="control-label">Receipt Type</label>
+        <select class="form-control" id="ReceiptypeId">
+            <option value="Cash">Cash</option>
+            <option value="Bank">Bank</option>
+        </select>
+        <span-->
+@*asp-validation-for="SelectionGroup"*@
+<!--class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 BankAccountId" id="BankAccountId" style="display:none">
+            <div class="form-group">
+                <label asp-for="BankAccoutNo" class="control-label">Bank Account No</label>
+                <input asp-for="BankAccoutNo" type="text" id="BankAccoutNoId" class="form-control" />
+                <span asp-for="BankAccoutNo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 receiptCheqNo" style="display:none">
+            <div class="form-group">
+                <label asp-for="CheqNo" class="control-label">Cheq #</label>
+                <input asp-for="CheqNo" id="receiptCheqNo" type="number" class="form-control" />
+                <span asp-for="CheqNo" class="text-danger"></span>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<div class="panel panel-primary">
+    <div class="panel-hea   ding">
+        <h3 class="panel-title">Receipt Voucher List</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table datatableHideFirstThree" id="tableReceiptList" style="border:2px solid black">
+            <thead>
+                <tr>
+                    <th>Candidate id</th>
+                    <th>VisaProcess id</th>
+                    <th>CNIC #</th>
+                    <th hidden>Candidate id</th>
+                    <th hidden>VisaProcess id</th>
+                    <th>CNIC #</th>
+                    <th>Passport #</th>
+                    <th>Name</th>
+                    <th>Total Receivable</th>
+                    <th>Total Received</th>
+                    <th>Balane</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody id="tbCandidateList">
+                @foreach (var item in (List<Luna.Recruitment.VisaProcessing.Data.DTO.ReportDto>)ViewBag.ReceiptProcedureData)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.visaProcessId</td>
+                        <td>@item.CNIC</td>
+                        <td hidden>@item.Id</td>
+                        <td hidden>@item.visaProcessId</td>
+                        <td>@item.CNIC</td>
+                        <td>@item.Passport</td>
+                        <td>@item.Name</td>
+                        <td>100</td>
+                        <td>50</td>
+                        <td>20</td>
+                        <td>
+                            <input type="number" id="amountId" value="0" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group col-md-12 float-center">
+        <button class="btn btn-primary float-right" id="btnSaveReceipt" value="Save" onclick="saveReceipt()">Save</button>
+    </div>
+</div>-->
+
+<script>
+    console.log(@ViewBag.MyData);
+    $(document).ready(function () {
+        $('#ReceiptFileAgent option[value=' +@ViewBag.FileAgentId+']').attr('selected', 'selected');
+        ReceiptFileAgentChange(@ViewBag.AgentId);
+        if (ViewBag.AgentId != 0) {
+            $('.nav-tab a[href="#nav-start"]').tab('show');
+        }
+    });
+    function ReceiptFileAgentChange(AgentId = 0) {
+        if ($('#ReceiptFileAgent').val() == 1) {
+            $.getJSON('/CandidateProfile/GetFileNo/', function (data) {
+                $("#ReceiptAgent option").remove();
+                $("#ReceiptAgent").append('<option value=0>--select File No--</option>');
+                $.each(data, function () {
+                    $("#ReceiptAgent").append('<option value=' + this.code + '>' + this.code + '</option>');
+                });
+                if (AgentId != 0) {
+                    $("#ReceiptAgent").val(AgentId);
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error getting FileNo!');
+            });
+        }
+        if ($('#ReceiptFileAgent').val() == 2) {
+            $.getJSON('/Agent/GetAgent/', function (data) {
+                $("#ReceiptAgent option").remove();
+                $("#ReceiptAgent").append('<option value=0>--select File No--</option>');
+                $.each(data, function () {
+                    console.log(this);
+                    $("#ReceiptAgent").append('<option value=' + this.id + '>' + this.name + '</option>');
+                });
+                if (AgentId != 0) {
+                    $("#ReceiptAgent").val(AgentId);
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error getting FileNo!');
+            });
+        }
+    }
+    if ($('#ReceiptFileAgent').change(function () {
+        ReceiptFileAgentChange();
+    }));
+    //$(document).ready(function () {
+    //    $("#ReceiptypeId").change(function () {
+    //        if ($(this).val() == "Bank") {
+    //            $('.BankAccountId').show();
+    //            $('.receiptCheqNo').show();
+    //        }
+    //        else {
+    //            $('.BankAccountId').hide();
+    //            $('.receiptCheqNo').hide();
+
+    //        }
+    //    });
+
+    //    $('#btnSaveReceipt').click(function () {
+    //        if ($('#ReceiptDate').val() == null) {
+    //            alert('please enter Date');
+    //            return false;
+    //        }
+    //        var lstCandidateId = [];
+    //        var lstVisaProcessId = [];
+    //        var lstReceiptAmount = [];
+    //        var table = $('#tableReceiptList').DataTable();
+    //        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+    //            console.log(this.data());
+    //            lstCandidateId.push(this.data()[0]);
+    //            console.group("SELECTED Receipt");
+    //            console.log(lstCandidateId);
+    //            console.groupEnd();
+    //        });
+    //        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+    //            console.log(this.data());
+    //            lstVisaProcessId.push(this.data()[1]);
+    //            console.group("SELECTED Receipt");
+    //            console.log(lstVisaProcessId);
+    //            console.groupEnd();
+    //        });
+    //        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+    //            var d = this.data();
+    //            console.log(d);
+    //            var cell = table.cell({ row: rowIdx, column: 11 }).node();
+    //            lstReceiptAmount.push($('input', cell).val());
+    //            console.group("SELECTED Receipt");
+    //            console.log(lstReceiptAmount);
+    //            console.groupEnd();
+    //        });
+    //        ReceiptDate=$('#ReceiptDate').val();
+    //        ReceiptypeId = $('#ReceiptypeId').val();
+    //        BankAccoutNo = $('#BankAccoutNoId').val();
+    //        receiptCheqNo = $('#receiptCheqNo').val();
+    //        var data = {
+    //            "lstReceipt": lstCandidateId,
+    //            "lstReceiptAmount": lstReceiptAmount,
+    //            "lstVisaProcessId": lstVisaProcessId,
+    //            "date": ReceiptDate,
+    //            "receiptType": ReceiptypeId,
+    //            "bankAccoutNo": BankAccoutNo,
+    //            "cheqNo": receiptCheqNo
+    //        };
+    //        $.ajax({
+    //            type: "POST",
+    //            url: '/Receipt/SaveReceipt',
+    //            data: data,
+    //            dataType: "json",
+    //            success: function (data) {
+    //                toastr.success('passport added successfuly.');
+    //                setTimeout(() => { console.log("redirecting!"); }, 3000);
+    //                window.location.href = '/Receipt/ReceiptVoucher';
+    //            },
+    //            error: function () {
+    //                toastr.error('while occured while saving passport.')
+    //            }
+    //        });
+    //    });
+
+    //});
+
+
+
+  
+</script>

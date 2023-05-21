@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.DTO.FinalProcessing>
+@{
+    ViewData["Title"] = "SelectionReport";
+}
+
+<h1>SelectionReport</h1>
+<form asp-action="SelectionReport" asp-controller="Reports" id="frmENumber">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">File Number</label>
+                <select id="FileNumberSelectionReport" name="FileNumber" max="25" class="form-control DDFilter"></select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            &nbsp;
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label"></label>
+                <input type="submit" value="Filter" class="btn btn-primary form-control" />
+            </div>
+        </div>
+    </div>
+</form>
+<table class="table table-responsive-md applyDataTableWithExport">
+    <thead>
+        <tr>
+            <th>Sr</th>
+            <th>File No</th>
+            <th>Candidate Name</th>
+            <th>Father Name</th>
+            <th>Passport #</th>
+            <th>Selection Trade</th>
+            <th>Visa Trade</th>
+            <th>Salary</th>
+            <th>Food Detail</th>
+            <th>Contact</th>
+            <th>Status</th>
+            <th>Company</th>
+            <th>SelectionGroup</th>
+            <th>Reference</th>
+            <th>E-Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Sr)</td>
+            <td>@Html.DisplayFor(modelItem => item.FileID)</td>
+            <td>@Html.DisplayFor(modelItem => item.NameOfCandidate)</td>
+            <td>@Html.DisplayFor(modelItem => item.FatherName)</td>
+            <td>@Html.DisplayFor(modelItem => item.Passport)</td>
+            <td>@Html.DisplayFor(modelItem => item.SelectionTrade)</td>
+            <td>@Html.DisplayFor(modelItem => item.Trade)</td>
+            <td>@Html.DisplayFor(modelItem => item.Salary)</td>
+            <td>@Html.DisplayFor(modelItem => item.FoodDetail)</td>
+            <td>@Html.DisplayFor(modelItem => item.Contact)</td>
+            <td>@Html.DisplayFor(modelItem => item.StatusRemarks)</td>
+            <td>@Html.DisplayFor(modelItem => item.Company)</td>
+            <td>@Html.DisplayFor(modelItem => item.SelectionGroup)</td>
+            <td>@Html.DisplayFor(modelItem => item.Reference)</td>
+            <td>@item.EDate.ToString("dd/MM/yyyy")</td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+<script>
+    $.getJSON('/CandidateProfile/GetFileNo/', function (data) {
+        $("#FileNumberSelectionReport option").remove();
+        $("#FileNumberSelectionReport").append('<option value=0>" --select File No--"</option>');
+        $.each(data, function () {
+            $("#FileNumberSelectionReport").append('<option value=' + this.code + '>' + this.code + '</option>');
+        });
+        $("#FileNumberSelectionReport").val();
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        alert('Error getting FileNo!');
+    });
+</script>

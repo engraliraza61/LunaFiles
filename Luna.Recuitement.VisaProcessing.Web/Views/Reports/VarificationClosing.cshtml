@@ -1,0 +1,98 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.DTO.FinalProcessing>
+@{
+    ViewData["Title"] = "Deployment Status";
+}
+
+<h1>Deployment Status</h1>
+
+<form asp-action="VarificationClosing" asp-controller="Reports" id="frmENumber">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">File Number</label>
+                <select id="FileNumber" name="FileNumber" class="form-control DDFilter"></select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Departure Date From</label>
+                <input type="date" id="ProcessingDateFrom" name="ProcessingDateFrom" max="25" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Departure Date To</label>
+                <input type="date" id="ProcessingDateTo" name="ProcessingDateTo" max="25" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            &nbsp;
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label"></label>
+                <input type="submit" value="Filter" class="btn btn-primary form-control" />
+            </div>
+        </div>
+    </div>
+</form>
+<table class="table table-responsive-md applyDataTableWithExport">
+    <thead>
+        <tr>
+            <th>Sr</th>
+            <th>File ID</th>
+            <th hidden>Counslate</th>
+            <th>OEP</th>
+            <th>Candidate Name</th>
+            <th>Father Name</th>
+            <th>Passport #</th>
+            <th>Selection Trade</th>
+            <th>Company</th>
+            <th>Reference</th>
+            <th>Registration</th>
+            <th>Sector</th>
+            <th>Departure Date</th>
+            <th>VisaProcessingStatus</th>
+            <th hidden>Status Remarks</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Sr)</td>
+                <td>@Html.DisplayFor(modelItem => item.FileID)</td>
+                <td hidden>@Html.DisplayFor(modelItem => item.Consulate)</td>
+                <td>@Html.DisplayFor(modelItem => item.OEP)</td>
+                <td>@Html.DisplayFor(modelItem => item.NameOfCandidate)</td>
+                <td>@Html.DisplayFor(modelItem => item.FatherName)</td>
+                <td>@Html.DisplayFor(modelItem => item.Passport)</td>
+                <td>@Html.DisplayFor(modelItem => item.Profession)</td>
+                <td>@Html.DisplayFor(modelItem => item.Company)</td>
+                <td>@Html.DisplayFor(modelItem => item.Reference)</td>
+                <td>@Html.DisplayFor(modelItem => item.Registration)</td>
+                <td>@Html.DisplayFor(modelItem => item.Sector)</td>
+                <td>@item.RegistrationDate.ToString("dd/MM/yyyy")</td>
+                <td>@Html.DisplayFor(modelItem => item.VisaProcessingStatus)</td>
+                <td hidden>@Html.DisplayFor(modelItem => item.StatusRemarks)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<script>
+    $(document).ready(function () {
+        $.getJSON('/CandidateProfile/GetFileNo/', function (data) {
+            $("#FileNumber option").remove();
+            $("#FileNumber").append('<option value=0>--select File No--</option>');
+            $.each(data, function () {
+                $("#FileNumber").append('<option value=' + this.code + '>' + this.code + '</option>');
+            });
+            $("#FileNumber").val();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error getting FileNo!');
+        });
+    });
+</script>

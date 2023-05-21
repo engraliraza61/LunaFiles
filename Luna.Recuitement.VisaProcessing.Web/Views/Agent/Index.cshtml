@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.Models.Agent>
+@using Luna.Recruitment.VisaProcessing.Data.DTO
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@{
+    ViewData["Title"] = "Agent's List";
+}
+
+@if ((AuthorizationService.AuthorizeAsync(User, Permissions.Agent.View)).Result.Succeeded)
+{
+
+    <h1>Agent's List</h1>
+
+    <p>
+        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Agent.Create)).Result.Succeeded)
+        {
+            <a asp-action="Create" class="btn btn-primary">Create</a>
+        }
+
+    </p>
+    <table class="table applyDataTableWithExport6">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Name)</th>
+                <th>@Html.DisplayNameFor(model => model.Country)</th>
+                <th>@Html.DisplayNameFor(model => model.ArabicName)</th>
+                <th>@Html.DisplayNameFor(model => model.City)</th>
+                <th>@Html.DisplayNameFor(model => model.Phone)</th>
+                <th>@Html.DisplayNameFor(model => model.Phone2)</th>
+                <th>@Html.DisplayNameFor(model => model.Email)</th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Country.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ArabicName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.City.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone2)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+
+                    <td>
+                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Agent.Edit)).Result.Succeeded)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
+                        }
+                        |
+                        @if ((AuthorizationService.AuthorizeAsync(User, Permissions.Agent.Delete)).Result.Succeeded)
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt"></i></a>
+                        }
+                        @*<a asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-bars"></i></a> |*@
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

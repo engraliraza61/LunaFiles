@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Luna.Recruitment.VisaProcessing.Data.Models.EntitySetup>
+
+@{
+    ViewData["Title"] = "Manage Job Type";
+}
+<h1>Manage @ViewBag.EntityTypeName</h1>
+<p>
+
+    <a asp-action="Create" asp-route-EntityTypeId="@ViewBag.EntityTypeId" asp-route-EntityTypeName="@ViewBag.EntityTypeName" class="btn btn-primary">Create New</a>
+
+
+</p>
+<table class="table applyDataTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ArabicName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ArabicName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" asp-route-EntityTypeName=" @ViewBag.EntityTypeName"><i class="fas fa-edit"></i></a> |
+                    @*<a asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-info"></i></a> |*@
+                    <a asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
